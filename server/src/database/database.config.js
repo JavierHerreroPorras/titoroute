@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 // Mongoose options
 const options = {
   //Use the new tool to parse MongoDB connection strings (dbConnectionURL)
@@ -5,7 +9,7 @@ const options = {
   // We force Mongoose to use the function findOneAndUpdate
   useFindAndModify: false,
   // Make Mongoose use createIndex() function if there are indexes in the Mongoose schema
-  useCreateIndex: true,
+  //useCreateIndex: true,
   // Make Mongoose use a new topology engine (remove some connection options)
   useUnifiedTopology: true,
   // Manage indexes in production
@@ -27,4 +31,4 @@ const dbConnectionURL = {
     'LOCALURL': `mongodb://${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`
 };
 
-export default {options, dbConnectionURL};
+export { options, dbConnectionURL };

@@ -1,10 +1,66 @@
+
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div>
+    <div class="row align-items-center">
+      <div class="col-6 my-4 d-flex">
+        <router-link to="/"><img src="./assets/logo.png" alt="" class="ml-5"></router-link>
+        <!-- <router-link to="/rutas">Rutas</router-link> -->
+      </div>
+      
+      <div class="col-6 my-4">
+        <div v-if="!currentUser" class="d-flex justify-content-around align-items-baseline">
+            <router-link to="/register" class="">
+              <font-awesome-icon icon="user-plus" />Sign Up
+            </router-link>
+            
+            <router-link to="/login" class="">
+              <font-awesome-icon icon="sign-in-alt" />Login
+            </router-link>
+
+        </div>
+
+        <div v-if="currentUser" class="d-flex justify-content-around">
+            <router-link to="/profile" class="">
+              <font-awesome-icon icon="user" />
+              {{ currentUser.name}} {{ currentUser.surname }}
+            </router-link>
+
+            <a class="" href @click.prevent="logOut">
+              <font-awesome-icon icon="sign-out-alt" />LogOut
+            </a>
+
+        </div>
+      </div>
+      
+    </div>
+    
+    <div>
+      <router-view />
+    </div>
   </div>
-  <router-view/>
 </template>
+
+<script>
+export default {
+  computed: {
+    currentUser() {
+      if(this.$store.state.auth.status.loggedIn){
+        return this.$store.state.auth.user.User;
+      }
+      else{
+        return false;
+      }
+      
+    },
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout',this.currentUser);
+      this.$router.push('/login');
+    }
+  }
+};
+</script>
 
 <style>
 #app {

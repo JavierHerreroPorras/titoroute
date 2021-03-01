@@ -1,16 +1,13 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 
-dotenv.config();
+import {options, dbConnectionURL} from './database.config.js';
 
-import config from './database.config.js';
-
-mongoose.connect(config.dbConnectionURL.LOCALURL, config.options);
+mongoose.connect(dbConnectionURL.LOCALURL, options);
 const db = mongoose.connection;
 
 // If the connection is stablish
 mongoose.connection.on('connected', function () {  
-    console.log('Mongoose default connection open to ' + config.dbConnectionURL.LOCALURL);
+    console.log('Mongoose default connection open to ' + dbConnectionURL.LOCALURL);
   }); 
   
 // If the connection throws an error
