@@ -18,9 +18,11 @@ import auth from '../middleware/auth.js';
 // Rutas correspondientes a los usuarios (creación, inicio de sesión, ver perfil y cerrar sesión)
 api.post('/users/signIn', userCtrl.signIn);
 
-api.post('/users/login', userCtrl.logIn);
+api.post('/users/logIn', userCtrl.logIn);
 
 api.get('/users/me', auth, userCtrl.profile);
+
+api.get('/users', userCtrl.getUsers);
 
 api.post('/users/me/logout', auth, userCtrl.logout);
 
@@ -28,7 +30,7 @@ api.post('/users/me/logout', auth, userCtrl.logout);
 // Rutas correspondientes a las rutas turísticas
 api.get('/route', routeCtrl.getRoutes);
 
-api.get('/route/:routeId', routeCtrl.getRoute);
+api.get('/route/:routeId', routeCtrl.getRouteDetails);
 
 api.post('/route', routeCtrl.saveRoute);
 

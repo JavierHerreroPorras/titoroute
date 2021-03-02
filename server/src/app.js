@@ -3,6 +3,21 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import api from './routes/index.js';
 
+const config = {
+    application: {
+        cors: {
+            server: [
+                {
+                    origin: "localhost:3000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+                    credentials: true
+                }
+            ]
+        }
+    }
+}
+
+
+
 const app = express();
 
 /* 
@@ -26,7 +41,7 @@ app.use(bodyParser.json());
     Fuente: https://lenguajejs.com/javascript/peticiones-http/cors/ 
 */
 
-app.use(cors());
+app.use(cors(config.application.cors.server));
 
 // Utilizamos las rutas que hemos creado para el servidor
 app.use('/api', api);

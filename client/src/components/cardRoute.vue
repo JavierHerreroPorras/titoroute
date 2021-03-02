@@ -23,7 +23,7 @@
        <div class="card bg-light border-secondary h-100">
          <img :src=imageURL class="card-img-top rounded img-thumbnail" alt="Imagen de la ruta"> 
          <div class="card-body px-1 py-2">
-           <router-link :to="{ name: 'Ruta', params: { id: 'item-2' }}" class="card-title h4 stretched-link">
+           <router-link :to="{ name: 'Ruta', params: { id: id }}" class="card-title h4 stretched-link">
               {{name}}
             </router-link>
           <p class="card-text small mt-2 crop-text">{{description}}</p>
@@ -54,7 +54,8 @@ export default {
     imageURL: String,
     duration: Number,
     people: Number,
-    price: Number
+    price: Number,
+    id: String
   },
 }
 </script>

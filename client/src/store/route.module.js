@@ -5,6 +5,7 @@ import RouteService from '../services/route.service';
 const initialState = { 
     success: false,
     routes: null,
+    routeInfo: null,
     startDateRoute: new Date().toLocaleDateString(),
     adult: 0,
     children: 0,
@@ -29,6 +30,18 @@ export const route = {
         }
       );
     },
+    getRouteDetails({ commit },id) {
+      return RouteService.getRouteDetails(id).then (
+        RouteInfo => {
+          commit('getDetailsSuccess',RouteInfo);
+          return Promise.resolve(RouteInfo);
+        },
+        error => {
+          commit('getDetailsFailure');
+          return Promise.reject(error);
+        }
+      )
+    }
     
   },
   // Permiten cambiar el valor del estado de la aplicación
@@ -40,6 +53,12 @@ export const route = {
     getRoutesFailure(state) {
       state.sucess = false;
       state.routes = null;
+    },
+    getDetailsSuccess(state, RouteInfo) {
+      state.routeInfo = RouteInfo;
+    },
+    getDetailsFailure(state) {
+      state.routeInfo = null;
     },
     incrementAdult(state){
       state.adult ++;

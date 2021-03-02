@@ -65,7 +65,7 @@ userSchema.methods.generateAuthToken = async function() {
 
 userSchema.statics.findByCredentials = async (email, password) => {
    // Search for a user by email and password.
-   const user = await User.findOne({ email} )
+   const user = await userModel.findOne({ email} )
    if (!user) {
       throw new Error('User not found')
    }
@@ -76,8 +76,8 @@ userSchema.statics.findByCredentials = async (email, password) => {
    return user
 }
 
-const User = mongoose.model('User', userSchema);
+const userModel = mongoose.model('userModel', userSchema);
 
-User.createIndexes();
+userModel.createIndexes();
 
-export default User;
+export default userModel;

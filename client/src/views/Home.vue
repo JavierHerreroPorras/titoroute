@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="col">
-                <router-link :to="{name: 'Rutas'}"><button type="button" class="btn btn-info btn-lg">Ver rutas</button></router-link>
+                <router-link :to="{name: 'Rutas'}"><button type="button" class="btn btn-primary btn-lg">Ver rutas</button></router-link>
             </div>
             
         </div>

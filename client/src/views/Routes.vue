@@ -1,9 +1,17 @@
 <template>
   <div class="mx-4" id="containerRoutes">
-    <h1>Estas son las rutas que ofrecemos</h1>
+
+    <div class="container h-100">
+      <div class="d-flex justify-content-center h-100">
+        <div class="searchbar">
+          <input class="search_input pl-3" type="text" name="" placeholder="Search...">
+          <a class="search_icon"><font-awesome-icon icon="search"/></a>
+        </div>
+      </div>
+    </div>
 
     <div v-if="loading">Cargando información...</div>
-    <div v-else>
+    <div v-else class="mt-4">
       <div class="row row-cols-1 row-cols-xl-4 row-cols-lg-3 row-cols-md-2">
         <div class="col mb-4" v-for="(p,index) in displayed" :key="index">
           <cardRoute 
@@ -13,6 +21,7 @@
             :duration="p.duration"
             :people="p.people"
             :price="p.price"
+            :id="p._id"
             />
         </div>
 
@@ -99,3 +108,41 @@ export default {
   
 }
 </script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@500&display=swap');
+
+    .searchbar{
+    margin-bottom: auto;
+    margin-top: auto;
+    border-radius: 15px;
+    border: 1px solid black;
+    padding: 2px;
+    }
+
+    .search_input{
+    color: rgb(94, 33, 33);
+    border: 0;
+    outline: 0;
+    background: none;
+    font-size: 22px;
+    font-family: Assistant;
+    width: 350px;
+    caret-color:black;
+    line-height: 40px;
+    transition: width 0.4s linear;
+    margin-left: 3px;
+    }
+
+    .search_icon{
+    height: 40px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color:black;
+    text-decoration:none;
+    }
+</style>

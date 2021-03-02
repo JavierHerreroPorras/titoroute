@@ -8,7 +8,7 @@ class AuthService {
   // y contraseña. Posteriormente guardará el Token de JWT en el local storage del navegador. 
   login(user) {
     return axios
-      .post(API_URL + 'login', {
+      .post(API_URL + 'logIn', {
         email: user.email,
         password: user.password
       })
@@ -38,7 +38,7 @@ class AuthService {
 
   // El registro toma el usuario, email y contraseña y los manda al servidor mediante un método POST. 
   register(user) {
-    return axios.post(API_URL, {
+    return axios.post(API_URL + 'signIn', {
       name: user.name,
       surname: user.surname,
       email: user.email,
