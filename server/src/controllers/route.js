@@ -51,9 +51,10 @@ const routeCtrl = {
 
              //Una vez se ha guardado la ruta, procedemos a crear y guardar sus detalles, con el id de la ruta ya guardada
              let route_details = new routeDetails();
-             route_details.route_timeline = req.body.route_details;
+             route_details.route_timeline = req.body.route_timeline;
              route_details.route_id = routeId;
-             route_details.route_map_URL = req.body.map_URL;
+             route_details.route_map_URL = req.body.route_map_URL;
+             route_details.route_hotels = req.body.route_hotels;
 
              route_details.save((err, RouteDetailsStored) => {
                  if (err) res.status(500).send({message: `Error al guardar los detalles en la base de datos: ${err} `});

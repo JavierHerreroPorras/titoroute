@@ -41,11 +41,35 @@ export const route = {
           return Promise.reject(error);
         }
       )
+    },
+    getRouteHotels({ commit, state }) {
+
+      //Mediante estos pasos extraemos los ids de los hoteles de la ruta en forma de un array, para
+      //realizar la consulta de los mismos
+      const hotels = state.routeInfo.RouteDetails.route_hotels;
+      let hotelsId = hotels.map(a => a.hotel_id)
+
+      return RouteService.getRouteHotels(hotelsId).then (
+        RouteHotels => {
+          commit('getRouteHotelsSuccess',RouteHotels);
+          return Promise.resolve(RouteHotels);
+        },
+        error => {
+          commit('getRouteHotelsFailure');
+          return Promise.reject(error);
+        }
+      )
     }
     
   },
   // Permiten cambiar el valor del estado de la aplicación
   mutations: {
+    getRouteHotelsSuccess(state, RouteHotels){
+      state.routeInfo.hotels = RouteHotels.Hotels;
+    },
+    getRouteHotelsFailure(state){
+      state.routeInfo.hotels = null;
+    },
     getRoutesSuccess(state, routes) {
       state.success = true;
       state.routes = routes;

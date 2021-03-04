@@ -11,6 +11,7 @@ const api = express.Router();
 // Importamos los controladores, middlewares y modelos que contienen las funciones asociadas a cada ruta
 import userCtrl from '../controllers/user.js';
 import routeCtrl from '../controllers/route.js';
+import hotelCtrl from '../controllers/hotel.js';
 
 import auth from '../middleware/auth.js';
 
@@ -33,5 +34,12 @@ api.get('/route', routeCtrl.getRoutes);
 api.get('/route/:routeId', routeCtrl.getRouteDetails);
 
 api.post('/route', routeCtrl.saveRoute);
+
+
+// Rutas correspondientes a los hoteles
+api.get('/hotels', hotelCtrl.getRouteHotels);
+
+api.post('/hotel', hotelCtrl.saveHotel);
+
 
 export default api;

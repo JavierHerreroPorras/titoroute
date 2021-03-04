@@ -28,7 +28,20 @@ const routeDetailsSchema = new mongoose.Schema({
     route_map_URL: {
         type: String,
         required: true
-    }
+    },
+    route_hotels: [
+        {
+            hotel_order: {
+                type: Number,
+                required: true,
+                min: 1
+            },
+            hotel_id: {
+                type: String,
+                required: true
+            }
+        }
+    ]
 });
 
 const routeDetails = mongoose.model("routeDetails", routeDetailsSchema);

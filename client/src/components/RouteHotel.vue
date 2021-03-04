@@ -1,95 +1,69 @@
 <template>
-<div>
-   <section class="timeline-carousel row row-cols-1">
-    <div class="container row">
-          <div class="text-center mb-5 w-100">
-              <h1>Hoteles Ruta del Mediterráneo</h1>
-              <p>A continuación mostramos los hoteles seleccionados para esta ruta. Puede personalizar el número de noches en cada hotel, lo cual puede variar el precio final de la ruta.</p>
-              <calendar :adultos=2 />
+      <div class="timeline-carousel__item col-6 card ml-3">
+
+      <!-- Carousel de imagenes del hotel -->
+      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner mx-auto">
+          <div class="carousel-item active">
+          <img src="../assets/hotel1.webp" class="img-carousel d-block w-100 " alt="...">
           </div>
-    </div>
-    <div class="timeline-carousel__item-wrapper row row-cols-2" data-js="timeline-carousel">
-        
-		<route-hotel />
-		<route-hotel />
-    </div>
-  </section> 
-</div>
+          <div class="carousel-item">
+          <img src="../assets/hotel2.webp" class="img-carousel d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+          <img src="../assets/hotel3.webp" class="img-carousel d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+          <img src="../assets/hotel4.webp" class="img-carousel d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+          <img src="../assets/hotel5.webp" class="img-carousel d-block w-100" alt="...">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+      <!-- Descripción del hotel -->
+          <div class="timeline-carousel__item-inner row card-body">
+              <span class="year col-8" >Hotel la Viñuela</span>
+        <span class="valoration col-4 align-baseline"><rating-component :value=4 /></span>
+              <span class="month ml-3 mb-4 col-8">C/ Santexo 67, Cudillero</span>
+        <div class="col-3 month dropdown">
+          <select name="noches" id="noches" class="noches-hotel">
+            <option value="0">0 noches</option>
+              <option value="1">1 noche</option>
+            <option value="2">2 noches</option>
+            <option value="3">3 noches</option>
+            <option value="4">4 noches</option>
+          </select>
+        </div>
+              <p class="ml-3">Este hotel, recientemente declarado el mejor hotel rural de la provincia de Málaga, está situado en el centro de la Axarquía, junto al embalse de La Viñuela y a los pies de la Sierra Tejeda. </p>
+          </div>
+
+      <div class="row card-footer">
+        <span class="card-price col-8 mb-0 ml-0 text-left">Precio / día (1 hab · 2 adultos · 0 niños): 55 €</span>
+        <p class="badge badge-light col-4 mb-0 ml-0">Precio total: 110 €</p>
+      </div>
+        </div>
 </template>
 
 <script>
 import Calendar from './Calendar.vue'
-const $ = require('jquery')
-window.$ = $
-
-import 'slick-carousel'
 
 import RatingComponent from '../components/RatingComponent.vue';
-import RouteHotel from './RouteHotel.vue'
 
 export default {
-    name: 'RouteHotels',
     components: {
         Calendar,
-        RatingComponent,
-        RouteHotel
+        RatingComponent
     },
-    mounted() {
-		if(this.$store.state.route.routeInfo !== null){
-			//console.log(this.$store.state.route.routeInfo.RouteDetails.route_hotels)
-		}
-
-
-      // $('#dropdownCalendarButton').on('hide.bs.dropdown', function (e) {
-      //     var target = $(e.target);
-      //     if(target.hasClass("keepopen") || target.parents(".keepopen").length){
-      //         return false; // returning false should stop the dropdown from hiding.
-      //     }else{
-      //         return true;
-      //     }
-      // });
-      // $('#dropdownCalendarButton').on('click', function (event) {
-      //   $('#dropdownCalendar').toggleClass("d-block");
-      // });
-
-      // $('dropdown-menu').on('click', function (e) {
-      //     if (!$('li.dropdown.mega-dropdown').is(e.target) && $('li.dropdown.mega-dropdown').has(e.target).length === 0 && $('.open').has(e.target).length === 0) {
-      //         $('li.dropdown.mega-dropdown').removeClass('open');
-      //     }
-      // });
-    },
-	methods: {
-		getRouteHotels() {
-			this.$store.dispatch('route/getRouteHotels').then(() => {
-				console.log(this.$store.state.route.routeInfo.hotels)
-
-
-				/* NOTA PARA EL JAVI DEL FUTURO
-
-					Una vez que tenemos los datos lo proximo que tengo que hacer es pasarle estos datos
-					al componente RouteHotel y mostrarlos en la pantalla
-				
-				*/
-			});
-			
-		}
-	},
-	computed: {
-		// days_timeline() {
-		// 	if(this.$store.state.route.routeInfo !== null){
-		// 		return this.$store.state.route.routeInfo.RouteDetails.route_timeline
-		// 			.filter(function(route) {
-		// 				return (route.day_title !== undefined)
-		// 			})
-		// 	}
-
-		// 	// Arreglar esto, puesto que antes de que se reciban los datos del servidor esto tiene un valor de null
-		// 	return null;
-		// }
-	},
-	created() {
-		this.getRouteHotels();
-	},
 }
 </script>
 
