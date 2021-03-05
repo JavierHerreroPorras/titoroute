@@ -1,57 +1,66 @@
 <template>
-      <div class="timeline-carousel__item col-6 card ml-3">
+      <div class="card mt-3">
 
       <!-- Carousel de imagenes del hotel -->
-      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner mx-auto">
-          <div class="carousel-item active">
-          <img src="../assets/hotel1.webp" class="img-carousel d-block w-100 " alt="...">
-          </div>
-          <div class="carousel-item">
-          <img src="../assets/hotel2.webp" class="img-carousel d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-          <img src="../assets/hotel3.webp" class="img-carousel d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-          <img src="../assets/hotel4.webp" class="img-carousel d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-          <img src="../assets/hotel5.webp" class="img-carousel d-block w-100" alt="...">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
+       
+	  <div class="row">
+		<div class="col-5">
+			<div :id="cadena_id" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner mx-auto">
+					<div class="carousel-item" v-for="(image,index) of imageURL" :key="index" :class="{ active: index==0 }">
+						<img :src=image class="img-carousel d-block w-100 " alt="...">
+					</div>
+				</div>
+				<a class="carousel-control-prev" :href="'#' + cadena_id" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" :href="'#' + cadena_id" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+				</a>
+			</div>
+	  	</div>
 
       <!-- Descripción del hotel -->
-          <div class="timeline-carousel__item-inner row card-body">
-              <span class="year col-8" >Hotel la Viñuela</span>
-        <span class="valoration col-4 align-baseline"><rating-component :value=4 /></span>
-              <span class="month ml-3 mb-4 col-8">C/ Santexo 67, Cudillero</span>
-        <div class="col-3 month dropdown">
-          <select name="noches" id="noches" class="noches-hotel">
-            <option value="0">0 noches</option>
-              <option value="1">1 noche</option>
-            <option value="2">2 noches</option>
-            <option value="3">3 noches</option>
-            <option value="4">4 noches</option>
-          </select>
-        </div>
-              <p class="ml-3">Este hotel, recientemente declarado el mejor hotel rural de la provincia de Málaga, está situado en el centro de la Axarquía, junto al embalse de La Viñuela y a los pies de la Sierra Tejeda. </p>
-          </div>
+        <div class="timeline-carousel__item-inner col-7 row card-body">
+			<div class="align-baseline col-12 row mb-3 mt-2">
+				<span class="year col-9 text-left" >{{name}}</span>
+				<div class="col-3 month dropdown my-auto">
+					<select v-model="nights" name="noches" id="noches" class="noches-hotel">
+						<option value="0">0 noches</option>
+						<option value="1">1 noche</option>
+						<option value="2">2 noches</option>
+						<option value="3">3 noches</option>
+						<option value="4">4 noches</option>
+					</select>
+				</div>
+			</div>
+            
+			<div class="align-baseline col-12 row mb-3">
+				<span class="month col-8">{{address}}</span>
+				<span class="valoration col-4"><rating-component :value=stars /></span>
+			</div>
 
-      <div class="row card-footer">
-        <span class="card-price col-8 mb-0 ml-0 text-left">Precio / día (1 hab · 2 adultos · 0 niños): 55 €</span>
-        <p class="badge badge-light col-4 mb-0 ml-0">Precio total: 110 €</p>
-      </div>
+            <p class="ml-3 mt-0">{{description}}</p>
+
+			<div class="row justify-content-end prices col">
+				<!-- <span class="card-price col-8 mb-0 ml-0 text-left">Precio / día ({{$store.state.route.rooms}} hab · {{$store.state.route.adult}} adultos · {{$store.state.route.children}} niños): {{calculateValueRoom()}} €</span> -->
+        		<!-- <span class="card-price col-8 mb-0 ml-0 text-left">Precio por día: {{calculateValueRoom()}} €</span> -->
+				<p class="badge badge-light col-4">Precio total: {{changeValueRoom()}} €</p>
+			</div>
         </div>
+	  </div>
+	  </div>
+	  
+	  
+
+      <!-- <div class="row card-footer">
+        <span class="card-price col-8 mb-0 ml-0 text-left">Precio / día ({{$store.state.route.rooms}} hab · {{$store.state.route.adult}} adultos · {{$store.state.route.children}} niños): {{calculateValueRoom()}} €</span>
+        <p class="badge badge-light col-4 mb-0 ml-0">Precio total: {{changeValueRoom()}} €</p>
+      </div>
+        </div> -->
+
 </template>
 
 <script>
@@ -64,6 +73,54 @@ export default {
         Calendar,
         RatingComponent
     },
+	data() {
+		return {
+			precio_total: null,
+			cadena_id: this.name.replace(/\s/g, ''),
+		}
+	},
+	props: {
+		name: String,
+		nights: Number,
+		address: String,
+		description: String,
+		stars: Number,
+		single_price: Number,
+		double_price: Number,
+		triple_price: Number,
+		link: String, 
+		imageURL: Array
+	},
+	methods: {
+	 	changeValueRoom() {
+	 		var final_price = 0;
+
+			if(this.$store.state.route.adult === 1){final_price = this.single_price}
+			if(this.$store.state.route.adult === 2){final_price = this.double_price}
+			if(this.$store.state.route.adult >= 3){final_price = this.triple_price}
+
+			return (final_price * this.$store.state.route.rooms * this.nights)
+	 	},
+
+		calculateValueRoom(){
+			
+			var final_price = 0;
+
+			if(this.$store.state.route.adult === 1){final_price = this.single_price}
+			if(this.$store.state.route.adult === 2){final_price = this.double_price}
+			if(this.$store.state.route.adult >= 3){final_price = this.triple_price}
+
+			this.changeValueRoom()
+
+			return (final_price * this.$store.state.route.rooms)
+		}
+	},
+	watch: {
+		// Forma de llamar a un handler del método
+	 	'nights': 'changeValueRoom',
+		'$store.state.route.adult': 'calculateValueRoom',
+		'$store.state.route.rooms': 'changeValueRoom',
+	},
 }
 </script>
 
@@ -74,19 +131,23 @@ export default {
 	 outline: none;
 }
 
-.card {
-	background-color: #323232;
-	max-width: 48%;
+option {
+	font-size: 17px;
 }
 
-.card .card-footer p{
+.card {
+	background-color: #323232;
+	max-width: 100% !important;
+}
+
+.card .prices p{
 	color: black;
 	font-weight: 900;
 	font-size: 16px;
 	margin-right: 0rem;
 }
 
-.card .card-footer span{
+.card .prices span{
 	color: white;
 	font-weight: 900;
 	font-size: 15px;
@@ -99,7 +160,6 @@ export default {
 	background-color: black;
 	opacity: 0.75;
 	height: 15%;
-  	width: 50%;
 }
 
 .img-carousel {
@@ -109,7 +169,7 @@ export default {
 }
 .noches-hotel{
 	font-family: 'Libre Franklin', sans-serif;
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: 600;
 	text-align: left;
 }
@@ -165,13 +225,13 @@ export default {
 	 -o-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 	 transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 }
- .timeline-carousel__item:last-child .timeline-carousel__item-inner:after {
-	 width: calc(100% - 25px);
-}
+
  .timeline-carousel__item-inner {
 	 position: relative;
-	 padding-top: 45px;
+	 padding-top: 2rem;
 	 align-items: baseline;
+	 padding: 0rem;
+	 padding-top: 1rem;
 }
 
  .timeline-carousel__item-inner .year {
@@ -180,13 +240,10 @@ export default {
 	 line-height: 36px;
 	 color: rgba(255, 255, 255, 1);
 	 display: table;
-	 letter-spacing: -1px;
 	 padding-right: 10px;
 	 background-color: #323232;
 	 z-index: 1;
 	 position: relative;
-	 margin-top: -15px;
-	 margin-bottom: 2.5rem;
 	 font-weight: 700;
 }
  .timeline-carousel__item-inner .year:after {
@@ -200,13 +257,11 @@ export default {
 }
  .timeline-carousel__item-inner .month {
 	 font-family: 'Libre Franklin', sans-serif;
-	 font-size: 15.px;
+	 font-size: 17px;
 	 text-transform: uppercase;
 	 color: #ffc107;
-	 margin-bottom: 2.5rem;
 	 font-weight: 600;
 	 text-align: left;
-	 margin-left: 1rem;
 }
 
 .valoration {
@@ -221,7 +276,6 @@ export default {
 	 line-height: 18px;
 	 color: rgba(255, 255, 255, 1);
 	 font-weight: 400;
-	 margin-bottom: 15px;
 }
  .timeline-carousel__item-inner .read-more {
 	 font-size: 12px;

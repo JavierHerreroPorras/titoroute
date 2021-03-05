@@ -8,10 +8,21 @@
               <calendar :adultos=2 />
           </div>
     </div>
-    <div class="timeline-carousel__item-wrapper row row-cols-2" data-js="timeline-carousel">
+    <div v-for="p of hotels" :key="p._id">
         
-		<route-hotel />
-		<route-hotel />
+		<route-hotel 
+			:name=p.name
+			:nights=p.nights
+			:address=p.address
+			:description=p.description
+			:stars=p.stars
+			:single_price=p.single_price
+			:double_price=p.double_price
+			:triple_price=p.triple_price
+			:link=p.link 
+			:imageURL=p.imageURL
+		/>
+
     </div>
   </section> 
 </div>
@@ -29,6 +40,11 @@ import RouteHotel from './RouteHotel.vue'
 
 export default {
     name: 'RouteHotels',
+	data() {
+		return {
+			hotels: null
+		}
+	},
     components: {
         Calendar,
         RatingComponent,
@@ -61,8 +77,7 @@ export default {
 	methods: {
 		getRouteHotels() {
 			this.$store.dispatch('route/getRouteHotels').then(() => {
-				console.log(this.$store.state.route.routeInfo.hotels)
-
+				this.hotels = this.$store.state.route.routeInfo.hotels;
 
 				/* NOTA PARA EL JAVI DEL FUTURO
 
@@ -75,13 +90,13 @@ export default {
 		}
 	},
 	computed: {
-		// days_timeline() {
-		// 	if(this.$store.state.route.routeInfo !== null){
-		// 		return this.$store.state.route.routeInfo.RouteDetails.route_timeline
-		// 			.filter(function(route) {
-		// 				return (route.day_title !== undefined)
-		// 			})
-		// 	}
+		 /*hotels_route() {
+		 	if(this.hotels !== null){
+		 		return this.$store.state.route.routeInfo.RouteDetails.route_timeline
+		 			.filter(function(route) {
+		 				return (route.day_title !== undefined)
+		 			})
+		 	}*/
 
 		// 	// Arreglar esto, puesto que antes de que se reciban los datos del servidor esto tiene un valor de null
 		// 	return null;
@@ -89,6 +104,7 @@ export default {
 	},
 	created() {
 		this.getRouteHotels();
+		
 	},
 }
 </script>

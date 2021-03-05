@@ -10,8 +10,6 @@
             />
         </div>
         
-		<route-details-day />
-        
         <li class="clearfix" style="float: none;"></li>
     </ul>
 </div>
