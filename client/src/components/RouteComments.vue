@@ -20,171 +20,345 @@
                 
             </div>
             <div id="testimonials-1" class="mt-4 col-md-7 testimonials testimonials-v1 scrollDiv border-left border-info border-5">
-                <div>
-                  <div class="item">
-                      <p>Crasjusto ducimus qui cupiditate non provident, similique sunt in culpaid est anditiis praesentium praesentium blanditiis praesentium non provident, similique sunt in culpaid est anditiis praesentium praesentium..</p>
-                      <div class="testimonial-info">
-                          <img class="img-thumbnail rounded-circle" src="@/assets/user.png" alt="">
-                          <div class="float-left ml-3">
-                            <span class="testimonial-author">
-                              Jeremy Asigner 
-                              <div class="mt-1">
-                                  <RatingComponent :value=2 :total=5 />
-                              </div>
-                            </span>
-                          </div>
-                          <div class="float-right mr-3">
-                              19/03/2020 17:45 
-                              <div class="container mt-1">
-                                  <div class="row">
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="thumbs-up" aria-hidden="true"/>
-                                    </div>
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="thumbs-down" aria-hidden="true"/>
-                                    </div>
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="exclamation-triangle" aria-hidden="true"/>
-                                    </div>
-                                  </div>
-                              </div>
-                          </div>
-                          
-                      </div>
-                  </div>
-                </div>
 
-                <div>
-                  <div class="item personalizada">
-                      <p>Crasjusto ducimus qui cupiditate non provident, similique sunt in culpaid est anditiis praesentium praesentium blanditiis praesentium non provident, similique sunt in culpaid est anditiis praesentium praesentium..</p>
-                      <div class="testimonial-info">
-                          <img class="img-thumbnail rounded-circle" src="@/assets/user.png" alt="">
-                          <div class="float-left ml-3">
-                            <span class="testimonial-author">
-                              Jeremy Asigner 
-                              <div class="mt-1">
-                                  <RatingComponent :value=2 :total=5 />
-                              </div>
-                            </span>
-                          </div>
-                          <div class="float-right mr-3">
-                              19/03/2020 17:45 
-                              <div class="container mt-1">
-                                  <div class="row">
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="thumbs-up" aria-hidden="true"/>
-                                    </div>
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="thumbs-down" aria-hidden="true"/>
-                                    </div>
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="exclamation-triangle" aria-hidden="true"/>
-                                    </div>
-                                  </div>
-                              </div>
-                          </div>
-                          
-                      </div>
-                  </div>
-                </div>
-
-              <div>
-                  <div class="item personalizada">
-                      <p>Crasjusto ducimus qui cupiditate non provident, similique sunt in culpaid est anditiis praesentium praesentium blanditiis praesentium non provident, similique sunt in culpaid est anditiis praesentium praesentium..</p>
-                      <div class="testimonial-info">
-                          <img class="img-thumbnail rounded-circle" src="@/assets/user.png" alt="">
-                          <div class="float-left ml-3">
-                            <span class="testimonial-author">
-                              Jeremy Asigner 
-                              <div class="mt-1">
-                                  <RatingComponent :value=2 :total=5 />
-                              </div>
-                            </span>
-                          </div>
-                          <div class="float-right mr-3">
-                              19/03/2020 17:45 
-                              <div class="container mt-1">
-                                  <div class="row">
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="thumbs-up" aria-hidden="true"/>
-                                    </div>
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="thumbs-down" aria-hidden="true"/>
-                                    </div>
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="exclamation-triangle" aria-hidden="true"/>
-                                    </div>
-                                  </div>
-                              </div>
-                          </div>
-                          
-                      </div>
-                  </div>
-                </div>
-
-                <div>
-                  <div class="item personalizada">
-                      <p>Crasjusto ducimus qui cupiditate non provident, similique sunt in culpaid est anditiis praesentium praesentium blanditiis praesentium non provident, similique sunt in culpaid est anditiis praesentium praesentium..</p>
-                      <div class="testimonial-info">
-                          <img class="img-thumbnail rounded-circle" src="@/assets/user.png" alt="">
-                          <div class="float-left ml-3">
-                            <span class="testimonial-author">
-                              Jeremy Asigner 
-                              <div class="mt-1">
-                                  <RatingComponent :value=2 :total=5 />
-                              </div>
-                            </span>
-                          </div>
-                          <div class="float-right mr-3">
-                              19/03/2020 17:45 
-                              <div class="container mt-1">
-                                  <div class="row">
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="thumbs-up" aria-hidden="true"/>
-                                    </div>
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="thumbs-down" aria-hidden="true"/>
-                                    </div>
-                                    <div class="col-sm">
-                                      <font-awesome-icon icon="exclamation-triangle" aria-hidden="true"/>
-                                    </div>
-                                  </div>
-                              </div>
-                          </div>
-                          
-                      </div>
-                  </div>
-                </div>
-                
-                
+              <div v-for="(comment,index) in comments" :key="index">
+                <route-comment 
+                  :index="index"
+                  :name="comment.name"
+                  :date="comment.date"
+                  :comment="comment.comment"
+                  :score="comment.route_score"
+                />
+              </div>
+             
             </div>
         </div>
+
+        <!-- Para registrar los comentarios de los usuarios, creo que lo mejor es utilizar
+        un "Modal", en el cual pediremos a los usuarios las impresiones sobre la ruta -->
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Deja tu opinión sobre la ruta
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Opinión sobre la ruta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <form @submit.prevent="handleComment">
+                  <!-- Aspecto 1 a evaluar en el formulario -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">Aspecto 1</label>
+                      <div class="rating col-6">
+                        <input id="star10" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star10" >◌</label>
+                        <input id="star9" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star9" >◌</label>
+                        <input id="star8" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star8" >◌</label>
+                        <input id="star7" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star7" >◌</label>
+                        <input id="star6" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star6" >◌</label>
+                        <input id="star5" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star5" >◌</label>
+                        <input id="star4" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star4" >◌</label>
+                        <input id="star3" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star3" >◌</label>
+                        <input id="star2" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star2" >◌</label>
+                        <input id="star1" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Aspecto 2 a evaluar en el formulario -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">Aspecto 2</label>
+                      <div class="rating col-6">
+                        <input id="star_1_10" name="stars_price" v-model="user_comment.a2_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star_1_10" >◌</label>
+                        <input id="star_1_9" name="stars_price" v-model="user_comment.a2_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star_1_9" >◌</label>
+                        <input id="star_1_8" name="stars_price" v-model="user_comment.a2_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star_1_8" >◌</label>
+                        <input id="star_1_7" name="stars_price" v-model="user_comment.a2_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star_1_7" >◌</label>
+                        <input id="star_1_6" name="stars_price" v-model="user_comment.a2_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star_1_6" >◌</label>
+                        <input id="star_1_5" name="stars_price" v-model="user_comment.a2_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star_1_5" >◌</label>
+                        <input id="star_1_4" name="stars_price" v-model="user_comment.a2_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star_1_4" >◌</label>
+                        <input id="star_1_3" name="stars_price" v-model="user_comment.a2_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star_1_3" >◌</label>
+                        <input id="star_1_2" name="stars_price" v-model="user_comment.a2_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star_1_2" >◌</label>
+                        <input id="star_1_1" name="stars_price" v-model="user_comment.a2_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star_1_1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Aspecto 3 a evaluar en el formulario -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">Aspecto 3</label>
+                      <div class="rating col-6">
+                        <input id="star_3_10" name="stars_3" v-model="user_comment.a3_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star_3_10" >◌</label>
+                        <input id="star_3_9" name="stars_3" v-model="user_comment.a3_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star_3_9" >◌</label>
+                        <input id="star_3_8" name="stars_3" v-model="user_comment.a3_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star_3_8" >◌</label>
+                        <input id="star_3_7" name="stars_3" v-model="user_comment.a3_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star_3_7" >◌</label>
+                        <input id="star_3_6" name="stars_3" v-model="user_comment.a3_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star_3_6" >◌</label>
+                        <input id="star_3_5" name="stars_3" v-model="user_comment.a3_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star_3_5" >◌</label>
+                        <input id="star_3_4" name="stars_3" v-model="user_comment.a3_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star_3_4" >◌</label>
+                        <input id="star_3_3" name="stars_3" v-model="user_comment.a3_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star_3_3" >◌</label>
+                        <input id="star_3_2" name="stars_3" v-model="user_comment.a3_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star_3_2" >◌</label>
+                        <input id="star_3_1" name="stars_3" v-model="user_comment.a3_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star_3_1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Aspecto 4 a evaluar en el formulario -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">Aspecto 4</label>
+                      <div class="rating col-6">
+                        <input id="star_4_10" name="stars_4" v-model="user_comment.a4_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star_4_10" >◌</label>
+                        <input id="star_4_9" name="stars_4" v-model="user_comment.a4_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star_4_9" >◌</label>
+                        <input id="star_4_8" name="stars_4" v-model="user_comment.a4_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star_4_8" >◌</label>
+                        <input id="star_4_7" name="stars_4" v-model="user_comment.a4_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star_4_7" >◌</label>
+                        <input id="star_4_6" name="stars_4" v-model="user_comment.a4_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star_4_6" >◌</label>
+                        <input id="star_4_5" name="stars_4" v-model="user_comment.a4_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star_4_5" >◌</label>
+                        <input id="star_4_4" name="stars_4" v-model="user_comment.a4_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star_4_4" >◌</label>
+                        <input id="star_4_3" name="stars_4" v-model="user_comment.a4_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star_4_3" >◌</label>
+                        <input id="star_4_2" name="stars_4" v-model="user_comment.a4_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star_4_2" >◌</label>
+                        <input id="star_4_1" name="stars_4" v-model="user_comment.a4_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star_4_1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Nota de la ruta (que aparecerá en la página principal) -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">¿Qué nota pondría a esta ruta?</label>
+                      <div class="rating col-6">
+                        <input id="star_route_10" name="stars_route" v-model="user_comment.route_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star_route_10" >◌</label>
+                        <input id="star_route_9" name="stars_route" v-model="user_comment.route_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star_route_9" >◌</label>
+                        <input id="star_route_8" name="stars_route" v-model="user_comment.route_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star_route_8" >◌</label>
+                        <input id="star_route_7" name="stars_route" v-model="user_comment.route_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star_route_7" >◌</label>
+                        <input id="star_route_6" name="stars_route" v-model="user_comment.route_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star_route_6" >◌</label>
+                        <input id="star_route_5" name="stars_route" v-model="user_comment.route_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star_route_5" >◌</label>
+                        <input id="star_route_4" name="stars_route" v-model="user_comment.route_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star_route_4" >◌</label>
+                        <input id="star_route_3" name="stars_route" v-model="user_comment.route_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star_route_3" >◌</label>
+                        <input id="star_route_2" name="stars_route" v-model="user_comment.route_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star_route_2" >◌</label>
+                        <input id="star_route_1" name="stars_route" v-model="user_comment.route_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star_route_1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button> -->
+
+                  <div>
+                    <p>Escriba aquí sus comentarios, impresiones u opiniones sobre la ruta, para compartirlos con otros usuarios: </p>
+                    <textarea class="mr-3 w-100 h-30" v-model="user_comment.comment"></textarea>
+
+                    <!-- En primer lugar me gustaría decir que la ruta está muy bien diseñada, porque te permite ver los principales lugares de Galicia y Asturias en 1 semana. Además, los hoteles y restaurantes recomendados son espectaculares. En definitiva recomiendo esta ruta. -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+                  
+                  </div>
+
+                </form>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+
+
     </div>
 </template>
 
 <script>
+
+const $ = require('jquery')
+window.$ = $
+
 import RatingComponent from './RatingComponent';
 import CircleProgressBar from './CircleProgressBar';
+import RouteComment from './RouteComment.vue';
+import Comment from '../models/comment';
 
 export default {
   components: {
     RatingComponent,
-    CircleProgressBar
+    CircleProgressBar,
+    RouteComment
   },
-  props: {}
+  data() {
+    return {
+      comments: null,
+      user_comment: new Comment('','','','','','',''),
+      aspect_1: null,
+      aspect_2: null,
+      aspect_3: null,
+      aspect_4: null,
+      route: null
+    }
+  },
+  methods: {
+    getRouteComments() {
+      return this.$store.state.route.routeInfo.RouteDetails.route_comments.reverse()
+    },
+
+    handleComment(){
+      this.user_comment.name = this.$store.state.auth.user.User.name + " " + this.$store.state.auth.user.User.surname;
+      //console.log(this.user_comment);
+      return this.$store.dispatch('route/saveUserComment',{
+        user_comment: this.user_comment,
+        id: this.$route.params.id
+        }).then(() => {
+            this.comments = this.getRouteComments(),
+            $('#exampleModal').modal('toggle')
+          });
+        
+        /*.then(
+          RouteInfo => {
+            this.$store.state.route.routeInfo = RouteInfo
+            this.comments = this.getRouteComments(),
+            $('#exampleModal').modal('toggle')
+          }*/
+          
+      
+    },
+  },
+  mounted() {
+    // $("input[name='stars_hotels']").change(function() {
+    //    this.aspect_1 = this.value;
+    //    console.log(this.aspect_1)
+    // });
+
+    // $("input[name='stars_price']").change(function() {
+    //   console.log('New star price rating: '+ this.value);
+    // });
+  },
+  created() {
+    this.comments = this.getRouteComments();
+  },
 }
 </script>
 
 <style scoped>
 /*Bootstrap Testimonials
 ------------------------------------*/
- .personalizada {
+ /* .personalizada {
   margin-top: 7rem !important;
+} */
+textarea {
+  resize: none;
 }
 
+.txt-center {
+  text-align: center;
+}
+.hide {
+  display: none;
+}
+
+.clear {
+  float: none;
+  clear: both;
+}
+
+.rating,
+.rating_price {
+    width: 180px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+    position: relative;
+}
+
+.rating > label,
+.rating_price > label {
+    float: right;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 1.1em;
+    cursor: pointer;
+    color: #000;
+}
+
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+    color: transparent;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > input.radio-btn:checked ~ label:before {
+    content: "\2B24";
+    position: absolute;
+    left: 0;
+    color: #FFD700;
+}
+
+
+
+
 .scrollDiv {
-  height: 60vh;
-  overflow-y: scroll
+  height: 500px;
+  overflow: auto
 }
 .testimonials-bs .headline-center-v2 span.author {
   color: #777;

@@ -26,6 +26,13 @@ class RouteService {
             return response.data
          })
    } 
+   sendUserComment(user_comment, id){
+       return axios
+         .post(API_URL + id + '/comment', user_comment)
+         .then(response => {
+            return response.data
+         })
+   }
 }
 
 export default new RouteService();

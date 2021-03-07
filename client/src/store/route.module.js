@@ -42,6 +42,17 @@ export const route = {
         }
       )
     },
+    saveUserComment({ commit }, {user_comment, id}){
+      return RouteService.sendUserComment(user_comment,id).then (
+        RouteInfo => {
+          commit('saveCommentSuccess', RouteInfo);
+          return Promise.resolve(RouteInfo);
+        },
+        error => {
+          commit('saveCommentFailure');
+          return Promise.reject(error);
+        })
+    },
     getRouteHotels({ commit, state }) {
 
       //Mediante estos pasos extraemos los ids de los hoteles de la ruta en forma de un array, para
@@ -64,6 +75,12 @@ export const route = {
   },
   // Permiten cambiar el valor del estado de la aplicación
   mutations: {
+    saveCommentSuccess(state, RouteInfo) {
+      state.routeInfo.RouteDetails = RouteInfo.data;
+    },
+    saveCommentFailure(state){
+      state.routeInfo = RouteInfo;
+    },
     getRouteHotelsSuccess(state, RouteHotels){
       state.routeInfo.hotels = RouteHotels.Hotels;
     },

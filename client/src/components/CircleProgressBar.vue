@@ -23,7 +23,6 @@ export default {
         titulo: String
     },
     mounted() {
-        console.log(parseFloat(this.value))
       $("#" + this.titulo).circleProgress({
                 startAngle: -1.55,
                 size: 150,

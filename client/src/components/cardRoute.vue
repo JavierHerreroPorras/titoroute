@@ -23,9 +23,13 @@
        <div class="card bg-light border-secondary h-100">
          <img :src=imageURL class="card-img-top rounded img-thumbnail" alt="Imagen de la ruta"> 
          <div class="card-body px-1 py-2">
-           <router-link :to="{ name: 'Ruta', params: { id: id }}" class="card-title h4 stretched-link">
+           <div class="row align-items-start">
+             <router-link :to="{ name: 'Ruta', params: { id: id }}" class="card-title h4 stretched-link col-10">
               {{name}}
             </router-link>
+            <span class="badge badge-pill badge-primary">{{score}}</span>
+           </div>
+           
           <p class="card-text small mt-2 crop-text">{{description}}</p>
           
           <div class="row align-items-center">
@@ -55,12 +59,18 @@ export default {
     duration: Number,
     people: Number,
     price: Number,
+    score: Number,
     id: String
   },
 }
 </script>
 
 <style scoped>
+
+.badge {
+  font-size: 16px
+}
+
 .crop-text {
   /*Se han utilizado las siguientes propiedades: 
     - -webkit-line-clamp: permite limitar el contenido a un número de líneas (en nuestro caso 7)
@@ -75,5 +85,15 @@ export default {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+}
+
+.col-10 {
+  flex: 0 0 80%;
+  max-width: 80%;
+}
+
+.col-2 {
+  flex: 0 0 20%;
+  max-width: 20%;
 }
 </style>

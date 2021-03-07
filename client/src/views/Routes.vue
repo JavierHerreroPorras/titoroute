@@ -22,6 +22,7 @@
             :people="p.people"
             :price="p.price"
             :id="p._id"
+            :score="p.averageScore"
             />
         </div>
 
@@ -72,6 +73,7 @@ export default {
       this.$store.dispatch('route/getRoutes').then(
         () => {
           // Calcular el número total de rutas y el número de páginas que necesitaré
+          console.log(this.$store.state.route.routes)
           this.numberRoutes = this.$store.state.route.routes.length;
           this.totalPages = Math.ceil(this.numberRoutes / this.perPage);
         }

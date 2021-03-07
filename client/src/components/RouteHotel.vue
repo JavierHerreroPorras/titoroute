@@ -102,7 +102,7 @@ export default {
 			return (final_price * this.$store.state.route.rooms * this.nights)
 	 	},
 
-		calculateValueRoom(){
+		/*calculateValueRoom(){
 			
 			var final_price = 0;
 
@@ -110,15 +110,16 @@ export default {
 			if(this.$store.state.route.adult === 2){final_price = this.double_price}
 			if(this.$store.state.route.adult >= 3){final_price = this.triple_price}
 
-			this.changeValueRoom()
+			//this.changeValueRoom()
+			console.log(this.final_price)
 
 			return (final_price * this.$store.state.route.rooms)
-		}
+		}*/
 	},
 	watch: {
 		// Forma de llamar a un handler del método
 	 	'nights': 'changeValueRoom',
-		'$store.state.route.adult': 'calculateValueRoom',
+		'$store.state.route.adult': 'changeValueRoom',
 		'$store.state.route.rooms': 'changeValueRoom',
 	},
 }

@@ -33,6 +33,8 @@ api.get('/route', routeCtrl.getRoutes);
 
 api.get('/route/:routeId', routeCtrl.getRouteDetails);
 
+api.post('/route/:routeId/comment', routeCtrl.saveUserComment);
+
 api.post('/route', routeCtrl.saveRoute);
 
 

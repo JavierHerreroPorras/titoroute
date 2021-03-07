@@ -19,6 +19,34 @@ const routeCtrl = {
             })
         });
     },
+
+    saveUserComment(req,res){
+        console.log(req.body)
+        console.log(req.params.routeId)
+
+        Route.findById(req.params.routeId, (err, Route) => {
+            if (err) return res.status(500).send({message: `Error al realizar la petición ${err}`});
+            if(!Route) return res.status(404).send({message: `La ruta no existe`});
+
+            routeDetails.findOneAndUpdate(
+                {"route_id":req.params.routeId},
+                {"$push": {"route_comments": req.body}},
+                {new: true, safe: true, upsert: true })
+                    .then((result) => {
+                        return res.status(201).json({
+                            status: "Success",
+                            message: "Resources Are Created Successfully",
+                            data: result
+                        });
+                    }).catch((error) => {
+                        return res.status(500).json({
+                            status: "Failed",
+                            message: "Database Error",
+                            data: error
+                        });
+                    });
+        });
+    },
     
     getRoutes(req, res){
         Route.find({}, (err, Routes) => {
@@ -55,6 +83,8 @@ const routeCtrl = {
              route_details.route_id = routeId;
              route_details.route_map_URL = req.body.route_map_URL;
              route_details.route_hotels = req.body.route_hotels;
+
+             route_details.route_comments = req.body.route_comments;
 
              route_details.save((err, RouteDetailsStored) => {
                  if (err) res.status(500).send({message: `Error al guardar los detalles en la base de datos: ${err} `});

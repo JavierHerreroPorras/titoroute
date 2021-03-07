@@ -25,6 +25,11 @@ const routeSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true
+    },
+    averageScore: {
+        type: Number,
+        required: false,
+        default: 0
     }
 });
 

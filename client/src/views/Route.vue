@@ -34,7 +34,7 @@
             </ul>
                
             <div class="tab-content">
-                <router-view></router-view>
+                <router-view :key="$store.state.routeInfo"></router-view>
             </div>
         </div>
         <!-- End Tab v1 -->

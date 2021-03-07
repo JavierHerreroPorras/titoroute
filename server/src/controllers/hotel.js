@@ -7,7 +7,6 @@ const hotelCtrl = {
 
         //Aqui utilizamos req.query (que contiene los parámetros que pasamos a través de la URL después de ?) 
         //en vez de req.params (que contiene los parámetros de la ruta)
-        console.log(req.query.array)
         let items = req.query.array
         //let items = JSON.parse(req.query.array);
  

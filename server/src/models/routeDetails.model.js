@@ -41,6 +41,42 @@ const routeDetailsSchema = new mongoose.Schema({
                 required: true
             }
         }
+    ],
+    route_comments: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            date: {
+                type: String,
+                required: false
+            },
+            comment: {
+                type: String,
+                required: true
+            },
+            route_score: {
+                type: Number,
+                required: true
+            },
+            a1_score: {
+                type: Number,
+                required: true 
+            },
+            a2_score: {
+                type: Number,
+                required: true 
+            },
+            a3_score: {
+                type: Number,
+                required: true 
+            },
+            a4_score: {
+                type: Number,
+                required: true 
+            }
+        }
     ]
 });
 

@@ -1,0 +1,88 @@
+Cosas que quedan por hacer:
+
+    - Respecto al tema de los routers, cuando hable con Enrique le preguntaré. Para ello
+    necesitaría quizá una página para poder hacer una ruta, el middleware necesario y quizá
+    un apartado en el perfil con "MIS RUTAS" desde donde se pueda visualizar la puntuación
+    media, ganancias, etc. (4-5 días)
+
+    - Servidor (HASTA EL DÍA 31/03):
+
+        - Middlewares: Delimitar aquellas rutas que necesitan autenticación y/o otros privilegios
+        (administradores, routers, etc).
+        - Revisar todo el código (modelos, controladores).
+    
+    - Cliente (HASTA EL DÍA 31/03): 
+
+        - Revisar todo el código (vistas, componentes, servicios) (1 día): P1.
+
+        - Inicio de sesión, crear cuenta y perfil del usuario (2 días): P3.
+
+        - Página de rutas (2 días): P2
+            - Realizar la lógica para buscar rutas (la carga de trabajo la estableceré)
+            en el cliente.
+            - Poner una nota media.
+            - Mejorar el diseño
+
+        - Intentar arreglar los warnings y errores al utilizar el mapa de Google (1 día): P6.
+
+        - Comentarios (6-7 de marzo):
+            - [ ] ¿Cómo calcular las puntuaciones medias? --> Facil, mediante un metodo que recorra 
+            el array y lo calcule.
+
+                    Además tengo que calcular las puntuaciones medias de cada uno de los aspectos que se evaluan
+                    en cada comentario. Imagino que al realizar la puntuación media lo podré resolver fácilmente.
+
+                    La puntuación media se mostrará en la pantalla de rutas y seguramente en el titulo y 
+                    descripción de la página de la ruta. Para ello, debemos tener un método en el servidor
+                    que al realizar la consulta pueda calcular la media de la ruta realizada por los usuarios.
+                   
+                    Para ello tengo que cambiar lo siguiente:
+                        - [X] El modelo de datos de la ruta.
+                        - El servidor tiene que calcular la nota media --> Aqui tengo dos opciones:
+                            1) Calculo la nota media cuando se recuperen las rutas del servidor --> Mas carga
+                            2) Calculo la nota media cuando se introduzca un nuevo comentario en la ruta.
+                                Creo que esta opción es más sencilla, por tanto lo realizaré de esta forma,
+                                aunque tengo que realizar la parte de poner un comentario primero.
+                        - [X/2] Las vistas o componentes correspondientes en el cliente.
+
+            - [X] Modificar el diseño de los elementos, ¿hacer scroll para mostrar los comentarios?
+            - [X] Hacer página para dejar el comentario sobre una ruta COMPRADA (incluir la lógica
+            necesaria para mandarla al servidor, almacenarla correctamente y recargar la página
+            para mostrarla).
+        
+        - Hoteles (1 día): P4
+            - Mejorar el diseño de la página (botones de habitaciones, adultos y niños)
+            - Establecer como varían los precios de acuerdo a los adultos, niños, etc.
+
+        - Página de ruta (1 día): P5
+            - Mejorar el diseño (botones de mapa, detalles, comentarios y hoteles)
+
+        - Carrito de la compra (IMPORTANTE: semana 8-14 de marzo):
+            - Investigar sobre la mejor forma de hacerlo.
+            - Realizar la lógica necesaria para comprar una ruta (ya se pueden personalizar) 
+            calculando el precio total, el día de inicio y el día de fin, mostrar un resumen
+            de la misma...
+
+        - Comportamiento responsive de la página (3 días): P7
+            - Esto creo que será relativamente sencillo ya que los timelines ya son responsives,
+            tengo que trabajar con las cards de las rutas y con elementos que puedan presentar
+            problemas.
+
+        - Comentar todo el código y resaltar aquellas partes nuevas o importantes (2 días): P8
+
+    - Dockerizar y desplegar la aplicación (DESDE 01/04 A 15/04):
+
+        - Ya he dockerizado la versión primitiva del proyecto, así que supongo que no tendré
+        muchos problemas con esta parte.
+
+        - La parte más conflictiva será el despliegue a Heroku y configurar el cliente/servidor
+        para que trabajen juntos.
+
+
+    - Documentación (DESDE 15/04 HASTA LA PRESENTACIÓN DEL PROYECTO):
+
+        - Delimitar lo que hay que hacer 
+
+        - Para la presentación del proyecto me gustaría contar con 20-25 días para prepararla bien,
+        puesto que será una parte que me cueste bastante.
+     
