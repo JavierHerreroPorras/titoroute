@@ -22,12 +22,15 @@ import {
   faThumbsUp,
   faThumbsDown,
   faExclamationTriangle,
-  faSearch
+  faSearch,
+  faShoppingBag,
+  faShoppingBasket,
+  faShoppingCart
 } from '@fortawesome/free-solid-svg-icons';
 
 import {faStar as faRegularStar} from '@fortawesome/free-regular-svg-icons'
 
-library.add(faHome, faSearch, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faCircle,faDotCircle, faStar,faStarHalfAlt, faRegularStar, faThumbsUp, faThumbsDown, faExclamationTriangle);
+library.add(faHome, faSearch, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faCircle,faDotCircle, faStar,faStarHalfAlt, faRegularStar, faThumbsUp, faThumbsDown, faExclamationTriangle, faShoppingCart);
 
 const app = createApp(App)
 app.use(store).use(router).use(VueAxios, axios);

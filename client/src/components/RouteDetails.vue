@@ -53,8 +53,8 @@ export default {
 		}
 	},
 	created() {
-		this.routeId = this.$route.params.id;
-		this.getRouteDetails();
+		//this.routeId = this.$route.params.id;
+		//this.getRouteDetails();
 	},
 }
 </script>

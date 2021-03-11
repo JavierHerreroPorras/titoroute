@@ -1,0 +1,336 @@
+<template>
+
+<div class="dropdown">
+  <button class="btn btn-secondary d-flex justify-content-between align-items-center float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <font-awesome-icon icon="shopping-cart"/> 
+    <h5>Mi Carrito</h5> 
+    <span class="badge badge-light">{{cartQuantity()}}</span>
+    <span class="sr-only">routes in cart</span>
+  </button>
+  <div class="dropdown-menu shopping-cart" aria-labelledby="dropdownMenuButton">
+    <div class="shopping-cart-header">
+        <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
+        <div class="shopping-cart-total">
+            <span class="lighter-text">Total:</span>
+            <span class="main-color-text">$2,229.97</span>
+        </div>
+    </div>
+		<div class="cart-item row">
+			<div class="w-100" v-if="getRoutes().length === 0">
+				<p class="my-4 text-center">Vaya... Parece que no hay elementos en el carrito.</p>
+			</div>
+			<ul class="shopping-cart-items"  v-for="(route,index) in getRoutes()" :key="index">
+        		<li class="clearfix row items d-flex">
+					<img src="../assets/ruta.jpeg" class="cart-img col-3 ml-1"/>
+					<div class="col-9 h-100 item-name-price container">
+						<div class="row row-cols-2">
+    						<div class="col-9 item-name-div">
+								<span class="item-name mb-2">{{route.Route.name}}</span>
+							</div>
+    						<div class="col-3">
+								<span class="item-quantity float-right mt-1 mr-1"><button class="close" @click="removeElement(route.Route._id)">X</button></span> 
+								<!-- <span class="item-price mb-2 ml-3">{{route.Route.price}} € </span> -->
+							</div>
+							<div class="col-9">
+								<span class="item-details">{{route.RouteDetails.adult}} personas - {{route.RouteDetails.rooms}} habitaciones</span>
+							</div>
+							<div class="col-3">
+								<span class="item-price mb-2 ml-3">{{route.Route.price}} € </span>
+								<!-- <span class="item-quantity"><button class="route-button">Eliminar ruta</button></span> -->
+							</div>
+  						</div>
+					</div>
+					
+					
+				</li>
+			</ul>
+		</div>
+
+		<div class="row">
+			<div class="col-6 text-center">
+				<button class="btn btn-danger" @click="removeAllElements()">Borrar Rutas</button>
+			</div>
+			<div class="col-6">
+				<button class="btn btn-secondary float-right">Realizar pago</button>
+			</div>
+		</div>       
+  </div>
+</div>
+
+<!--     
+    
+    <nav>
+        <li><a href="" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge">3</span></a></li>
+    </nav>
+
+
+    <div class="container">
+    <div class="shopping-cart d-none">
+        <div class="shopping-cart-header">
+        <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
+        <div class="shopping-cart-total">
+            <span class="lighter-text">Total:</span>
+            <span class="main-color-text">$2,229.97</span>
+        </div>
+        </div> <end shopping-cart-header
+
+        <ul class="shopping-cart-items">
+        <li class="clearfix">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item1.jpg" alt="item1" />
+            <span class="item-name">Sony DSC-RX100M III</span>
+            <span class="item-price">$849.99</span>
+            <span class="item-quantity">Quantity: 01</span>
+        </li>
+
+        <li class="clearfix">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item2.jpg" alt="item1" />
+            <span class="item-name">KS Automatic Mechanic...</span>
+            <span class="item-price">$1,249.99</span>
+            <span class="item-quantity">Quantity: 01</span>
+        </li>
+
+        <li class="clearfix">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item3.jpg" alt="item1" />
+            <span class="item-name">Kindle, 6" Glare-Free To...</span>
+            <span class="item-price">$129.99</span>
+            <span class="item-quantity">Quantity: 01</span>
+        </li>
+        </ul>
+
+        <a class="button">Checkout</a>
+    </div>
+    </div> 
+</div> -->
+</template>
+
+<script>
+
+const $ = require('jquery')
+window.$ = $
+
+import { mapState, mapGetters, mapActions } from 'vuex';
+
+export default {
+	data() {
+		return {
+			routes: null,
+		}
+	},
+    methods: {
+        ...mapGetters(
+            {cartQuantity: 'cartModule/cartQuantity',
+			getRoutes: 'cartModule/cartRoutes'},
+        ),
+		...mapActions({
+			removeElement: 'cartModule/removeCartItem',
+			removeAllElements: 'cartModule/removeAllCartItems'
+		}),
+    },
+	computed: {
+		...mapState('cartModule', ['cartRoutes'])
+	},
+	mounted() {
+		$(".shopping-cart").click(function(e) {
+				 	e.stopPropagation();
+		});
+	},
+}
+</script>
+
+<style scoped>
+
+.close {
+  font-size: 17px;
+  opacity: 0.3;
+}
+.close:hover {
+  opacity: 1;
+}
+
+.item-name-div {
+	padding-left: 0;
+}
+
+.route-button {
+	font-size: 13px;
+	background-color: red;
+	color: black;
+}
+
+.item-details {
+	font-size: 16px;
+}
+
+.item-name-price {
+	align-items: baseline;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.items {
+	align-items: center;
+	border: 1px solid;
+	border-color:rgb(216, 172, 156);
+	margin-right: 1rem;
+}
+.cart-item {
+	align-items: center;
+}
+
+.col-5, .col-3, .col-2{
+  padding-right: 0;
+  padding-left: 0
+}
+.cart-img{
+	max-width: 100px;
+	max-height: 100px;
+}
+
+.dropdown-menu {
+	width: 600px;
+	transform: translate3d(-420px,40px,0px) !important
+}
+
+.btn{
+    width: 180px;
+}
+
+h5{
+    margin-bottom: 0;
+}
+
+.badge {
+    font-size: 15px;
+    top: 0px;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+ @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
+ *, *:before, *:after {
+	 box-sizing: border-box;
+}
+ body {
+	 font: 14px/22px "Lato", Arial, sans-serif;
+	 background: #6394f8;
+}
+ .lighter-text {
+	 color: #abb0be;
+}
+ .main-color-text {
+	 color: #6394f8;
+}
+ nav {
+	 padding: 20px 0 40px 0;
+	 background: #f8f8f8;
+	 font-size: 16px;
+}
+ nav .navbar-left {
+	 float: left;
+}
+ nav .navbar-right {
+	 float: right;
+}
+ nav ul li {
+	 display: inline;
+	 padding-left: 20px;
+}
+ nav ul li a {
+	 color: #777;
+	 text-decoration: none;
+}
+ nav ul li a:hover {
+	 color: black;
+}
+ .container {
+	 margin: auto;
+	 width: 80%;
+}
+ .badge {
+	 background-color: #6394f8;
+	 border-radius: 10px;
+	 color: white;
+	 display: inline-block;
+	 font-size: 12px;
+	 line-height: 1;
+	 padding: 3px 7px;
+	 text-align: center;
+	 vertical-align: middle;
+	 white-space: nowrap;
+}
+ .shopping-cart {
+	 margin: 20px 0;
+	 float: right;
+	 background: white;
+	 width: 600px;
+	 transform: translate3d(-420px,40px,0px) !important;
+	 position: relative;
+	 border-radius: 3px;
+	 padding: 20px;
+}
+ .shopping-cart .shopping-cart-header {
+	 border-bottom: 1px solid #e8e8e8;
+	 padding-bottom: 15px;
+}
+ .shopping-cart .shopping-cart-header .shopping-cart-total {
+	 float: right;
+}
+ .shopping-cart .shopping-cart-items {
+	 padding-top: 10px;
+	 width: 100%;
+}
+ .shopping-cart .shopping-cart-items li {
+	 margin-bottom: 0px;
+}
+ .shopping-cart .shopping-cart-items img {
+	 float: left;
+}
+ .shopping-cart .shopping-cart-items .item-name {
+	 display: block;
+	 font-size: 20px;
+}
+ .shopping-cart .shopping-cart-items .item-price {
+	 color: #6394f8;
+	 font-size: 22px;
+}
+ .shopping-cart .shopping-cart-items .item-quantity {
+	 color: #abb0be;
+}
+ .shopping-cart:after {
+	 bottom: 100%;
+	 left: 89%;
+	 border: solid transparent;
+	 content: " ";
+	 height: 0;
+	 width: 0;
+	 position: absolute;
+	 pointer-events: none;
+	 border-bottom-color: white;
+	 border-width: 8px;
+	 margin-left: -8px;
+}
+ .cart-icon {
+	 color: #515783;
+	 font-size: 24px;
+	 margin-right: 7px;
+	 float: left;
+}
+ .button {
+	 background: #6394f8;
+	 color: white;
+	 text-align: center;
+	 padding: 12px;
+	 text-decoration: none;
+	 display: block;
+	 border-radius: 3px;
+	 font-size: 16px;
+	 margin: 25px 0 15px 0;
+}
+ .button:hover {
+	 background: #729ef9;
+}
+ .clearfix:after {
+	 content: "";
+	 display: table;
+	 clear: both;
+}
+</style>

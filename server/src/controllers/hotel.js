@@ -13,13 +13,6 @@ const hotelCtrl = {
         // El operador $in permite seleccionar aquellos documentos de la colección cuyo valor esté
         // en el array. 
 
-        /*
-        603fbf5f390c111d46a4dc6d
-        603fbf6a390c111d46a4dc6e
-        603fbf6e390c111d46a4dc6f
-        603fbf71390c111d46a4dc70
-        */
-
         Hotel.find({_id: {$in: items}}, (err, Hotels) => {
             if (err) return res.status(500).send({message: `Error al realizar la petición ${err}`});
             if(!Hotels) return res.status(404).send({message: `No existen hoteles`});
@@ -36,14 +29,13 @@ const hotelCtrl = {
         hotel.imageURL = req.body.imageURL;
         hotel.stars = req.body.stars;
         hotel.address = req.body.address;
-        hotel.nights = req.body.nights;
         hotel.single_price = req.body.single_price;
         hotel.double_price = req.body.double_price;
         hotel.triple_price = req.body.triple_price;
         hotel.link = req.body.link;
 
          hotel.save((err, HotelStored) => {
-             if (err) res.status(500).send({message: `Error al guardar en la base de datos: ${err} `});
+             if (err) res.status(500).send({message: `Error al guardar el hotel en la base de datos: ${err} `});
              res.status(200).send({ HotelStored });
          });
 

@@ -1,12 +1,12 @@
 <template>
   <div class="mx-4" id="containerRoutes">
 
-    <div class="container h-100">
-      <div class="d-flex justify-content-center h-100">
-        <div class="searchbar">
-          <input class="search_input pl-3" type="text" name="" placeholder="Search...">
-          <a class="search_icon"><font-awesome-icon icon="search"/></a>
-        </div>
+    <div class="container">
+      <div class=" justify-content-center w-100 align-items-center">
+          <div class="searchbar mx-auto">
+            <input class="search_input pl-3" type="text" name="" placeholder="Search...">
+            <a class="search_icon"><font-awesome-icon icon="search"/></a>
+          </div>
       </div>
     </div>
 
@@ -48,14 +48,17 @@ import cardRoute from '@/components/cardRoute.vue'
 import { ref } from 'vue';
 import VPagination from "vue3-pagination";
 import "vue3-pagination/dist/vue3-pagination.css";
+import Cart from '../components/Cart.vue';
 
 export default {
   name: 'Routes',
   components: {
     cardRoute,
-    VPagination
+    VPagination,
+    Cart
   },
   setup() {
+    Cart
     const page = ref(1);
     return { page };
   },
@@ -73,7 +76,7 @@ export default {
       this.$store.dispatch('route/getRoutes').then(
         () => {
           // Calcular el número total de rutas y el número de páginas que necesitaré
-          console.log(this.$store.state.route.routes)
+          //console.log(this.$store.state.route.routes)
           this.numberRoutes = this.$store.state.route.routes.length;
           this.totalPages = Math.ceil(this.numberRoutes / this.perPage);
         }
@@ -115,6 +118,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@500&display=swap');
 
     .searchbar{
+      width: 410px !important;
     margin-bottom: auto;
     margin-top: auto;
     border-radius: 15px;

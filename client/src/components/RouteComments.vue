@@ -1,20 +1,20 @@
 <template>
 
-     <div class="container">
-        <div class="row">
+     <div class="row">
+        <div class="col-12 row">
             <div class="col-md-5 ">
                 <div class="row row-cols-2">
                    <div class="col">
-                      <circle-progress-bar value=7.5 titulo="Calidad-precio"/>
+                      <circle-progress-bar :value=$store.state.route.routeInfo.Route.averageAspect1 titulo="Aspecto_1"/>
                   </div>
                    <div class="col">
-                    <circle-progress-bar value=9.5 titulo="Ubicación"/>
+                    <circle-progress-bar :value=$store.state.route.routeInfo.Route.averageAspect2 titulo="Aspecto_2"/>
                   </div>
                   <div class="col">
-                    <circle-progress-bar value=9.2 titulo="Instalaciones"/>
+                    <circle-progress-bar :value=$store.state.route.routeInfo.Route.averageAspect3 titulo="Aspecto_3"/>
                   </div>
                   <div class="col">
-                    <circle-progress-bar value=8.7 titulo="Personal"/>
+                    <circle-progress-bar :value=$store.state.route.routeInfo.Route.averageAspect4 titulo="Aspecto_4"/>
                   </div>
                </div>
                 
@@ -38,7 +38,8 @@
         un "Modal", en el cual pediremos a los usuarios las impresiones sobre la ruta -->
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        <div class="col">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
           Deja tu opinión sobre la ruta
         </button>
 
@@ -220,6 +221,8 @@
             </div>
           </div>
         </div>
+        </div>
+        
 
 
 
@@ -255,7 +258,8 @@ export default {
   },
   methods: {
     getRouteComments() {
-      return this.$store.state.route.routeInfo.RouteDetails.route_comments.reverse()
+      this.comments = [...this.$store.state.route.routeInfo.RouteDetails.route_comments]
+      this.comments.reverse();
     },
 
     handleComment(){
@@ -265,7 +269,7 @@ export default {
         user_comment: this.user_comment,
         id: this.$route.params.id
         }).then(() => {
-            this.comments = this.getRouteComments(),
+            this.getRouteComments(),
             $('#exampleModal').modal('toggle')
           });
         
@@ -290,7 +294,7 @@ export default {
     // });
   },
   created() {
-    this.comments = this.getRouteComments();
+    this.getRouteComments();
   },
 }
 </script>

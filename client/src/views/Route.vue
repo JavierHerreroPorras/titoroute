@@ -15,9 +15,18 @@
                     - Link
         </p> -->
 
-        <h2 class="text-left ml-5"> Ruta del mediterráneo </h2>
+        <h2 class="text-middle mx-5">{{title}}</h2>
 
-        <div class="tab-menu mx-5 my-5">
+        <p class="text-middle mx-5 mt-4">{{description}}</p>
+
+        <div class="d-flex flex-row-reverse mr-5 mt-4">
+            <div v-if="$store.state.route.routeInfo !== null">
+                <button type="button" class="btn btn-info float-right" @click="anadirRuta()">Añadir ruta al carrito ({{$store.state.route.routeInfo.Route.price}} euros)</button>
+            </div>
+            
+        </div>
+        
+        <div class="tab-menu mx-5 mt-2">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <router-link :to="{name: 'detalles'}" class="nav-link" active-class="active" aria-selected="true">Detalles</router-link>
@@ -34,7 +43,7 @@
             </ul>
                
             <div class="tab-content">
-                <router-view :key="$store.state.routeInfo"></router-view>
+                <router-view></router-view>
             </div>
         </div>
         <!-- End Tab v1 -->
@@ -42,11 +51,38 @@
 </template>
 
 <script>
+
+import { mapActions, mapMutations } from 'vuex';
+
+
 export default {
     name: 'Route',
+    data() {
+        return {
+            title: '',
+            description: ''
+        }
+    },
     props: {
 
-    }
+    },
+    methods: {
+		async getRouteDetails() {
+			
+            await this.$store.dispatch('route/getRouteDetails',this.$route.params.id)
+            
+            this.title = this.$store.state.route.routeInfo.Route.name
+            this.description = this.$store.state.route.routeInfo.Route.description
+                
+		},
+        
+        anadirRuta(){
+            this.$store.dispatch("cartModule/addCartItem",this.$store.state.route.routeInfo)
+        }
+    },
+    created() {
+        this.getRouteDetails();
+    },
 }
 </script>
 

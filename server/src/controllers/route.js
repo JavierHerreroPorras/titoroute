@@ -21,31 +21,61 @@ const routeCtrl = {
     },
 
     saveUserComment(req,res){
-        console.log(req.body)
-        console.log(req.params.routeId)
 
-        Route.findById(req.params.routeId, (err, Route) => {
-            if (err) return res.status(500).send({message: `Error al realizar la petición ${err}`});
-            if(!Route) return res.status(404).send({message: `La ruta no existe`});
+        // En esta parte actualizamos los comentarios con el introducido por el usuario en la 
+        // parte del cliente
 
-            routeDetails.findOneAndUpdate(
-                {"route_id":req.params.routeId},
-                {"$push": {"route_comments": req.body}},
-                {new: true, safe: true, upsert: true })
-                    .then((result) => {
-                        return res.status(201).json({
-                            status: "Success",
-                            message: "Resources Are Created Successfully",
-                            data: result
-                        });
-                    }).catch((error) => {
-                        return res.status(500).json({
-                            status: "Failed",
-                            message: "Database Error",
-                            data: error
-                        });
+        routeDetails.findOneAndUpdate(
+            {"route_id":req.params.routeId},
+            {"$push": {"route_comments": req.body}},
+            {new: true, safe: true, upsert: true })
+                .then((result) => {
+
+                    // Aquí calcularemos todas las medias y actualizamos la ruta de acuerdo a los comentarios
+                    // actualizados
+
+                    let total_1=0,total_2=0,total_3=0,total_4=0,total_ruta=0;
+                    result.route_comments.forEach(element => {
+                        total_1+=element.a1_score;
+                        total_2+=element.a2_score;
+                        total_3+=element.a3_score;
+                        total_4+=element.a4_score;
+                        total_ruta+=element.route_score;
                     });
-        });
+
+                    Route.findOneAndUpdate(
+                        {"_id":req.params.routeId},
+                        {"$set":
+                            {"averageScore":(total_ruta/result.route_comments.length).toFixed(1),
+                            "averageAspect1": (total_1/result.route_comments.length).toFixed(1),
+                            "averageAspect2": (total_2/result.route_comments.length).toFixed(1),
+                            "averageAspect3": (total_3/result.route_comments.length).toFixed(1),
+                            "averageAspect4": (total_4/result.route_comments.length).toFixed(1)
+                            }
+                        },
+                        {new: true, safe: true, upsert: true })
+                            .then( () => {
+                                return res.status(201).json({
+                                    status: "Success",
+                                    message: "Resources Are Created Successfully",
+                                    data: result
+                                })
+                            }).catch((error) => {
+                                return res.status(500).json({
+                                    status: "Failed",
+                                    message: "Database Error",
+                                    data: error
+                                });
+                            })
+            }).catch((error) => {
+                    return res.status(500).json({
+                        status: "Failed",
+                        message: "Database Error",
+                        data: error
+                    });
+                });
+            
+
     },
     
     getRoutes(req, res){
@@ -83,6 +113,9 @@ const routeCtrl = {
              route_details.route_id = routeId;
              route_details.route_map_URL = req.body.route_map_URL;
              route_details.route_hotels = req.body.route_hotels;
+             route_details.adult = req.body.adult;
+             route_details.children = req.body.children;
+             route_details.rooms = req.body.rooms;
 
              route_details.route_comments = req.body.route_comments;
 

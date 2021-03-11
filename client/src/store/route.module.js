@@ -7,9 +7,6 @@ const initialState = {
     routes: null,
     routeInfo: null,
     startDateRoute: new Date().toLocaleDateString(),
-    adult: 0,
-    children: 0,
-    rooms: 0
 }
 
 export const route = {
@@ -79,10 +76,14 @@ export const route = {
       state.routeInfo.RouteDetails = RouteInfo.data;
     },
     saveCommentFailure(state){
-      state.routeInfo = RouteInfo;
+      state.routeInfo = null;
     },
     getRouteHotelsSuccess(state, RouteHotels){
       state.routeInfo.hotels = RouteHotels.Hotels;
+      state.routeInfo.hotels.forEach(element => {
+        const nights = state.routeInfo.RouteDetails.route_hotels.find(hotel => hotel.hotel_id === element._id).nights;
+        element.nights = nights;
+      })
     },
     getRouteHotelsFailure(state){
       state.routeInfo.hotels = null;
@@ -102,22 +103,22 @@ export const route = {
       state.routeInfo = null;
     },
     incrementAdult(state){
-      state.adult ++;
+      state.routeInfo.RouteDetails.adult ++;
     },
     decrementAdult(state){
-      state.adult --;
+      state.routeInfo.RouteDetails.adult --;
     },
     incrementChildren(state){
-      state.children ++;
+      state.routeInfo.RouteDetails.children ++;
     },
     decrementChildren(state){
-      state.children --;
+      state.routeInfo.RouteDetails.children --;
     },
     incrementRooms(state){
-      state.rooms ++;
+      state.routeInfo.RouteDetails.rooms ++;
     },
     decrementRooms(state){
-      state.rooms --;
+      state.routeInfo.RouteDetails.rooms --;
     },
   }
 };

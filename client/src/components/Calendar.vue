@@ -2,7 +2,7 @@
 <div id="configurationRoute" class="d-flex justify-content-end mt-5">
 	<div class="mr-5">
 		<button class="btn btn-secondary" data-toggle="dropdown" id="dropdownCalendarButton" aria-haspopup="true" aria-expanded="false">
-			Inicio de la ruta - {{$store.state.route.startDateRoute}}
+			Inicio de la ruta - {{$store.state.route.routeInfo.RouteDetails.startDateRoute}}
 		</button>
 
 		<div class="dropdown-menu border-0" id="dropdownCalendar" aria-labelledby="dropdownCalendar">
@@ -16,7 +16,7 @@
     
 	<div>
 		<button class="btn btn-secondary mr-5" data-toggle="dropdown" id="dropdownCustomizeRouteButton" aria-haspopup="true" aria-expanded="false">
-      		{{$store.state.route.adult}} adultos · {{$store.state.route.children}} niños · {{$store.state.route.rooms}} habitaciones
+      		{{$store.state.route.routeInfo.RouteDetails.adult}} adultos · {{$store.state.route.routeInfo.RouteDetails.children}} niños · {{$store.state.route.routeInfo.RouteDetails.rooms}} habitaciones
     	</button>
 
 		<div class="dropdown-menu" id="dropdownCustomizeRoute" aria-labelledby="dropdownCustomizeRoute">
@@ -24,7 +24,7 @@
 				<p>Adultos: </p>
 				<div class="d-flex align-items-baseline ml-3">
 					<button @click.stop.prevent="addAdult" class="btn btn-light btn-sm rounded-circle">+</button>
-					<p class="ml-3">{{$store.state.route.adult}}</p>
+					<p class="ml-3">{{$store.state.route.routeInfo.RouteDetails.adult}}</p>
 					<button @click.stop.prevent="decrementAdult" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
 				</div>
 			</div>
@@ -32,7 +32,7 @@
 				<p>Niños: </p>
 				<div class="d-flex align-items-baseline ml-3">
 					<button @click.stop.prevent="addChild" class="btn btn-light btn-sm rounded-circle">+</button>
-					<p class="ml-3">{{$store.state.route.children}}</p>
+					<p class="ml-3">{{$store.state.route.routeInfo.RouteDetails.children}}</p>
 					<button @click.stop.prevent="decrementChild" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 				<p>Habitaciones: </p>
 				<div class="d-flex align-items-baseline ml-3">
 					<button @click.stop.prevent="addRoom" class="btn btn-light btn-sm rounded-circle">+</button>
-					<p class="ml-3">{{$store.state.route.rooms}}</p>
+					<p class="ml-3">{{$store.state.route.routeInfo.RouteDetails.rooms}}</p>
 					<button @click.stop.prevent="decrementRoom" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
 				</div>
 			</div>
@@ -66,7 +66,7 @@ export default {
 		  type: Number,
 		  default: 1
 	  },
-	  niños: {
+	  ninos: {
 		  type: Number,
 		  default: 0
 	  },
@@ -76,9 +76,6 @@ export default {
 	  }
   },
   mounted() {
-	  this.$store.state.route.adult = this.adultos;
-	  this.$store.state.route.children = this.niños;
-	  this.$store.state.route.rooms = this.habitaciones;
     	this.initDatepicker(); 
   },
   methods: {
@@ -93,7 +90,7 @@ export default {
 		}),
 
 	changeInitialDate(selectedDate) {
-		this.$store.state.route.startDateRoute = selectedDate;
+		this.$store.state.route.routeInfo.RouteDetails.startDateRoute = selectedDate;
 	},
     initDatepicker () {
 			var vm = this;

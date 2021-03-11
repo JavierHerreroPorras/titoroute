@@ -7,7 +7,7 @@
 		<div class="col-5">
 			<div :id="cadena_id" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner mx-auto">
-					<div class="carousel-item" v-for="(image,index) of imageURL" :key="index" :class="{ active: index==0 }">
+					<div class="carousel-item" v-for="(image,index) of hotel.imageURL" :key="index" :class="{ active: index==0 }">
 						<img :src=image class="img-carousel d-block w-100 " alt="...">
 					</div>
 				</div>
@@ -25,24 +25,24 @@
       <!-- Descripción del hotel -->
         <div class="timeline-carousel__item-inner col-7 row card-body">
 			<div class="align-baseline col-12 row mb-3 mt-2">
-				<span class="year col-9 text-left" >{{name}}</span>
+				<span class="year col-9 text-left" >{{hotel.name}}</span>
 				<div class="col-3 month dropdown my-auto">
-					<select v-model="nights" name="noches" id="noches" class="noches-hotel">
-						<option value="0">0 noches</option>
-						<option value="1">1 noche</option>
-						<option value="2">2 noches</option>
-						<option value="3">3 noches</option>
-						<option value="4">4 noches</option>
+					<select v-model="hotel.nights" name="noches" id="noches" class="noches-hotel">
+						<option value=0>0 noches</option>
+						<option value=1>1 noche</option>
+						<option value=2>2 noches</option>
+						<option value=3>3 noches</option>
+						<option value=4>4 noches</option>
 					</select>
 				</div>
 			</div>
             
 			<div class="align-baseline col-12 row mb-3">
-				<span class="month col-8">{{address}}</span>
-				<span class="valoration col-4"><rating-component :value=stars /></span>
+				<span class="month col-8">{{hotel.address}}</span>
+				<span class="valoration col-4"><rating-component :value=hotel.stars /></span>
 			</div>
 
-            <p class="ml-3 mt-0">{{description}}</p>
+            <p class="ml-3 mt-0">{{hotel.description}}</p>
 
 			<div class="row justify-content-end prices col">
 				<!-- <span class="card-price col-8 mb-0 ml-0 text-left">Precio / día ({{$store.state.route.rooms}} hab · {{$store.state.route.adult}} adultos · {{$store.state.route.children}} niños): {{calculateValueRoom()}} €</span> -->
@@ -76,51 +76,48 @@ export default {
 	data() {
 		return {
 			precio_total: null,
-			cadena_id: this.name.replace(/\s/g, ''),
+			cadena_id: this.hotel.name.replace(/\s/g, ''),
 		}
 	},
 	props: {
-		name: String,
-		nights: Number,
-		address: String,
-		description: String,
-		stars: Number,
-		single_price: Number,
-		double_price: Number,
-		triple_price: Number,
-		link: String, 
-		imageURL: Array
+		index: Number,
+		hotel: Object
 	},
 	methods: {
 	 	changeValueRoom() {
+			         
 	 		var final_price = 0;
 
-			if(this.$store.state.route.adult === 1){final_price = this.single_price}
-			if(this.$store.state.route.adult === 2){final_price = this.double_price}
-			if(this.$store.state.route.adult >= 3){final_price = this.triple_price}
+			if(this.$store.state.route.routeInfo.RouteDetails.adult === 1){final_price = this.hotel.single_price}
+			if(this.$store.state.route.routeInfo.RouteDetails.adult === 2){final_price = this.hotel.double_price}
+			if(this.$store.state.route.routeInfo.RouteDetails.adult >= 3){final_price = this.hotel.triple_price}
 
-			return (final_price * this.$store.state.route.rooms * this.nights)
-	 	},
+			this.hotel.total_price = final_price * this.$store.state.route.routeInfo.RouteDetails.rooms * this.hotel.nights;
+	 		
+			// Actualizo el vector de precios de los hoteles y actualizo su precio final
+			this.$store.state.route.routeInfo.Route.hotels_price[this.index] = this.hotel.total_price;
+			this.changeRoutePrice();
 
-		/*calculateValueRoom(){
-			
-			var final_price = 0;
+			return this.hotel.total_price;
+		 },
 
-			if(this.$store.state.route.adult === 1){final_price = this.single_price}
-			if(this.$store.state.route.adult === 2){final_price = this.double_price}
-			if(this.$store.state.route.adult >= 3){final_price = this.triple_price}
-
-			//this.changeValueRoom()
-			console.log(this.final_price)
-
-			return (final_price * this.$store.state.route.rooms)
-		}*/
+		changeRoutePrice(){
+			let total_price = 0;
+			this.$store.state.route.routeInfo.Route.hotels_price.forEach(element => {
+				total_price += element
+			});
+			this.$store.state.route.routeInfo.Route.price = total_price;
+		}
+	},
+	mounted() {
+		/*console.log(this.hotel)
+		console.log(this.index)*/
 	},
 	watch: {
 		// Forma de llamar a un handler del método
 	 	'nights': 'changeValueRoom',
-		'$store.state.route.adult': 'changeValueRoom',
-		'$store.state.route.rooms': 'changeValueRoom',
+		'$store.state.route.routeInfo.RouteDetails.adult': 'changeValueRoom',
+		'$store.state.route.routeInfo.RouteDetails.rooms': 'changeValueRoom',
 	},
 }
 </script>

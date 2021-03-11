@@ -5,6 +5,21 @@ const routeDetailsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    adult: {
+        type: Number,
+        required: false,
+        default: 2
+    },
+    children: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    rooms: {
+        type: Number,
+        required: false,
+        default: 1
+    },
     route_timeline: [
         {
             day_number: {
@@ -39,6 +54,11 @@ const routeDetailsSchema = new mongoose.Schema({
             hotel_id: {
                 type: String,
                 required: true
+            },
+            nights: {
+                type: Number,
+                required: true,
+                min: 1
             }
         }
     ],

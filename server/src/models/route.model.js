@@ -30,6 +30,26 @@ const routeSchema = new mongoose.Schema({
         type: Number,
         required: false,
         default: 0
+    },
+    averageAspect1: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    averageAspect2: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    averageAspect3: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    averageAspect4: {
+        type: Number,
+        required: false,
+        default: 0
     }
 });
 

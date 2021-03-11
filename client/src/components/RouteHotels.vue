@@ -5,13 +5,17 @@
           <div class="text-center mb-5 w-100">
               <h1>Hoteles Ruta del Mediterráneo</h1>
               <p>A continuación mostramos los hoteles seleccionados para esta ruta. Puede personalizar el número de noches en cada hotel, lo cual puede variar el precio final de la ruta.</p>
-              <calendar :adultos=2 />
+              <calendar/>
           </div>
     </div>
-    <div v-for="p of hotels" :key="p._id">
+    <div v-for="(p,index) of hotels" :key="index">
         
 		<route-hotel 
-			:name=p.name
+			:hotel = p
+			:index = index
+		/>
+
+		<!-- :name=p.name
 			:nights=p.nights
 			:address=p.address
 			:description=p.description
@@ -20,8 +24,7 @@
 			:double_price=p.double_price
 			:triple_price=p.triple_price
 			:link=p.link 
-			:imageURL=p.imageURL
-		/>
+			:imageURL=p.imageURL -->
 
     </div>
   </section> 
@@ -51,42 +54,22 @@ export default {
         RouteHotel
     },
     mounted() {
-		if(this.$store.state.route.routeInfo !== null){
-			//console.log(this.$store.state.route.routeInfo.RouteDetails.route_hotels)
-		}
-
-
-      // $('#dropdownCalendarButton').on('hide.bs.dropdown', function (e) {
-      //     var target = $(e.target);
-      //     if(target.hasClass("keepopen") || target.parents(".keepopen").length){
-      //         return false; // returning false should stop the dropdown from hiding.
-      //     }else{
-      //         return true;
-      //     }
-      // });
-      // $('#dropdownCalendarButton').on('click', function (event) {
-      //   $('#dropdownCalendar').toggleClass("d-block");
-      // });
-
-      // $('dropdown-menu').on('click', function (e) {
-      //     if (!$('li.dropdown.mega-dropdown').is(e.target) && $('li.dropdown.mega-dropdown').has(e.target).length === 0 && $('.open').has(e.target).length === 0) {
-      //         $('li.dropdown.mega-dropdown').removeClass('open');
-      //     }
-      // });
-    },
+	},
 	methods: {
-		getRouteHotels() {
+		async getRouteHotels() {
 			this.$store.dispatch('route/getRouteHotels').then(() => {
 				this.hotels = this.$store.state.route.routeInfo.hotels;
-
-				/* NOTA PARA EL JAVI DEL FUTURO
-
-					Una vez que tenemos los datos lo proximo que tengo que hacer es pasarle estos datos
-					al componente RouteHotel y mostrarlos en la pantalla
-				
-				*/
-			});
+				let prices = Array.from({ length: this.hotels.length }, () => 0)
+				this.$store.state.route.routeInfo.Route.hotels_price = prices;
+		})
 			
+		},
+
+		setHotelsPrice() {
+			//this.$store.state.route.routeInfo.hotels_price=[];
+			console.log(this.hotels)
+			let prices = Array.from({ length: this.$store.state.route.hotels.length }, () => 0)
+			console.log(prices)
 		}
 	},
 	computed: {
@@ -104,7 +87,6 @@ export default {
 	},
 	created() {
 		this.getRouteHotels();
-		
 	},
 }
 </script>

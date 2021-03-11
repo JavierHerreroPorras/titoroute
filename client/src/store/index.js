@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import { auth } from './auth.module';
 import { route } from './route.module';
+import { cartModule } from './cart/index'
 
 /* 
 La aplicación manejará:
@@ -12,6 +13,7 @@ La aplicación manejará:
 export default createStore({
   modules: {
     auth,
-    route
+    route,
+    cartModule
   }
 })

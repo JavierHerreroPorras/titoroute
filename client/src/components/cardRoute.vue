@@ -33,12 +33,12 @@
           <p class="card-text small mt-2 crop-text">{{description}}</p>
           
           <div class="row align-items-center">
-            <div class="col-7">
-              <h5><span class="d-block badge bg-info text-white my-2 ml-1">Duración: {{duration}} días</span></h5>
-              <h5><span class="d-block badge bg-info text-white my-2 ml-1">Nº personas: {{people}}</span></h5>
+            <div class="col-12 row">
+              <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Personas: {{people}}</span></h5>
+              <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Duración: {{duration}} días</span></h5>
             </div>
             
-            <div class="col-5">
+            <div class="col-12">
               <h5><span class="badge bg-info text-white ml-n3">Precio: {{price}} €</span></h5>
             </div>
           </div>
@@ -67,6 +67,15 @@ export default {
 
 <style scoped>
 
+.row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.col-12{
+  padding-right: 0px;
+  padding-left: 0px
+}
 .badge {
   font-size: 16px
 }

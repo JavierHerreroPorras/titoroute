@@ -19,14 +19,14 @@ window.$ = $
 export default {
     name: 'CircleProgressBar',
     props: {
-        value: String,
+        value: Number,
         titulo: String
     },
     mounted() {
       $("#" + this.titulo).circleProgress({
                 startAngle: -1.55,
                 size: 150,
-                value: parseFloat(this.value)/10,
+                value: parseFloat(this.value.toString())/10,
                 fill: {gradient: ['#a445b2', '#fa4299']}
             })
     }

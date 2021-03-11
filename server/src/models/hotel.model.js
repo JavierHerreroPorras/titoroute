@@ -26,11 +26,6 @@ const hotelSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    nights: {
-        type: Number,
-        min: 0,
-        required: true
-    },
     single_price: {
         type: Number,
         required: true
