@@ -17,7 +17,7 @@
           </div>
 
           <div class="form-group">
-            <label for="name">Surname</label>
+            <label for="surname">Surname</label>
               <input type="text" v-model="user.surname" id="surname" name="surname" class="form-control"
                 :class="{ 'is-invalid': isSubmitted && v$.user.surname.$error }" />
             <div v-if="isSubmitted && !v$.user.surname.$required" class="invalid-feedback">Surname field is required</div>           
@@ -41,8 +41,29 @@
 
           <div class="form-group">
             <label for="password">Confirm password</label>
-
+            <input type="password" class="form-control"/>
           </div>
+
+          <div class="form-group d-flex">
+              <label for="router">¿Deseas ser router?</label>
+              <input type="radio" id="Si" name="router" value="Si" v-model="user.router">
+                <label for="male">Si</label>
+              <input type="radio" id="No" name="router" value="No" checked="checked" v-model="user.router">
+                <label for="male">No</label>  
+          </div>
+
+          <div id="router-info" v-if="user.router === 'Si'">
+            <div id="router" class="form-group">
+              <label for="NIF">NIF</label>
+              <input type="text" class="form-control" v-model="user.nif"/>
+            </div>
+
+            <div id="router" class="form-group">
+              <label for="phone">Número de teléfono</label>
+              <input type="text" class="form-control" v-model="user.phone"/>
+            </div>
+          </div>
+
           <div class="form-group">
             <button class="btn btn-primary btn-block">Sign Up</button>
           </div>
@@ -69,7 +90,8 @@ export default {
   },
   data() {
     return {
-      user: new User('', '', '', ''),
+      user: new User('', '', '', '', '', ''),
+      router: 'No',
       isSubmitted: false,
       successful: false,
       message: ''
@@ -95,6 +117,7 @@ export default {
   },
   methods: {
     handleRegister() {
+      console.log(this.user)
       this.message = '';
       this.isSubmitted = true;
 
@@ -105,6 +128,7 @@ export default {
       }
 
       if (this.user.name && this.user.surname && this.user.password && this.user.email) {
+        if(this.user.router === 'No' || (this.user.router === 'Si' && this.user.phone && this.user.nif)){
           this.$store.dispatch('auth/register', this.user).then(
             data => {
               this.message = 'User succesfully created';
@@ -115,6 +139,8 @@ export default {
               this.successful = false;
             }
           );
+        }
+          
       };
     }
   }

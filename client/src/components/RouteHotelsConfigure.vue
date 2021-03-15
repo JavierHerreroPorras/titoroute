@@ -60,7 +60,7 @@ datepickerFactory($);
 import { mapMutations } from 'vuex'
 
 export default {
-  name: 'Calendar',
+  name: 'RouteHotelsConfigure',
   props: {
 	  adultos: {
 		  type: Number,
@@ -76,6 +76,7 @@ export default {
 	  }
   },
   mounted() {
+	  	this.$store.state.route.routeInfo.RouteDetails.startDateRoute = this.formatDate();
     	this.initDatepicker(); 
   },
   methods: {
@@ -98,7 +99,7 @@ export default {
 	        $('#inline-start').datepicker({
 	            dateFormat: 'dd/mm/yy',
 				minDate: new Date(),
-				 firstDay: 1,
+				firstDay: 1,
 	            prevText: '<<',
 	            nextText: '>>',
 	            onSelect: function( selectedDate )
@@ -117,6 +118,21 @@ export default {
 				$('#inline-start').show()
 			})
         },
+	formatDate() {
+		var d = new Date(),
+		month = '' + (d.getMonth() + 1),
+		day = '' + d.getDate(),
+		year = d.getFullYear();
+
+		if (month.length < 2) 
+			month = '0' + month;
+		if (day.length < 2) 
+			day = '0' + day;
+
+		var date = day + '/' + month + '/' + year;   
+
+		return date;
+	}
   },
 }
 </script>

@@ -1,81 +1,52 @@
-Cosas que quedan por hacer:
 
-    - Respecto al tema de los routers, cuando hable con Enrique le preguntaré. Para ello
-    necesitaría quizá una página para poder hacer una ruta, el middleware necesario y quizá
-    un apartado en el perfil con "MIS RUTAS" desde donde se pueda visualizar la puntuación
-    media, ganancias, etc. (4-5 días)
+    
 
-    - Servidor (HASTA EL DÍA 31/03):
+Planificación 15-21 marzo:
 
-        - Middlewares: Delimitar aquellas rutas que necesitan autenticación y/o otros privilegios
+    - Revisar todo el código (vistas, componentes, servicios) (1 día): P1.
+
+    - Página de rutas (1 días): P2
+        - Realizar la lógica para buscar rutas (la carga de trabajo la estableceré)
+        en el cliente.
+    
+    - Inicio de sesión, crear cuenta y perfil del usuario (Miercoles a Domingo)
+        
+        ROUTERS:
+        - Establecer el rol de usuario (permisos en el cliente/servidor)
+        - En el perfil pueden ver las rutas y las donaciones que han recibido.
+        - Crear un backend para que puedan crear nuevas rutas (deben tener permisos)
+
+    - Middlewares: Delimitar aquellas rutas que necesitan autenticación y/o otros privilegios
         (administradores, routers, etc).
         - Revisar todo el código (modelos, controladores).
-    
+
+
+
+Cosas que quedan por hacer:
+
+
+    - Servidor (HASTA EL DÍA 31/03):
+   
     - Cliente (HASTA EL DÍA 31/03): 
 
-        - Revisar todo el código (vistas, componentes, servicios) (1 día): P1.
 
-        - Inicio de sesión, crear cuenta y perfil del usuario (2 días): P3.
+        - Insertar un enlace con el mapa de Google
 
-        - Página de rutas (2 días): P2
-            - Realizar la lógica para buscar rutas (la carga de trabajo la estableceré)
-            en el cliente.
-            - [X] Poner una nota media.
-            - Mejorar el diseño
+        - Estilos de todas las páginas
 
-        - Intentar arreglar los warnings y errores al utilizar el mapa de Google (1 día): P6.
+        - Cambiar logo y nombre (SOCIALROUTE)
 
-        - Comentarios (6-7 de marzo):
-            - [X] ¿Cómo calcular las puntuaciones medias? --> Facil, mediante un metodo que recorra 
-            el array y lo calcule.
-
-                    Además tengo que calcular las puntuaciones medias de cada uno de los aspectos que se evaluan
-                    en cada comentario. Imagino que al realizar la puntuación media lo podré resolver fácilmente.
-
-                    La puntuación media se mostrará en la pantalla de rutas y seguramente en el titulo y 
-                    descripción de la página de la ruta. Para ello, debemos tener un método en el servidor
-                    que al realizar la consulta pueda calcular la media de la ruta realizada por los usuarios.
-                   
-                    Para ello tengo que cambiar lo siguiente:
-                        - [X] El modelo de datos de la ruta.
-                        - El servidor tiene que calcular la nota media --> Aqui tengo dos opciones:
-                            1) Calculo la nota media cuando se recuperen las rutas del servidor --> Mas carga
-                            2) Calculo la nota media cuando se introduzca un nuevo comentario en la ruta.
-                                Creo que esta opción es más sencilla, por tanto lo realizaré de esta forma,
-                                aunque tengo que realizar la parte de poner un comentario primero.
-                        - [X] Las vistas o componentes correspondientes en el cliente.
-
-            - [X] Modificar el diseño de los elementos, ¿hacer scroll para mostrar los comentarios?
-            - [X] Hacer página para dejar el comentario sobre una ruta COMPRADA (incluir la lógica
-            necesaria para mandarla al servidor, almacenarla correctamente y recargar la página
-            para mostrarla).
-        
         - Hoteles (1 día): P4
             - Mejorar el diseño de la página (botones de habitaciones, adultos y niños)
-            - Establecer como varían los precios de acuerdo a los adultos, niños, etc.
+            - Quitar a los niños del store, botones, etc
 
         - Página de ruta (1 día): P5
             - Mejorar el diseño (botones de mapa, detalles, comentarios y hoteles)
-
-        - Carrito de la compra (IMPORTANTE: semana 8-14 de marzo):
-            - Investigar sobre la mejor forma de hacerlo.
-            - Realizar la lógica necesaria para comprar una ruta (ya se pueden personalizar) 
-            calculando el precio total, el día de inicio y el día de fin, mostrar un resumen
-            de la misma...
-
-            - Tareas a realizar:
-
-                - Submenu del carrito en el que mostraremos las rutas. ¿O mejor un modal?
-                    - Borrar del carro
-                    - Borrar todos del carro
-                - ¿Una especie de pantalla en la que realizar el pago? --> Preguntar
 
         - Comportamiento responsive de la página (3 días): P7
             - Esto creo que será relativamente sencillo ya que los timelines ya son responsives,
             tengo que trabajar con las cards de las rutas y con elementos que puedan presentar
             problemas.
-
-        - Comentar todo el código y resaltar aquellas partes nuevas o importantes (2 días): P8
 
     - Dockerizar y desplegar la aplicación (DESDE 01/04 A 15/04):
 
@@ -95,24 +66,48 @@ Cosas que quedan por hacer:
     
 
 
-CORREGIR ERROR EN EL MODELO DE DATOS: En cada hotel guardo las noches. Esto es un error, puesto
-    que lo debo guardar en la ruta (routeDetails)
+HECHO: 
+
+    1.- En el carro guardaremos los siguientes datos:
+
+        - Nombre de la ruta
+        - Foto de la ruta (la que aparece en la pagina de inicio)
+        - Id de la ruta
+        - Precio de la ruta
+
+        IMPORTANTE Y MUCHO OJO:
+
+            - Mirar lo de los adultos para que aparezca en la configuración de la ruta.
+            - Tengo que calcular el precio total de la ruta (¿puede aparecer en el botón de añadir ruta, se almacena en store?)
+
+        - Una vez se añada al carro, tenemos que tener en cuenta que se puede borrar (boton) y borrar todas.
+        - Tenemos que trabajar con la info del store --> IMPORTANTE
+
+    2.- Carrito de la compra (IMPORTANTE: semana 8-14 de marzo):
+        - Investigar sobre la mejor forma de hacerlo.
+        - Realizar la lógica necesaria para comprar una ruta (ya se pueden personalizar) 
+        calculando el precio total, el día de inicio y el día de fin, mostrar un resumen
+        de la misma...
+
+        - Tareas a realizar:
+
+            - Submenu del carrito en el que mostraremos las rutas. ¿O mejor un modal?
+                - Borrar del carro
+                - Borrar todos del carro
+            - ¿Una especie de pantalla en la que realizar el pago? --> Preguntar
+    
+    3.- CAMBIOS PROPUESTOS EN LA REUNION
+        - Asignar un autor para cada ruta (pensar donde poner el autor y donde se muestra) --> HECHO
+        - Crear el sistema de donaciones (y pensar donde se mostraría) --> HECHO
+        - Poner los precios orientativos (y los enlaces a booking) --> HECHO
+
+        - Ruta: Quitar puntos de la ruta. (boton con EXCLUIR DE LA RUTA) --> HECHO
+            Relacionar ruta con hoteles --> HECHO.
+            Añadir pagina con detalles de la ruta (descripcion1, foto, descripcion2) --> HECHO.
 
 
-En el carro guardaremos los siguientes datos:
+           
 
-    - Nombre de la ruta
-    - Foto de la ruta (la que aparece en la pagina de inicio)
-    - Id de la ruta
-    - Precio de la ruta
-
-    IMPORTANTE Y MUCHO OJO:
-
-        - Mirar lo de los adultos para que aparezca en la configuración de la ruta.
-        - Tengo que calcular el precio total de la ruta (¿puede aparecer en el botón de añadir ruta, se almacena en store?)
-
-    - Una vez se añada al carro, tenemos que tener en cuenta que se puede borrar (boton) y borrar todas.
-    - Tenemos que trabajar con la info del store --> IMPORTANTE        
 
 
 
@@ -126,9 +121,10 @@ En el carro guardaremos los siguientes datos:
 - Hoteles: Configuración (fecha, adultos, niños --> como influyen en el precio? (modelo de datos))
 
 
+TAREAS A REALIZAR (REUNIÓN 11/03)
+
 - búsqueda --> simple: titulo, descripción.
 - busqueda en el cliente (me traigo las rutas del país)
-- paginado en el servidor?
 
 - Cambiar badges por texto plano
     - Poner botones de configurar ruta
@@ -141,20 +137,18 @@ Logica de precios:
 
     - Simple --> 1 persona 
     - Double --> 2 personas
-    - Familiar --> 3 personas 
+    - Familiar --> 3 personas o más
 
     - Tema de los niños: No los tengo en cuenta
 
     - Familiar : 1 habitación con varias personas
-                : Si ponemos más de 1 habitación 
                 : Por defecto pongo una habitación en la ruta
 
-    - Ruta: Quitar puntos de la ruta. (boton con EXCLUIR DE LA RUTA)
-            Relacionar ruta con hoteles.
+- Ruta: Quitar puntos de la ruta. (boton con EXCLUIR DE LA RUTA)
+        Relacionar ruta con hoteles.
+        Añadir pagina con detalles de la ruta (descripcion1, foto, descripcion2).
 
-            Añadir pagina con detalles de la ruta (descripcion1, foto, descripcion2).
-
-    - Perfil: 
+- Perfil: 
         - Usuario normal
             - Listado de rutas compradas
 
@@ -168,9 +162,90 @@ Logica de precios:
 
 
 
+{
+    "averageScore": 0,
+    "name": "Ruta por el norte de España 1",
+    "description": "La primera de las rutas en coche por España que vengo a traeros es un espectacular recorrido de 15 días por el Norte de España que empezaremos en San Sebastián y finalizaremos en el precioso pueblecito de Bárcena Mayor. Atravesaremos las comunidades autónomas del País Vasco, Cantabria, Asturias y Galicia.",
+    "imageURL": "https://live.staticflickr.com/65535/49885791178_7fb8b56f34_z.jpg",
+    "duration": 15,
+    "people": 3,
+    "price": 1050,
+    "route_timeline": [
+        {
+            "day_number": 1,
+            "day_title": "Paseo por la cosa asturiana",
+            "day_description": "Durante el primer día realizaremos un viaje guiado sobre la costa, en el cual podremos realizar una actividad de submarinismo y posteriormente visitaremos el restaurante de Antexo en el que podremos degustar platos típicos de la zona.",
+            "day_photo": "https://static.elcomercio.es/www/multimedia/201807/25/media/cortadas/conservacion-costa-asturias-U402330379x5D-U60434266387U0G-624x385@El%20Comercio-ElComercio.JPG"
+        },
+        {
+            "day_number": 2,
+            "day_title": "Kayaking en Cascada de Ezaro",
+            "day_description": "Navegaremos a los pies del Sagrado Olimpo Celta hasta llegar a la hermosa Cascada de Ezaro, único río de Europa que desemboca en forma de Cascada al Océano Atlantico. Conoceremos de primera mano su historia llena de aventura y diversión.",
+            "day_photo": "https://media.tacdn.com/media/attractions-splice-spp-674x446/09/84/5d/67.jpg"
+        },
+        {
+            "day_number": 3,
+            "day_title": "Visita a Santiago de Compostela",
+            "day_description": "El camino más famoso de Europa te llevará a encontrarte con la ciudad de Santiago de Compostela. La capital de Galicia es una combinación perfecta de gastronomía, tradición, historia y cultura.",
+            "day_photo": "https://assets.buendiatours.com/s3fs-public/styles/highlight_large/public/2020-11/free-tour_santiago_compostela_buendiatours.jpg?hmrYITuS96fhEUg43TPdK2Im3fu62ezJ&itok=2bw9i6uy"
+        },
+        {
+            "day_number": 4,
+            "day_title": "Paseo en avioneta sobre las Islas Cíes",
+            "day_description": "Con este paseo en avioneta contemplaremos el perfil de las islas de San Martiño, Faro y Monteaguado, las principales del archipiélago de las Cíes. Además, admiraremos a vista de pájaro los arenales más famosos de las islas. El más popular de todos es la playa de Rodas, catalogada en 2007 como “la mejor playa del mundo” según el diario británico The Guardian.",
+            "day_photo": "https://cdn2.civitatis.com/espana/vigo/galeria/islas-cies-desde-aire.jpg"
+        },
+        {
+            "day_number": 5,
+            "day_title": "Visita a pie por los secretos de Vigo",
+            "day_description": "Escuche historias de guerreros celtas y colonos españoles mientras recorre las calles de la histórica Vigo en este tour privado de 5 horas a pie. Escape de la ruta turística mientras explora un fuerte del siglo XV; Empápate de la atmósfera en el mercado de pescado de O Berbés y saborea la vida local en el barrio judío.",
+            "day_photo": "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/95/ee/48.jpg"
+        }
+    ],
+    "route_hotels": [
+        {
+            "hotel_order": 1,
+            "hotel_id": "6047ebdb2d1a6330c6ee3333",
+            "nights": 4
+        },
+        {
+            "hotel_order": 2,
+            "hotel_id": "6047ed342d1a6330c6ee3334",
+            "nights": 3
+        },
+        {
+            "hotel_order": 3,
+            "hotel_id": "6047ee9a2d1a6330c6ee3335",
+            "nights": 2
+        }
+    ],
+    "route_comments": [],
+    "route_map_URL": "https://www.google.com/maps/d/embed?mid=1wzRCfrI4rCg8Bo-sTVZpw6DD7dAXKh0J",
+    "adult": 3,
+    "children": 1,
+    "rooms": 2
+}
 
 
 
+
+604e31a6add2f42b28ac603d
+604e3276add2f42b28ac603e
+604e3348add2f42b28ac603f
+604e3416add2f42b28ac6040
+604e34f3add2f42b28ac6041
+
+{
+    "name" :"",
+    "description": "",
+    "imageURL": ["","","",""],
+    "stars": "",
+    "address": "",
+    "single_price": "",
+    "double_price": "",
+    "triple_price": "",
+    "booking_link": ""
+}
 
 
 

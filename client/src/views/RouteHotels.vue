@@ -1,94 +1,85 @@
 <template>
-<div>
-   <section class="timeline-carousel row row-cols-1">
-    <div class="container row">
-          <div class="text-center mb-5 w-100">
-              <h1>Hoteles Ruta del Mediterráneo</h1>
-              <p>A continuación mostramos los hoteles seleccionados para esta ruta. Puede personalizar el número de noches en cada hotel, lo cual puede variar el precio final de la ruta.</p>
-              <calendar/>
-          </div>
-    </div>
-    <div v-for="(p,index) of hotels" :key="index">
-        
-		<route-hotel 
-			:hotel = p
-			:index = index
-		/>
+	<div id="RouteHotels">
+		<section class="timeline-carousel row">
 
-		<!-- :name=p.name
-			:nights=p.nights
-			:address=p.address
-			:description=p.description
-			:stars=p.stars
-			:single_price=p.single_price
-			:double_price=p.double_price
-			:triple_price=p.triple_price
-			:link=p.link 
-			:imageURL=p.imageURL -->
+			<!-- Aquí se configura la ruta (el día de inicio y los adultos/habitacioones) -->
+			<div class="container row">
+				<div class="text-center mb-5 w-100">
+					<route-hotels-configure class="float-right"/>
+				</div>
+			</div>
 
-    </div>
-  </section> 
-</div>
+			<!-- Aviso para los usuarios (los precios son orientativos) -->
+			<div class="alert alert-danger alert-dismissible fade show mx-auto" role="alert">
+				<strong>IMPORTANTE: </strong> Los precios que ofrecemos son orientativos. Para conocer los precios reales, debe consultar la página de reserva para cada hotel
+				
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+			<!-- Listado de hoteles -->
+			<div v-for="(p,index) of hotels" :key="index">				
+				<route-hotel 
+					:hotel = p
+					:index = index
+				/>
+			</div>
+
+			<!-- Precio total de la ruta -->
+			<div class="mt-4 w-100 mr-4">
+				<button type="button" class="btn btn-info disabled float-right">Precio total: {{$store.state.route.routeInfo.Route.price}} €</button>
+			</div>
+			
+		</section> 
+	</div>
 </template>
 
 <script>
-import Calendar from './Calendar.vue'
-const $ = require('jquery')
-window.$ = $
 
-import 'slick-carousel'
+	import 'slick-carousel'
 
-import RatingComponent from '../components/RatingComponent.vue';
-import RouteHotel from './RouteHotel.vue'
+	import RatingComponent from '../components/RatingComponent.vue';
+	import RouteHotel from '../components/RouteHotel.vue'
+	import RouteHotelsConfigure from '../components/RouteHotelsConfigure.vue';
 
-export default {
-    name: 'RouteHotels',
-	data() {
-		return {
-			hotels: null
-		}
-	},
-    components: {
-        Calendar,
-        RatingComponent,
-        RouteHotel
-    },
-    mounted() {
-	},
-	methods: {
-		async getRouteHotels() {
-			this.$store.dispatch('route/getRouteHotels').then(() => {
-				this.hotels = this.$store.state.route.routeInfo.hotels;
-				let prices = Array.from({ length: this.hotels.length }, () => 0)
-				this.$store.state.route.routeInfo.Route.hotels_price = prices;
-		})
-			
+	import { mapActions, mapState } from 'vuex';
+
+	export default {
+		name: 'RouteHotels',
+		data() {
+			return {
+				hotels: null
+			}
 		},
+		components: {
+			RatingComponent,
+			RouteHotel,
+			RouteHotelsConfigure
+		},
+		methods: {
+			...mapActions({
+				getHotels: 'route/getRouteHotels',
+			}),
 
-		setHotelsPrice() {
-			//this.$store.state.route.routeInfo.hotels_price=[];
-			console.log(this.hotels)
-			let prices = Array.from({ length: this.$store.state.route.hotels.length }, () => 0)
-			console.log(prices)
-		}
-	},
-	computed: {
-		 /*hotels_route() {
-		 	if(this.hotels !== null){
-		 		return this.$store.state.route.routeInfo.RouteDetails.route_timeline
-		 			.filter(function(route) {
-		 				return (route.day_title !== undefined)
-		 			})
-		 	}*/
-
-		// 	// Arreglar esto, puesto que antes de que se reciban los datos del servidor esto tiene un valor de null
-		// 	return null;
-		// }
-	},
-	created() {
-		this.getRouteHotels();
-	},
-}
+			// Realizamos la llamada al servidor para obtener los hoteles de la ruta
+			// (utilizando los id de los mismos). Una vez se han recibido, se calculan los
+			// precios de los mismos.
+			async getRouteHotels() {
+				await this.getHotels();
+				
+				this.hotels = this.routeInfo.hotels;
+				let prices = Array.from({ length: this.hotels.length }, () => 0)
+				this.routeInfo.Route.hotels_price = prices;	
+			}
+		},
+		computed: {
+			...mapState('route', ['routeInfo'])
+		},
+		created() {
+			this.getRouteHotels();
+		},
+	}
 </script>
 
 <style scoped>
@@ -142,7 +133,6 @@ export default {
 	 /*background-color: #323232;*/
 	 font-family: "Roboto", sans-serif;
 	 font-weight: 400;
-	 padding: 86px 2% 90px 2%;
 	 position: relative;
 	 overflow: hidden;
 }

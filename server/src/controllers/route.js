@@ -101,6 +101,7 @@ const routeCtrl = {
         route.duration = req.body.duration;
         route.people = req.body.people;
         route.price = req.body.price;
+        route.country = req.body.country;
 
 
          route.save((err, RouteStored) => {

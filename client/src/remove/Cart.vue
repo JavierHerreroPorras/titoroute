@@ -9,10 +9,9 @@
   </button>
   <div class="dropdown-menu shopping-cart" aria-labelledby="dropdownMenuButton">
     <div class="shopping-cart-header">
-        <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
         <div class="shopping-cart-total">
-            <span class="lighter-text">Total:</span>
-            <span class="main-color-text">$2,229.97</span>
+            <span class="lighter-text">Total ({{cartQuantity()}} rutas) : </span>
+            <span class="main-color-text">{{getTotalPrice()}} € </span>
         </div>
     </div>
 		<div class="cart-item row">
@@ -21,37 +20,57 @@
 			</div>
 			<ul class="shopping-cart-items"  v-for="(route,index) in getRoutes()" :key="index">
         		<li class="clearfix row items d-flex">
-					<img src="../assets/ruta.jpeg" class="cart-img col-3 ml-1"/>
+					<div class="col-1 close-button">
+						<span class="item-quantity"><button class="close" @click="removeElement(route.Route._id)">X</button></span> 
+					</div>
+					<div class="col-3 pl-1">
+						<img src="../assets/ruta.jpeg" class="cart-img"/>
+					</div>
+					<div class="col-8 px-0">
+						<div class="row row-cols-2">
+    						<div class="col-12 item-name-div">
+								<span class="item-name">{{route.Route.name}}</span>
+							</div>
+							<div class="col-6 mt-2 px-0">
+								<span class="item-details">Inicio: {{route.RouteDetails.startDateRoute}}</span>
+							</div>
+							<div class="col-6 mt-2 px-0">
+								<span class="item-price">Precio: {{route.Route.price.toFixed(2)}} € </span>
+								 <!-- <span class="item-quantity"><button class="route-button">Eliminar ruta</button></span> -->
+							</div>
+  						</div>	
+					</div>
+					<!-- <img src="../assets/ruta.jpeg" class="cart-img col-3 ml-1"/>
 					<div class="col-9 h-100 item-name-price container">
 						<div class="row row-cols-2">
-    						<div class="col-9 item-name-div">
+    						<div class="col-11 item-name-div">
 								<span class="item-name mb-2">{{route.Route.name}}</span>
 							</div>
-    						<div class="col-3">
-								<span class="item-quantity float-right mt-1 mr-1"><button class="close" @click="removeElement(route.Route._id)">X</button></span> 
-								<!-- <span class="item-price mb-2 ml-3">{{route.Route.price}} € </span> -->
+    						<div class="col-1">
+								<span class="item-quantity float-right mt-1"><button class="close" @click="removeElement(route.Route._id)">X</button></span> 
+								<<span class="item-price mb-2 ml-3">{{route.Route.price}} € </span> 
 							</div>
-							<div class="col-9">
-								<span class="item-details">{{route.RouteDetails.adult}} personas - {{route.RouteDetails.rooms}} habitaciones</span>
+							<div class="col-6">
+								<span class="item-details">Inicio: {{route.RouteDetails.startDateRoute}}</span>
 							</div>
-							<div class="col-3">
-								<span class="item-price mb-2 ml-3">{{route.Route.price}} € </span>
-								<!-- <span class="item-quantity"><button class="route-button">Eliminar ruta</button></span> -->
+							<div class="col-6">
+								<span class="item-price mb-2 ml-3">Precio: {{route.Route.price.toFixed(2)}} € </span>
+								 <span class="item-quantity"><button class="route-button">Eliminar ruta</button></span>
 							</div>
   						</div>
-					</div>
+					</div> -->
 					
 					
 				</li>
 			</ul>
 		</div>
 
-		<div class="row">
-			<div class="col-6 text-center">
-				<button class="btn btn-danger" @click="removeAllElements()">Borrar Rutas</button>
+		<div class="row shopping-cart-footer">
+			<div class="col-6 text-center mt-3">
+				<button class="btn btn-danger button-remove" @click="removeAllElements()">Borrar Rutas</button>
 			</div>
-			<div class="col-6">
-				<button class="btn btn-secondary float-right">Realizar pago</button>
+			<div class="col-6 mt-3">
+				<button class="btn btn-secondary float-right button-purchase">Realizar pago</button>
 			</div>
 		</div>       
   </div>
@@ -119,7 +138,8 @@ export default {
     methods: {
         ...mapGetters(
             {cartQuantity: 'cartModule/cartQuantity',
-			getRoutes: 'cartModule/cartRoutes'},
+			getRoutes: 'cartModule/cartRoutes',
+			getTotalPrice: 'cartModule/cartTotal'}
         ),
 		...mapActions({
 			removeElement: 'cartModule/removeCartItem',
@@ -138,9 +158,30 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500&display=swap');
+
+.button-remove {
+	background-color: rgb(228, 27, 67);
+	width: 70%;
+	font-size: 17px;
+}
+
+.button-purchase {
+	width: 70%;
+	font-size: 17px;
+}
+.shopping-cart-footer {
+	border-top: 1px solid #e8e8e8;
+}
+
+.shopping-cart-total {
+	text-align: end;
+	font-size: 18px;
+}
 
 .close {
   font-size: 17px;
+  color:rgb(15, 11, 10);
   opacity: 0.3;
 }
 .close:hover {
@@ -159,8 +200,11 @@ export default {
 
 .item-details {
 	font-size: 16px;
+	font-family: 'Shippori Mincho B1', serif;
+	font-style: italic;
+	font-weight: normal;
+	color: #828794;
 }
-
 .item-name-price {
 	align-items: baseline;
 	padding-left: 0px;
@@ -170,8 +214,11 @@ export default {
 .items {
 	align-items: center;
 	border: 1px solid;
-	border-color:rgb(216, 172, 156);
+	border-radius: 10px;
+	border-color:rgb(188, 243, 245);
 	margin-right: 1rem;
+	background-color: rgb(250, 250, 250);
+	padding: 3px;
 }
 .cart-item {
 	align-items: center;
@@ -184,6 +231,8 @@ export default {
 .cart-img{
 	max-width: 100px;
 	max-height: 100px;
+	border-radius: 20%;
+	padding: 5px;
 }
 
 .dropdown-menu {
@@ -199,11 +248,6 @@ h5{
     margin-bottom: 0;
 }
 
-.badge {
-    font-size: 15px;
-    top: 0px;
-}
-
 @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
  @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
  *, *:before, *:after {
@@ -215,6 +259,7 @@ h5{
 }
  .lighter-text {
 	 color: #abb0be;
+	 font-size: 18px;
 }
  .main-color-text {
 	 color: #6394f8;
@@ -246,9 +291,7 @@ h5{
 	 width: 80%;
 }
  .badge {
-	 background-color: #6394f8;
-	 border-radius: 10px;
-	 color: white;
+	 border-radius: 5px;
 	 display: inline-block;
 	 font-size: 12px;
 	 line-height: 1;
@@ -271,9 +314,6 @@ h5{
 	 border-bottom: 1px solid #e8e8e8;
 	 padding-bottom: 15px;
 }
- .shopping-cart .shopping-cart-header .shopping-cart-total {
-	 float: right;
-}
  .shopping-cart .shopping-cart-items {
 	 padding-top: 10px;
 	 width: 100%;
@@ -287,13 +327,13 @@ h5{
  .shopping-cart .shopping-cart-items .item-name {
 	 display: block;
 	 font-size: 20px;
+	 font-family: 'Shippori Mincho B1', serif;
+	 font-weight: 500;
 }
  .shopping-cart .shopping-cart-items .item-price {
 	 color: #6394f8;
-	 font-size: 22px;
-}
- .shopping-cart .shopping-cart-items .item-quantity {
-	 color: #abb0be;
+	 font-size: 17px;
+	 font-family: 'Shippori Mincho B1', serif;
 }
  .shopping-cart:after {
 	 bottom: 100%;

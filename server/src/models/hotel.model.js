@@ -38,7 +38,7 @@ const hotelSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    link: {
+    booking_link: {
         type: String,
         required: true
     }

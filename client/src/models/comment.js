@@ -11,6 +11,8 @@ export default class Comment {
     }
   }
 
+
+// Esta función se encarga de devolver la fecha actual con formato dd/mm/yyyy hh:mm
 function formatDate() {
     var d = new Date(),
     month = '' + (d.getMonth() + 1),

@@ -67,6 +67,16 @@ export const cartModule = {
         // En esta parte quiero calcular el total de rutas (para mostrarlas junto al carrito). 
         return state.cartRoutes.length;
       },
-      cartRoutes: state => state.cartRoutes
+      cartRoutes: state => state.cartRoutes,
+
+      cartTotal: state => {
+
+        // En esta parte quiero calcular el precio total del carrito (suma total de las rutas). 
+  
+        return state.cartRoutes.reduce((acc, cartItem) => {
+          return cartItem.Route.price + acc;
+        }, 0).toFixed(2);
+  
+      },
     }
   }

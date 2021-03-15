@@ -3,7 +3,7 @@
   <div>
     <div id="menu" class="row align-items-center">
       <div class="col-5 my-4 d-flex">
-        <router-link to="/"><img src="./assets/logo.png" alt="" class="ml-5"></router-link>
+        <router-link to="/rutas"><img src="./assets/logo.png" alt="" class="ml-5"></router-link>
         <!-- <router-link to="/rutas">Rutas</router-link> -->
       </div>
       
@@ -21,8 +21,6 @@
         </div>
 
         <div v-if="currentUser" class="d-flex flex-row-reverse">
-
-            <cart class= "mr-5" />
 
             <a class="mr-5 userActive" href @click.prevent="logOut">
               <font-awesome-icon icon="sign-out-alt" class="userActive mr-1"/> Cerrar sesión
@@ -46,9 +44,7 @@
 </template>
 
 <script>
-import Cart from './components/Cart.vue';
 export default {
-  components: { Cart },
   computed: {
     currentUser() {
       if(this.$store.state.auth.status.loggedIn){

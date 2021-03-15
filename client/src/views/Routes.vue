@@ -1,6 +1,7 @@
 <template>
   <div class="mx-4" id="containerRoutes">
 
+    <!-- Barra buscadora -->
     <div class="container">
       <div class=" justify-content-center w-100 align-items-center">
           <div class="searchbar mx-auto">
@@ -10,11 +11,15 @@
       </div>
     </div>
 
-    <div v-if="loading">Cargando información...</div>
+    <!-- Aquí se mostrarán las tarjetas de cada ruta -->
+    <div v-if="loading">
+      Cargando información...
+    </div>
     <div v-else class="mt-4">
       <div class="row row-cols-1 row-cols-xl-4 row-cols-lg-3 row-cols-md-2">
+        
         <div class="col mb-4" v-for="(p,index) in displayed" :key="index">
-          <cardRoute 
+          <route-card 
             :name="p.name"
             :description="p.description"
             :imageURL="p.imageURL"
@@ -28,6 +33,8 @@
 
         
       </div>
+      
+      <!-- Paginación de las rutas (se realiza en el cliente) -->
       <div class="justify-content-center mt-4">
         <v-pagination
           v-model="page"
@@ -38,80 +45,84 @@
           class="d-flex justify-content-center"
         />	
       </div>
-     </div>	
+    </div>	
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import cardRoute from '@/components/cardRoute.vue'
-import { ref } from 'vue';
-import VPagination from "vue3-pagination";
-import "vue3-pagination/dist/vue3-pagination.css";
-import Cart from '../components/Cart.vue';
+  import RouteCard from '@/components/RouteCard.vue'
+  import { ref } from 'vue';
+  import VPagination from "vue3-pagination";
+  import "vue3-pagination/dist/vue3-pagination.css";
 
-export default {
-  name: 'Routes',
-  components: {
-    cardRoute,
-    VPagination,
-    Cart
-  },
-  setup() {
-    Cart
-    const page = ref(1);
-    return { page };
-  },
-  data() {
-    return {
-		  numberRoutes : 0,
-			totalPages: 0,
-			perPage: 8,
-      loading: true	
-		}
-  },
-  methods: {
-    getRoutes () {
-      // Recoger las rutas de /api/route para guardarlas en el vector correspondiente
-      this.$store.dispatch('route/getRoutes').then(
-        () => {
-          // Calcular el número total de rutas y el número de páginas que necesitaré
-          //console.log(this.$store.state.route.routes)
-          this.numberRoutes = this.$store.state.route.routes.length;
-          this.totalPages = Math.ceil(this.numberRoutes / this.perPage);
-        }
-      );
-		},
+  import { mapActions, mapState } from 'vuex';
 
-    paginate () {
-			let from = (this.page * this.perPage) - this.perPage;
-			let to = (this.page * this.perPage);
+  export default {
+    name: 'Routes',
+    components: {
+      RouteCard,
+      VPagination,
+    },
+    setup() {
+      const page = ref(1);
+      return { page };
+    },
+    data() {
+      return {
+        numberRoutes : 0,
+        totalPages: 0,
+        perPage: 8,
+        loading: true	
+      }
+    },
+    methods: {
+      ...mapActions({
+          getServerRoutes: 'route/getRoutes',
+      }),
 
-      if(this.numberRoutes < to){to = this.numberRoutes}
+      // Recogemos las rutas del servidor y calculamos el total de páginas que ocuparán
+      async getRoutes () {
+      
+        // Recoger las rutas del servidor
+        await this.getServerRoutes();
+        this.loading = false;
+        
+        // Calcular el número total de rutas y el número de páginas que necesitaré
+        //console.log(this.$store.state.route.routes)
+        this.numberRoutes = this.routes.length;
+        this.totalPages = Math.ceil(this.numberRoutes / this.perPage);
+      },
 
-			return [from,to];
-		},
+      // Paginamos los índices de las rutas (seleccionamos las rutas en función de la página en la
+      // que nos encontramos)
+      paginate () {
+        let from = (this.page * this.perPage) - this.perPage;
+        let to = (this.page * this.perPage);
 
-    updatePagination() {
-      document.getElementById("containerRoutes").scrollIntoView();
-    }
-  },
-  computed: {
-		displayed() {
-      const [from, to] = this.paginate();
-			return this.$store.state.route.routes.slice(from,to);
-		}
-	},
-  watch: {
-    '$store.state.route.routes': function(){
-      this.loading = false;
-    }
-  },
-	created(){
-		this.getRoutes();
-	},
-  
-}
+        if(this.numberRoutes < to){to = this.numberRoutes}
+
+        return [from,to];
+      },
+
+      // Actualizamos las rutas cuando cambiamos de página
+      updatePagination() {
+        document.getElementById("containerRoutes").scrollIntoView();
+      }
+    },
+    computed: {
+      ...mapState('route', ['routes']),
+
+      // Seleccionamos las rutas que mostraremos
+      displayed() {
+        const [from, to] = this.paginate();
+        return this.routes.slice(from,to);
+      }
+    },
+    created(){
+      this.getRoutes();
+    },
+    
+  }
 </script>
 
 <style scoped>

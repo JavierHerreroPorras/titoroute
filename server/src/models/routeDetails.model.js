@@ -10,11 +10,6 @@ const routeDetailsSchema = new mongoose.Schema({
         required: false,
         default: 2
     },
-    children: {
-        type: Number,
-        required: false,
-        default: 0
-    },
     rooms: {
         type: Number,
         required: false,
@@ -30,38 +25,31 @@ const routeDetailsSchema = new mongoose.Schema({
                 type: String,
                 required: true
             },
-            day_description: {
+            day_summary: {
+                type: String,
+                required: true
+            },
+            day_description_1: {
+                type: String,
+                required: true
+            },
+            day_description_2: {
                 type: String,
                 required: true
             },
             day_photo: {
                 type: String,
+            },
+            hotel_id: {
+                type: String,
                 required: true
-            }        
+            },        
         }
     ],
     route_map_URL: {
         type: String,
         required: true
     },
-    route_hotels: [
-        {
-            hotel_order: {
-                type: Number,
-                required: true,
-                min: 1
-            },
-            hotel_id: {
-                type: String,
-                required: true
-            },
-            nights: {
-                type: Number,
-                required: true,
-                min: 1
-            }
-        }
-    ],
     route_comments: [
         {
             name: {

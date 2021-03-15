@@ -1,7 +1,10 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
+    // Utilizaremos carga diferida o lazy loading, es decir, los datos y métodos asociados
+    // a los componentes se cargan cuando se utilizan, mejorando el tiempo de respuesta de la
+    // aplicación y por tanto la experiencia de usuario.
     path: '/',
     name: 'Home',
     component: () => import('../views/Home.vue')
@@ -9,9 +12,6 @@ const routes = [
   {
     path: '/rutas',
     name: 'Rutas',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/Routes.vue'),
   },
   {
@@ -19,29 +19,36 @@ const routes = [
     name: 'Ruta',
     component: () => import('../views/Route.vue'),
     redirect: {
-      name: 'detalles'
+      name: 'planning'
     },
+    // Aquí definimos las subrutas relacionadas a la ruta seleccionada en la página principal
     children: [
+      {
+        alias: '',
+        path: 'planning',
+        name: 'planning',
+        component: () => import('../views/RoutePlanning.vue'),
+      },
       {
         alias: '',
         path: 'detalles',
         name: 'detalles',
-        component: () => import('../components/RouteDetails.vue'),
+        component: () => import('../views/RouteDetails.vue'),
       },
       {
-        path: 'mapa',
-        name: 'mapa',
-        component: () => import('../components/RouteMap.vue'),
+        path: 'router',
+        name: 'router',
+        component: () => import('../views/RouteRouter.vue'),
       },
       {
         path: 'hoteles',
         name: 'hoteles',
-        component: () => import('../components/RouteHotels.vue'),
+        component: () => import('../views/RouteHotels.vue'),
       },
       {
         path: 'comentarios',
         name: 'comentarios',
-        component: () => import('../components/RouteComments.vue'),
+        component: () => import('../views/RouteComments.vue'),
       }
     ]
   },
@@ -56,9 +63,9 @@ const routes = [
   {
     path: '/profile',
     name: 'profile',
-    // lazy-loaded: Solamente se cargan cuando se necesitan, haciendo que la aplicación sea más rápida y ligera, lo que mejora la experiencia de usuario
     component: () => import('../views/Profile.vue')
   },
+  // Ruta que capturará aquellas entradas no válidas (se debe declarar al final)
   {
     path: '/:catchAll(.*)',
     name: 'NotFound',
@@ -67,7 +74,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  // Utilizaremos el modo HTML5 (no utiliza # en las URL)
+  history: createWebHistory(),
   routes
 })
 
@@ -77,8 +85,7 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
-  // trying to access a restricted page + not logged in
-  // redirect to login page
+  // Si no está logueado se redirige a la pestaña de inicio de sesión
   if (authRequired && !loggedIn) {
     next('/login');
   } else {

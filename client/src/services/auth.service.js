@@ -1,3 +1,9 @@
+/*
+  Utilizamos este módulo para realizar las operaciones de autenticación y registro
+  de los usuarios de nuestra aplicación. En este fichero se han declarado las funciones
+  que se encargan específicamente de pedir los datos al servidor. 
+*/
+
 import axios from 'axios';
 import authHeader from './auth-header';
 
@@ -42,7 +48,10 @@ class AuthService {
       name: user.name,
       surname: user.surname,
       email: user.email,
-      password: user.password
+      password: user.password,
+      router: user.router,
+      nif: user.nif,
+      phone: user.phone
     });
   }
 }

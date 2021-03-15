@@ -1,137 +1,121 @@
 <template>
- <div>
-    <ul class="timeline-v1 mx-5 my-3">
-        <div class="col mb-4" v-for="(p) of days_timeline" :key="p.day_number">
-          <route-details-day
-            :number="p.day_number"
-            :description="p.day_description"
-            :imageURL="p.day_photo"
-            :title="p.day_title"
-            />
+<div>
+	<div v-if="number === 2" class=""></div>
+    <li :class = "(isEven)?'':'timeline-inverted'" v-if="number !== undefined">
+        <div class="timeline-badge primary"><font-awesome-icon icon="circle"/></div>
+        <div class="timeline-panel">
+
+            <div class="timeline-heading">  
+                <img :src=imageURL class="img-fluid w-100" alt="...">      
+				<button class="remove-day" @click="removeDayFromRoute()">Eliminar día de la ruta</button>              
+            </div>
+
+            <div class="mt-4 timeline-body text-justify-center">
+                <p class="h4">Día {{number}}: {{title}}</p>
+                <p class="mt-4">{{description}}</p>
+            </div>
+
+			<button class="btn btn-danger mb-1 mr-3 float-right" @click="redirectToDetails()">Leer más </button>
+            <!-- <div class="timeline-footer">
+                <p>footer</p>
+            </div> -->
         </div>
-        
-        <li class="clearfix" style="float: none;"></li>
-    </ul>
-</div>
+    </li> 
+		
+</div>   
 </template>
 
 <script>
-import RouteDetailsDay from './RouteDetailsDay.vue'
-
 export default {
-    name: 'RouteDetails',
-	data() {
-		return {
-			routeId: null,
-			route: null
-		}
-	},
-	components: {
-		RouteDetailsDay
-	},
-	props: {
-		name: String,
-		description: String,
-		route_days: Array
-	},
-	methods: {
-		getRouteDetails() {
-			this.$store.dispatch('route/getRouteDetails',this.routeId);
-		}
-	},
-	computed: {
-		days_timeline() {
-			if(this.$store.state.route.routeInfo !== null){
-				return this.$store.state.route.routeInfo.RouteDetails.route_timeline
-					.filter(function(route) {
-						return (route.day_title !== undefined)
-					})
+  name: 'RouteDetailsVue',
+  props: {
+    number: Number,
+	info: String,
+    description: String,
+    imageURL: String,
+    title: String,
+  },
+  computed: {
+	  isEven(){
+		  return this.number%2;
+	  }
+  },
+  methods: {
+
+	  	//Este método se encarga de eliminar el día de la ruta que no queremos
+	  	reorderRoute(newTimeline){
+			
+			//En primer lugar eliminamos el día
+			if (this.number-1 > -1) {
+  				newTimeline.splice(this.number-1, 1);
 			}
 
-			// Arreglar esto, puesto que antes de que se reciban los datos del servidor esto tiene un valor de null
-			return null;
+			//Reasignamos los índices de los días posteriores al que hemos eliminado
+			for (var element of newTimeline){
+				if(element.day_number > this.number){
+					element.day_number--;
+				}
+			}
+		},
+
+		// Si pulsamos el botón del card del día, procedemos a borrarlo de la ruta
+		removeDayFromRoute(){
+				var newTimeline = this.$store.state.route.routeInfo.RouteDetails.route_timeline;
+				this.reorderRoute(newTimeline);
+		},
+
+		redirectToDetails(){
+			this.$router.push({name: 'detalles'})
 		}
-	},
-	created() {
-		//this.routeId = this.$route.params.id;
-		//this.getRouteDetails();
-	},
+  }, 
 }
 </script>
 
 <style scoped>
-.carousel-control-prev,
-.carousel-control-next {
-  opacity: 1;
-}
-/*.carousel-control-prev-icon,
-.carousel-indicators
-{
-    filter: invert(100%);
-}*/
-/*.carousel-control-prev-icon, .carousel-control-next-icon {
-    height: 100px;
-    width: 100px;
-    outline: black;
-    background-color: black;
-    background-size: 100%, 100%;
-    border-radius: 50%;
-    border: 1px solid black;
-	opacity: 1;
-}
-    .carousel-control-prev-icon { 
-        width: 30px;
-        height: 48px;
-		opacity: 1;
-		color: white;
-    }
-    .carousel-control-next-icon { 
-        width: 30px;
-        height: 48px;
-		opacity: 1;
-		color: white;
-    }*/
-/*Timeline v1
-------------------------------------*/
-.timeline-v1 {
-	padding: 20px 0;
-	list-style: none;
+
+.timeline-heading{
 	position: relative;
 }
-.timeline-v1:before {
-	top: 0;
-	bottom: 0;
-	position: absolute;
-	content: " ";
-	width: 3px;
-	background-color: #eee;
-	left: 50%;
-	margin-left: -1.5px;
+
+.remove-day{
+	font-size: 13px;
+	background-color: #b8b8b8;
+	color: rgb(5, 5, 5);
+
+	position: absolute; 
+	right: 5px; 
+	bottom: -19px;
 }
-.timeline-v1 > li {
+
+li {
 	margin-bottom: 40px;
 	position: relative;
 	width: 50%;
 	float: left;
 	clear: left;
 }
-.timeline-v1 > li:before,
-.timeline-v1 > li:after {
+
+li:before,
+li:after {
 	content: " ";
 	display: table;
 }
-.timeline-v1 > li:after {
+
+li:after {
 	clear: both;
 }
-.timeline-v1 > li:before,
-.timeline-v1 > li:after {
+
+li:before,
+li:after {
 	content: " ";
 	display: table;
 }
-.timeline-v1 > li:after {
+
+li:after {
 	clear: both;
 }
-.timeline-v1 > li > .timeline-panel {
+
+li > .timeline-panel {
 	width: 94%;
 	float: left;
 	border: 1px solid #d4d4d4;
@@ -139,7 +123,8 @@ export default {
 	/*padding: 20px;*/
 	position: relative;
 }
-.timeline-v1 > li > .timeline-panel:before {
+
+li > .timeline-panel:before {
 	position: absolute;
 	top: 26px;
 	right: -15px;
@@ -150,7 +135,8 @@ export default {
 	border-bottom: 15px solid transparent;
 	content: " ";
 }
-.timeline-v1 > li > .timeline-panel:after {
+
+li > .timeline-panel:after {
 	position: absolute;
 	top: 27px;
 	right: -14px;
@@ -161,7 +147,8 @@ export default {
 	border-bottom: 14px solid transparent;
 	content: " ";
 }
-.timeline-v1 > li > .timeline-badge {
+
+li > .timeline-badge {
 	color: #ccc;
 	width: 24px;
 	height: 24px;
@@ -181,42 +168,50 @@ export default {
 	border-bottom-left-radius: 50%;
 	*/
 }
-.timeline-v1 > li > .timeline-badge i:hover {
+
+li > .timeline-badge i:hover {
 	color: #72c02c;
 }
-.timeline-v1 > li.timeline-inverted > .timeline-panel {
+
+li.timeline-inverted > .timeline-panel {
 	float: right;
 }
-.timeline-v1 > li.timeline-inverted > .timeline-panel:before {
+li.timeline-inverted > .timeline-panel:before {
 	border-left-width: 0;
 	border-right-width: 15px;
 	left: -15px;
 	right: auto;
 }
-.timeline-v1 > li.timeline-inverted > .timeline-panel:after {
+li.timeline-inverted > .timeline-panel:after {
 	border-left-width: 0;
 	border-right-width: 14px;
 	left: -14px;
 	right: auto;
 }
-.timeline-v1 > li > .timeline-panel .timeline-heading {
+
+li > .timeline-panel .timeline-heading {
 	padding: 5px;
 }
+
 .timeline-v1 .timeline-body {
     padding: 12px;
     /*margin-bottom: 20px;*/
 }
+
 .timeline-v1 .timeline-footer{
     padding: 7px 12px;
     overflow: hidden;
     border-top: 1px solid #ccc;
 }
+
 .timeline-v1 .timeline-footer .blog-info {
 	float: left;
 }
+
 .timeline-v1 .timeline-footer .blog-info i {
 	color: #777;
 }
+
 .timeline-v1 .timeline-footer .likes {
 	float: right;
 }
@@ -224,106 +219,123 @@ export default {
 	margin-right: 2px;
 	color: #777;
 }
+
 .timeline-v1 .timeline-footer .likes:hover {
 	text-decoration: none;
 	color: inherit;
 }
+
 .timeline-v1 .timeline-footer .likes:hover i {
 	color: #72c02c;
 }
-.timeline-v1 > li.timeline-inverted{
+
+li.timeline-inverted{
 	float: right; 
 	clear: right;
 	margin-bottom: 40px;
 }
-.timeline-v1 > li:nth-child(2){
+
+li:nth-child(2){
   	margin-top: 60px;
 }
-.timeline-v1 > li.timeline-inverted > .timeline-badge{
+
+li.timeline-inverted > .timeline-badge{
   	left: -12px;
 }
+
 @media (max-width: 992px) {
-	.timeline-v1 > li > .timeline-panel:before {
+	li > .timeline-panel:before {
 		top: 31px;
 		right: -11px;
 		border-top: 11px solid transparent;
 		border-left: 11px solid #ccc;
 		border-bottom: 11px solid transparent;
 	}
-	.timeline-v1 > li > .timeline-panel:after {
+
+	li > .timeline-panel:after {
 		top: 32px;
 		right: -10px;
 		border-top: 10px solid transparent;
 		border-left: 10px solid #fff;
 		border-bottom: 10px solid transparent;
 	}
-	.timeline-v1 > li.timeline-inverted > .timeline-panel:before {
+	li.timeline-inverted > .timeline-panel:before {
 		border-right-width: 11px;
 		left: -11px;
 	}
-	.timeline-v1 > li.timeline-inverted > .timeline-panel:after {
+	li.timeline-inverted > .timeline-panel:after {
 		border-right-width: 10px;
 		left: -10px;
 	}
+
 }
+
 @media (max-width: 767px) {
     ul.timeline-v1:before {
         left: 40px;
     }
-    ul.timeline-v1 > li {
+
+    ulli {
       margin-bottom: 20px;
       position: relative;
       width:100%;
       float: left;
       clear: left;
     }
-    ul.timeline-v1 > li > .timeline-panel {
+    ulli > .timeline-panel {
         width: calc(100% - 70px);
         width: -moz-calc(100% - 70px);
         width: -webkit-calc(100% - 70px);
     }
-    ul.timeline-v1 > li > .timeline-badge {
+
+    ulli > .timeline-badge {
         left: 28px;
         margin-left: 0;
         top: 16px;
     }
-    ul.timeline-v1 > li > .timeline-panel {
+
+    ulli > .timeline-panel {
         float: right;
     }
-    ul.timeline-v1 > li > .timeline-panel:before {
+
+    ulli > .timeline-panel:before {
     	top: 27px;
 		right: -12px;
 		border-top: 12px solid transparent;
 		border-left: 12px solid #ccc;
 		border-bottom: 12px solid transparent;
 	}
-	ul.timeline-v1 > li > .timeline-panel:after {
+
+	ulli > .timeline-panel:after {
 		top: 28px;
 		right: -11px;
 		border-top: 11px solid transparent;
 		border-left: 11px solid #fff;
 		border-bottom: 11px solid transparent;
 	}
-    ul.timeline-v1 > li > .timeline-panel:before {
+
+    ulli > .timeline-panel:before {
         border-left-width: 0;
         border-right-width: 12px;
         left: -12px;
         right: auto;
     }
-    ul.timeline-v1 > li > .timeline-panel:after {
+
+    ulli > .timeline-panel:after {
         border-left-width: 0;
         border-right-width: 11px;
         left: -11px;
         right: auto;
     }
     
-	.timeline-v1 > li.timeline-inverted{
+	li.timeline-inverted{
 		float: left; 
 		clear: left;
 		margin-top: 30px;
 		margin-bottom: 30px;
 	}
-	.timeline-v1 > li.timeline-inverted > .timeline-badge{
+
+	li.timeline-inverted > .timeline-badge{
 		left: 28px;
 	}
 }

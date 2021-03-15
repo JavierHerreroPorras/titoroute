@@ -26,14 +26,8 @@
         <div class="timeline-carousel__item-inner col-7 row card-body">
 			<div class="align-baseline col-12 row mb-3 mt-2">
 				<span class="year col-9 text-left" >{{hotel.name}}</span>
-				<div class="col-3 month dropdown my-auto">
-					<select v-model="hotel.nights" name="noches" id="noches" class="noches-hotel">
-						<option value=0>0 noches</option>
-						<option value=1>1 noche</option>
-						<option value=2>2 noches</option>
-						<option value=3>3 noches</option>
-						<option value=4>4 noches</option>
-					</select>
+				<div class="col-3 month">
+					<span class="badge badge-light noches-hotel float-right">{{hotel.nights}} noches</span>
 				</div>
 			</div>
             
@@ -45,7 +39,7 @@
             <p class="ml-3 mt-0">{{hotel.description}}</p>
 
 			<div class="row justify-content-end prices col">
-				<!-- <span class="card-price col-8 mb-0 ml-0 text-left">Precio / día ({{$store.state.route.rooms}} hab · {{$store.state.route.adult}} adultos · {{$store.state.route.children}} niños): {{calculateValueRoom()}} €</span> -->
+				<a class="card-price col-7 mb-0 ml-0 text-left ml-3" :href=hotel.booking_link target="_blank"><font-awesome-icon icon="external-link-alt" class="mr-1"/> Reserva del hotel</a>
         		<!-- <span class="card-price col-8 mb-0 ml-0 text-left">Precio por día: {{calculateValueRoom()}} €</span> -->
 				<p class="badge badge-light col-4">Precio total: {{changeValueRoom()}} €</p>
 			</div>
@@ -64,7 +58,7 @@
 </template>
 
 <script>
-import Calendar from './Calendar.vue'
+import Calendar from './RouteHotelsConfigure.vue'
 
 import RatingComponent from '../components/RatingComponent.vue';
 
@@ -92,26 +86,29 @@ export default {
 			if(this.$store.state.route.routeInfo.RouteDetails.adult === 2){final_price = this.hotel.double_price}
 			if(this.$store.state.route.routeInfo.RouteDetails.adult >= 3){final_price = this.hotel.triple_price}
 
-			this.hotel.total_price = final_price * this.$store.state.route.routeInfo.RouteDetails.rooms * this.hotel.nights;
+			this.hotel.total_price = (final_price * this.$store.state.route.routeInfo.RouteDetails.rooms * this.hotel.nights).toFixed(2);
 	 		
 			// Actualizo el vector de precios de los hoteles y actualizo su precio final
 			this.$store.state.route.routeInfo.Route.hotels_price[this.index] = this.hotel.total_price;
-			this.changeRoutePrice();
+			this.$store.state.route.routeInfo.Route.price = this.changeRoutePrice().toFixed(2);
 
 			return this.hotel.total_price;
 		 },
 
 		changeRoutePrice(){
-			let total_price = 0;
-			this.$store.state.route.routeInfo.Route.hotels_price.forEach(element => {
-				total_price += element
-			});
-			this.$store.state.route.routeInfo.Route.price = total_price;
+			// let total_price = 0;
+			// this.$store.state.route.routeInfo.Route.hotels_price.forEach(element => {
+			// 	total_price = element
+			// });
+			return this.$store.state.route.routeInfo.Route.hotels_price.reduce((acc, element) => {
+          		return parseInt(element) + acc;
+        	}, 0);
+			// this.$store.state.route.routeInfo.Route.price = total_price.toFixed(2);
 		}
 	},
 	mounted() {
-		/*console.log(this.hotel)
-		console.log(this.index)*/
+		//console.log(this.hotel)
+		/*console.log(this.index)*/
 	},
 	watch: {
 		// Forma de llamar a un handler del método
@@ -128,6 +125,28 @@ export default {
  * {
 	 outline: none;
 }
+
+ /* unvisited link */
+a:link {
+  color: rgb(255, 255, 255);
+}
+
+/* visited link */
+a:visited {
+  color: rgb(255, 255, 255);
+}
+
+/* mouse over link */
+a:hover {
+  color: rgb(92, 178, 212);
+  text-decoration: none;
+}
+
+/* selected link */
+a:active {
+  color: rgb(139, 139, 139);
+} 
+
 
 option {
 	font-size: 17px;
@@ -167,7 +186,7 @@ option {
 }
 .noches-hotel{
 	font-family: 'Libre Franklin', sans-serif;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 600;
 	text-align: left;
 }

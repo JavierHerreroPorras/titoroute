@@ -7,8 +7,7 @@ const userSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
-        //Los espacios del inicio y final de la cadena son eliminados (" hola" y "perro " se guardan como
-        // "hola" y "perro").
+        //Los espacios del inicio y final de la cadena son eliminados
         trim: true
     },
     surname: {
@@ -42,7 +41,24 @@ const userSchema = mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+
+    /* Esta parte del modelo de datos está referida a los routers, es decir, aquellos usuarios que 
+    pueden subir sus rutas a la aplicación. Por ello tendrán una serie de permisos especiales.*/
+    roles: [{
+        type: String,
+        required: true
+    }],
+    nif: {
+        type: String,
+    },
+    phone_number: {
+        type: Number,
+    },
+    donations: {
+        type: Number,
+        default: 0
+    }
 })
 
 // La función pre-save nos permite encriptar la contraseña del usuario antes de guardarla en el esquema
@@ -56,7 +72,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.generateAuthToken = async function() {
    // Generate an auth token for the user
-   const user = this
+   const user = this;
    const token = jwt.sign({_id: user._id}, process.env.JWT_KEY)
    user.tokens = user.tokens.concat({token})
    await user.save()
