@@ -1,140 +1,157 @@
 <template>
-<div id="configurationRoute" class="d-flex justify-content-end mt-5">
-	<div class="mr-5">
-		<button class="btn btn-secondary" data-toggle="dropdown" id="dropdownCalendarButton" aria-haspopup="true" aria-expanded="false">
-			Inicio de la ruta - {{$store.state.route.routeInfo.RouteDetails.startDateRoute}}
-		</button>
-
-		<div class="dropdown-menu border-0" id="dropdownCalendar" aria-labelledby="dropdownCalendar">
-			<form action="" id="sky-form2" class="sky-form">
-				<div id="inline-start"></div>
-			</form> 
-		</div>
-
-		<button class="d-none" id="aux"/>
-	</div>
-    
-	<div>
-		<button class="btn btn-secondary mr-5" data-toggle="dropdown" id="dropdownCustomizeRouteButton" aria-haspopup="true" aria-expanded="false">
-      		{{$store.state.route.routeInfo.RouteDetails.adult}} adultos · {{$store.state.route.routeInfo.RouteDetails.children}} niños · {{$store.state.route.routeInfo.RouteDetails.rooms}} habitaciones
-    	</button>
-
-		<div class="dropdown-menu" id="dropdownCustomizeRoute" aria-labelledby="dropdownCustomizeRoute">
-			<div class="d-flex align-items-baseline ml-3" id="container">
-				<p>Adultos: </p>
-				<div class="d-flex align-items-baseline ml-3">
-					<button @click.stop.prevent="addAdult" class="btn btn-light btn-sm rounded-circle">+</button>
-					<p class="ml-3">{{$store.state.route.routeInfo.RouteDetails.adult}}</p>
-					<button @click.stop.prevent="decrementAdult" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
-				</div>
-			</div>
-			<div class="d-flex align-items-baseline inline ml-3">
-				<p>Niños: </p>
-				<div class="d-flex align-items-baseline ml-3">
-					<button @click.stop.prevent="addChild" class="btn btn-light btn-sm rounded-circle">+</button>
-					<p class="ml-3">{{$store.state.route.routeInfo.RouteDetails.children}}</p>
-					<button @click.stop.prevent="decrementChild" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
-				</div>
-			</div>
-			<div class="d-flex align-items-baseline ml-3">
-				<p>Habitaciones: </p>
-				<div class="d-flex align-items-baseline ml-3">
-					<button @click.stop.prevent="addRoom" class="btn btn-light btn-sm rounded-circle">+</button>
-					<p class="ml-3">{{$store.state.route.routeInfo.RouteDetails.rooms}}</p>
-					<button @click.stop.prevent="decrementRoom" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	
-</div>
+	<!-- Este componente representa la configuración de la ruta (fecha de inicio, adultos y habitaciones...) -->
+	<div id="configurationRoute" class="d-flex justify-content-end mt-5">
+		
+		<!-- Configuración de la fecha -->
+		<div id="RouteConfigureDate" class="mr-5">
+			<button class="btn btn-secondary" data-toggle="dropdown" id="dropdownCalendarButton" aria-haspopup="true" aria-expanded="false">
+				Inicio de la ruta - {{routeInfo.RouteDetails.startDateRoute}}
+			</button>
+
+			<div class="dropdown-menu border-0" id="dropdownCalendar" aria-labelledby="dropdownCalendar">
+				<form action="" id="sky-form2" class="sky-form">
+					<div id="inline-start"></div>
+				</form> 
+			</div>
+
+			<button class="d-none" id="aux"/>
+		</div>
+		
+		<!-- Configuración de los adultos y habitaciones -->
+		<div id="RouteConfigureRooms">
+			<button class="btn btn-secondary mr-5" data-toggle="dropdown" id="dropdownCustomizeRouteButton" aria-haspopup="true" aria-expanded="false">
+				{{routeInfo.RouteDetails.adult}} adultos · {{routeInfo.RouteDetails.children}} niños · {{routeInfo.RouteDetails.rooms}} habitaciones
+			</button>
+
+			<div class="dropdown-menu" id="dropdownCustomizeRoute" aria-labelledby="dropdownCustomizeRoute">
+				<div class="d-flex align-items-baseline ml-3" id="container">
+					<p>Adultos: </p>
+					<div class="d-flex align-items-baseline ml-3">
+						<button @click.stop.prevent="addAdult" class="btn btn-light btn-sm rounded-circle">+</button>
+						<p class="ml-3">{{routeInfo.RouteDetails.adult}}</p>
+						<button @click.stop.prevent="decrementAdult" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
+					</div>
+				</div>
+				<div class="d-flex align-items-baseline inline ml-3">
+					<p>Niños: </p>
+					<div class="d-flex align-items-baseline ml-3">
+						<button @click.stop.prevent="addChild" class="btn btn-light btn-sm rounded-circle">+</button>
+						<p class="ml-3">{{routeInfo.RouteDetails.children}}</p>
+						<button @click.stop.prevent="decrementChild" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
+					</div>
+				</div>
+				<div class="d-flex align-items-baseline ml-3">
+					<p>Habitaciones: </p>
+					<div class="d-flex align-items-baseline ml-3">
+						<button @click.stop.prevent="addRoom" class="btn btn-light btn-sm rounded-circle">+</button>
+						<p class="ml-3">{{routeInfo.RouteDetails.rooms}}</p>
+						<button @click.stop.prevent="decrementRoom" class="btn btn-light btn-sm rounded-circle ml-3">-</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
 
 </template>
 
 <script>
-const $ = require('jquery')
-window.$ = $
-import datepickerFactory from 'jquery-datepicker';
-datepickerFactory($);
 
-import { mapMutations } from 'vuex'
+	// Necesitamos jQuery para el datepicker de la fecha
+	const $ = require('jquery')
+	window.$ = $
+	import datepickerFactory from 'jquery-datepicker';
+	datepickerFactory($);
 
-export default {
-  name: 'RouteHotelsConfigure',
-  props: {
-	  adultos: {
-		  type: Number,
-		  default: 1
-	  },
-	  ninos: {
-		  type: Number,
-		  default: 0
-	  },
-	  habitaciones: {
-		  type: Number,
-		  default: 1
-	  }
-  },
-  mounted() {
-	  	this.$store.state.route.routeInfo.RouteDetails.startDateRoute = this.formatDate();
-    	this.initDatepicker(); 
-  },
-  methods: {
+	import { mapMutations, mapState } from 'vuex'
 
-	...mapMutations(
-		{addAdult: "route/incrementAdult",
-		decrementAdult: "route/decrementAdult",
-		addChild: "route/incrementChildren",
-		decrementChild: "route/decrementChildren",
-		addRoom: "route/incrementRooms",
-		decrementRoom: "route/decrementRooms"
-		}),
+	export default {
+		name: 'RouteHotelsConfigure',
+		props: {
+			adultos: {
+				type: Number,
+				default: 1
+			},
+			ninos: {
+				type: Number,
+				default: 0
+			},
+			habitaciones: {
+				type: Number,
+				default: 1
+			}
+		},
+		computed: {
+			...mapState('route', ['routeInfo']),
+		},
+		mounted() {
 
-	changeInitialDate(selectedDate) {
-		this.$store.state.route.routeInfo.RouteDetails.startDateRoute = selectedDate;
-	},
-    initDatepicker () {
-			var vm = this;
-	        // Inline date range
-	        $('#inline-start').datepicker({
-	            dateFormat: 'dd/mm/yy',
-				minDate: new Date(),
-				firstDay: 1,
-	            prevText: '<<',
-	            nextText: '>>',
-	            onSelect: function( selectedDate )
-	            {
-					vm.changeInitialDate(selectedDate);
-					$('#inline-start').hide();
-					$('#aux').trigger("click");
-					
-	            }
-	         })
-				 .click(function(e) {
-				 	e.stopPropagation();
-				 });
-			
-			$('#configurationRoute').on('shown.bs.dropdown', function () {
-				$('#inline-start').show()
-			})
-        },
-	formatDate() {
-		var d = new Date(),
-		month = '' + (d.getMonth() + 1),
-		day = '' + d.getDate(),
-		year = d.getFullYear();
+			// Iniciamos el datepicker con la fecha actual
+			this.routeInfo.RouteDetails.startDateRoute = this.formatDate();
+			this.initDatepicker(); 
+		},
+		methods: {
 
-		if (month.length < 2) 
-			month = '0' + month;
-		if (day.length < 2) 
-			day = '0' + day;
+			...mapMutations(
+				{addAdult: "route/incrementAdult",
+				decrementAdult: "route/decrementAdult",
+				addChild: "route/incrementChildren",
+				decrementChild: "route/decrementChildren",
+				addRoom: "route/incrementRooms",
+				decrementRoom: "route/decrementRooms"
+				}),
 
-		var date = day + '/' + month + '/' + year;   
+			// Cambiamos la ruta en store de acuerdo a la seleccionada en el datepicker
+			changeInitialDate(selectedDate) {
+				this.routeInfo.RouteDetails.startDateRoute = selectedDate;
+			},
 
-		return date;
+			// Iniciamos el datepicker
+			initDatepicker () {
+				var vm = this;
+				// Inline date range
+				$('#inline-start').datepicker({
+					dateFormat: 'dd/mm/yy',
+					minDate: new Date(),
+					firstDay: 1,
+					prevText: '<<',
+					nextText: '>>',
+					onSelect: function( selectedDate )
+					{
+						vm.changeInitialDate(selectedDate);
+						$('#inline-start').hide();
+						$('#aux').trigger("click");
+						
+					}
+				})
+					.click(function(e) {
+						e.stopPropagation();
+					});
+				
+				$('#configurationRoute').on('shown.bs.dropdown', function () {
+					$('#inline-start').show()
+				})
+			},
+
+			// Este método devuelve la fecha actual en formato dd/mm/yyyy
+			formatDate() {
+				var d = new Date(),
+				month = '' + (d.getMonth() + 1),
+				day = '' + d.getDate(),
+				year = d.getFullYear();
+
+				if (month.length < 2) 
+					month = '0' + month;
+				if (day.length < 2) 
+					day = '0' + day;
+
+				var date = day + '/' + month + '/' + year;   
+
+				return date;
+			}
+		}
 	}
-  },
-}
 </script>
 
 <style>

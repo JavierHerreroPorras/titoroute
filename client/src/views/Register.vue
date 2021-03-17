@@ -46,13 +46,13 @@
 
           <div class="form-group d-flex">
               <label for="router">¿Deseas ser router?</label>
-              <input type="radio" id="Si" name="router" value="Si" v-model="user.router">
+              <input type="radio" id="Si" name="router" value="Si" v-model="router">
                 <label for="male">Si</label>
-              <input type="radio" id="No" name="router" value="No" checked="checked" v-model="user.router">
+              <input type="radio" id="No" name="router" value="No" checked="checked" v-model="router">
                 <label for="male">No</label>  
           </div>
 
-          <div id="router-info" v-if="user.router === 'Si'">
+          <div id="router-info" v-if="router === 'Si'">
             <div id="router" class="form-group">
               <label for="NIF">NIF</label>
               <input type="text" class="form-control" v-model="user.nif"/>
@@ -127,21 +127,25 @@ export default {
         return;
       }
 
-      if (this.user.name && this.user.surname && this.user.password && this.user.email) {
-        if(this.user.router === 'No' || (this.user.router === 'Si' && this.user.phone && this.user.nif)){
-          this.$store.dispatch('auth/register', this.user).then(
-            data => {
-              this.message = 'User succesfully created';
-              this.successful = true;
-            },
-            error => {
-              this.message = 'Error creating user';
-              this.successful = false;
-            }
-          );
-        }
+      //if (this.user.name && this.user.surname && this.user.password && this.user.email) {
+        //if(this.router === 'No' || (this.router === 'Si' && this.user.phone && this.user.nif)){
+        if(this.router === 'Si'){
+          this.user.role = 'Router';
+        }  
+        
+        this.$store.dispatch('auth/register', this.user).then(
+          data => {
+            this.message = 'User succesfully created';
+            this.successful = true;
+          },
+          error => {
+            this.message = 'Error creating user';
+            this.successful = false;
+          }
+        );
+        //}
           
-      };
+      //};
     }
   }
 };

@@ -1,42 +1,46 @@
 <template>
+
+    <!-- Este componente representa el comentario de un usuario dentro de la pestaña de comentarios -->
     <div class="item" :class="checkFirst ? '' : 'personalizada'">
         <p>{{comment}}</p>
         <div class="testimonial-info">
             <img class="img-thumbnail rounded-circle" src="@/assets/user.png" alt="">
             <div class="float-left ml-3">
-            <span class="testimonial-author">
-                {{name}}
-                <div class="mt-1">
-                    <RatingComponent :value=score/2 :total=5 />
-                </div>
-            </span>
+              <span class="testimonial-author">
+                  {{name}}
+                  <div class="mt-1">
+                      <RatingComponent :value=score/2 :total=5 />
+                  </div>
+              </span>
             </div>
+            
+            <!-- Información (fecha del comentario y botones varios) -->
             <div class="float-right mr-3">
                 {{date}} 
                 <div class="container mt-1">
                     <div class="row">
-                    <div class="col-sm">
-                        <font-awesome-icon icon="thumbs-up" aria-hidden="true"/>
-                    </div>
-                    <div class="col-sm">
-                        <font-awesome-icon icon="thumbs-down" aria-hidden="true"/>
-                    </div>
-                    <div class="col-sm">
-                        <font-awesome-icon icon="exclamation-triangle" aria-hidden="true"/>
-                    </div>
+                      <div class="col-sm">
+                          <font-awesome-icon icon="thumbs-up" aria-hidden="true"/>
+                      </div>
+                      <div class="col-sm">
+                          <font-awesome-icon icon="thumbs-down" aria-hidden="true"/>
+                      </div>
+                      <div class="col-sm">
+                          <font-awesome-icon icon="exclamation-triangle" aria-hidden="true"/>
+                      </div>
                     </div>
                 </div>
-            </div>
-            
+            </div>  
         </div>
     </div>
+
 </template>
 
 <script>
 
-import RatingComponent from './RatingComponent';
+  import RatingComponent from './RatingComponent';
 
-export default {
+  export default {
     components: {
         RatingComponent
     },
@@ -63,12 +67,12 @@ export default {
         },
     },
     computed: {
+        // Comprobar cuál es el primer comentario para aplicar estilos
         checkFirst(){
             return this.index === 0;
         },
-    }
-    
-}
+    } 
+  }
 </script>
 
 <style scoped>
@@ -76,11 +80,7 @@ export default {
 .personalizada {
       margin-top: 7rem;
 }
-/* 
-.scrollDiv {
-  height: 60vh;
-  overflow-y: scroll
-} */
+
 .testimonials-bs .headline-center-v2 span.author {
   color: #777;
   font-size: 14px;

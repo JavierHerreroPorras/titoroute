@@ -14,6 +14,8 @@ import routeCtrl from '../controllers/route.js';
 import hotelCtrl from '../controllers/hotel.js';
 
 import auth from '../middleware/auth.js';
+import roles from '../middleware/roles.js';
+import Roles from '../helpers/role.js';
 
 
 // Rutas correspondientes a los usuarios (creación, inicio de sesión, ver perfil y cerrar sesión)
@@ -21,7 +23,7 @@ api.post('/users/signIn', userCtrl.signIn);
 
 api.post('/users/logIn', userCtrl.logIn);
 
-api.get('/users/me', auth, userCtrl.profile);
+api.get('/users/me', auth, roles(), userCtrl.profile);
 
 api.get('/users', userCtrl.getUsers);
 

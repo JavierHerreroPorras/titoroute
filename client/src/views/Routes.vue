@@ -1,12 +1,17 @@
 <template>
-  <div class="mx-4" id="containerRoutes">
+  <div class="mx-4 mt-5" id="containerRoutes">
 
     <!-- Barra buscadora -->
     <div class="container">
-      <div class=" justify-content-center w-100 align-items-center">
-          <div class="searchbar mx-auto">
-            <input class="search_input pl-3" type="text" name="" placeholder="Search...">
-            <a class="search_icon"><font-awesome-icon icon="search"/></a>
+      <div class=" justify-content-center w-100 align-items-center row">
+          <select class="countrySelect col-4" v-model="countrySelected">
+            <option>España</option>
+            <!-- <option>Portugal</option>
+            <option>República Checa</option> -->
+          </select>
+          <div class="searchbar col-8 ml-5">
+            <input class="search_input pl-3" type="text" v-on:keyup.enter="searchRoute()" v-model="searchValue" placeholder="Search...">
+            <a class="search_icon" @click="searchRoute()"><font-awesome-icon icon="search"/></a>
           </div>
       </div>
     </div>
@@ -55,7 +60,7 @@
   import VPagination from "vue3-pagination";
   import "vue3-pagination/dist/vue3-pagination.css";
 
-  import { mapActions, mapState } from 'vuex';
+  import { mapActions, mapState, mapMutations } from 'vuex';
 
   export default {
     name: 'Routes',
@@ -72,7 +77,9 @@
         numberRoutes : 0,
         totalPages: 0,
         perPage: 8,
-        loading: true	
+        loading: true,
+        countrySelected: 'España',
+        searchValue: ''	
       }
     },
     methods: {
@@ -80,17 +87,32 @@
           getServerRoutes: 'route/getRoutes',
       }),
 
+      ...mapMutations({
+        setRoutes: 'route/setRoutesSearch'
+      }),
+
+      calculatePages(){
+        // Calcular el número total de rutas y el número de páginas que necesitaré
+        this.numberRoutes = this.routesSearch.length;
+        this.totalPages = Math.ceil(this.numberRoutes / this.perPage);
+      },
+
+      searchRoute(){
+        const search = this.routes.filter(route => (route.name.toLowerCase().includes(this.searchValue.toLowerCase()) || route.description.toLowerCase().includes(this.searchValue.toLowerCase())));
+        
+        this.setRoutes(search);
+
+        this.calculatePages();
+      },
+
       // Recogemos las rutas del servidor y calculamos el total de páginas que ocuparán
       async getRoutes () {
       
         // Recoger las rutas del servidor
-        await this.getServerRoutes();
+        await this.getServerRoutes(this.countrySelected);
         this.loading = false;
         
-        // Calcular el número total de rutas y el número de páginas que necesitaré
-        //console.log(this.$store.state.route.routes)
-        this.numberRoutes = this.routes.length;
-        this.totalPages = Math.ceil(this.numberRoutes / this.perPage);
+        this.calculatePages();
       },
 
       // Paginamos los índices de las rutas (seleccionamos las rutas en función de la página en la
@@ -110,16 +132,20 @@
       }
     },
     computed: {
-      ...mapState('route', ['routes']),
+      ...mapState('route', ['routes','routesSearch']),
 
       // Seleccionamos las rutas que mostraremos
       displayed() {
         const [from, to] = this.paginate();
-        return this.routes.slice(from,to);
+        return this.routesSearch.slice(from,to);
       }
     },
     created(){
       this.getRoutes();
+    },
+
+    watch: {
+      'countrySelected': 'getRoutes'
     },
     
   }
@@ -128,16 +154,26 @@
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@500&display=swap');
 
-    .searchbar{
-      width: 410px !important;
+  .countrySelect{
+    color: rgb(94, 33, 33);
+    outline: 0;
+    font-size: 18px;
+    font-family: Assistant;
+    max-width: 200px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .searchbar{
+    max-width: 410px !important;
     margin-bottom: auto;
     margin-top: auto;
     border-radius: 15px;
     border: 1px solid black;
     padding: 2px;
-    }
+  }
 
-    .search_input{
+  .search_input{
     color: rgb(94, 33, 33);
     border: 0;
     outline: 0;
@@ -149,9 +185,9 @@
     line-height: 40px;
     transition: width 0.4s linear;
     margin-left: 3px;
-    }
+  }
 
-    .search_icon{
+  .search_icon{
     height: 40px;
     width: 40px;
     float: right;
@@ -161,5 +197,5 @@
     border-radius: 50%;
     color:black;
     text-decoration:none;
-    }
+  }
 </style>

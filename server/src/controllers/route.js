@@ -79,7 +79,8 @@ const routeCtrl = {
     },
     
     getRoutes(req, res){
-        Route.find({}, (err, Routes) => {
+        const countryReq = req.query.country;
+        Route.find({ country: countryReq}, (err, Routes) => {
             if (err) return res.status(500).send({message: `Error al realizar la petición ${err}`});
             if(!Routes) return res.status(404).send({message: `No existen rutas`});
     

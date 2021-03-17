@@ -49,7 +49,7 @@ class AuthService {
       surname: user.surname,
       email: user.email,
       password: user.password,
-      router: user.router,
+      role: user.role,
       nif: user.nif,
       phone: user.phone
     });

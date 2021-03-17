@@ -2,19 +2,27 @@
     
 
 Planificación 15-21 marzo:
-
-    - Revisar todo el código (vistas, componentes, servicios) (1 día): P1.
-
-    - Página de rutas (1 días): P2
-        - Realizar la lógica para buscar rutas (la carga de trabajo la estableceré)
-        en el cliente.
     
     - Inicio de sesión, crear cuenta y perfil del usuario (Miercoles a Domingo)
         
         ROUTERS:
-        - Establecer el rol de usuario (permisos en el cliente/servidor)
+        - Establecer el rol de usuario (permisos en el cliente/servidor) --> HECHO
         - En el perfil pueden ver las rutas y las donaciones que han recibido.
         - Crear un backend para que puedan crear nuevas rutas (deben tener permisos)
+            PASOS:
+                0.- Crear un nuevo módulo en store (crear un nuevo hotel, crear la ruta,
+                búsqueda de hoteles, etc)
+                1.- Poder crear un nuevo hotel (FACIL): Debemos tomar los datos necesarios
+                en el modal y mandarlo al servidor (una ruta con los roles adecuados). Cerrar
+                el modal y mostrar dicho hotel en la lista.
+                2.- Buscar hoteles (FACIL): Reutilizar la lógica que teníamos de la búsqueda
+                de las rutas (carga en el cliente). Seleccionar uno y guardarlo en store.
+                3.- Mostrar dicho hotel en el día correspondiente.
+                4.- Una vez tenemos toda la información (adultos, ¿habitaciones? y precios),
+                calculamos el precio total de la ruta.
+                5.- Ofrecemos una vista previa de todo el contenido (FACIL): Reutilizar vistas
+                y componentes. Opción de guardar o de volver para editar.
+                6.- Guardar dicha ruta en el servidor
 
     - Middlewares: Delimitar aquellas rutas que necesitan autenticación y/o otros privilegios
         (administradores, routers, etc).
@@ -34,7 +42,7 @@ Cosas que quedan por hacer:
 
         - Estilos de todas las páginas
 
-        - Cambiar logo y nombre (SOCIALROUTE)
+        - Cambiar logo y nombre (SOCIALROUTE) --> HECHO
 
         - Hoteles (1 día): P4
             - Mejorar el diseño de la página (botones de habitaciones, adultos y niños)
@@ -105,7 +113,11 @@ HECHO:
             Relacionar ruta con hoteles --> HECHO.
             Añadir pagina con detalles de la ruta (descripcion1, foto, descripcion2) --> HECHO.
 
+    4.- Revisar todo el código (vistas, componentes, servicios) (1 día)
 
+    5.- Página de rutas (1 días): P2
+        - Realizar la lógica para buscar rutas (la carga de trabajo la estableceré)
+        en el cliente.
            
 
 
@@ -123,8 +135,8 @@ HECHO:
 
 TAREAS A REALIZAR (REUNIÓN 11/03)
 
-- búsqueda --> simple: titulo, descripción.
-- busqueda en el cliente (me traigo las rutas del país)
+- búsqueda --> simple: titulo, descripción. --> HECHO
+- busqueda en el cliente (me traigo las rutas del país) --> HECHO
 
 - Cambiar badges por texto plano
     - Poner botones de configurar ruta
@@ -144,9 +156,9 @@ Logica de precios:
     - Familiar : 1 habitación con varias personas
                 : Por defecto pongo una habitación en la ruta
 
-- Ruta: Quitar puntos de la ruta. (boton con EXCLUIR DE LA RUTA)
-        Relacionar ruta con hoteles.
-        Añadir pagina con detalles de la ruta (descripcion1, foto, descripcion2).
+- Ruta: Quitar puntos de la ruta. (boton con EXCLUIR DE LA RUTA) --> HECHO
+        Relacionar ruta con hoteles. --> HECHO
+        Añadir pagina con detalles de la ruta (descripcion1, foto, descripcion2). --> HECHO
 
 - Perfil: 
         - Usuario normal
@@ -155,7 +167,7 @@ Logica de precios:
         - Router
             - Rutas creadas
 
-    - Paypal sandbox --> Para gestionar el pago. --> Futuras mejoras.
+    - Paypal sandbox --> Para gestionar el pago. --> Futuras mejoras. --> DESCARTADO
     
 
 
@@ -249,7 +261,68 @@ Logica de precios:
 
 
 
-
+{
+    "averageScore": 0,
+    "name": "Ruta por el norte de España",
+    "description": "La primera de las rutas en coche por España que vengo a traeros es un espectacular recorrido de 15 días por el Norte de España que empezaremos en San Sebastián y finalizaremos en el precioso pueblecito de Bárcena Mayor. Atravesaremos las comunidades autónomas del País Vasco, Cantabria, Asturias y Galicia.",
+    "country": "España",
+    "router_id": "router_id",
+    "imageURL": "https://live.staticflickr.com/65535/49885791178_7fb8b56f34_z.jpg",
+    "duration": 10,
+    "people": 2,
+    "price": 1050,
+    "route_timeline": [
+        {
+            "day_number": 1,
+            "day_title": "Paseo por la cosa asturiana",
+            "day_summary": "Durante el primer día realizaremos un viaje guiado sobre la costa, en el cual podremos realizar una actividad de submarinismo y posteriormente visitaremos el restaurante de Antexo en el que podremos degustar platos típicos de la zona.",
+            "day_photo": "https://static.elcomercio.es/www/multimedia/201807/25/media/cortadas/conservacion-costa-asturias-U402330379x5D-U60434266387U0G-624x385@El%20Comercio-ElComercio.JPG",
+            "day_description_1": "El primer día de nuestra ruta por el norte de España lo arrancaremos desde la preciosa ciudad de San Sebastián, donde pondremos cara a la famosa Playa de la Concha, el Palacio de Miramar, almorzaremos en Gandarias (C/ Agosto Kalea 31). Después de un atracón de pintxos, dedicaremos la tarde a pasear por el bonito pueblo de Pasajes que en coche está a sólo 15 minutos de San Sebastian.",
+            "day_description_2": "Para dormir he escogido el Hotel Avenida, donde haremos esta noche y la del día 2. Estoy seguro de que esta opción os va a encantar. Tiene buenísimas valoraciones, parking gratis, piscina y está en una zona súper tranquila.",
+            "hotel_id": "604e31a6add2f42b28ac603d"
+        },
+        {
+            "day_number": 2,
+            "day_title": "Kayaking en Cascada de Ezaro",
+            "day_summary": "Navegaremos a los pies del Sagrado Olimpo Celta hasta llegar a la hermosa Cascada de Ezaro, único río de Europa que desemboca en forma de Cascada al Océano Atlantico. Conoceremos de primera mano su historia llena de aventura y diversión.",
+            "day_photo": "https://media.tacdn.com/media/attractions-splice-spp-674x446/09/84/5d/67.jpg",
+            "day_description_1": "¿Quién no ha visto la película de las Brujas de Zugarramurdi? 😀 En este segundo día despertaremos de nuevo en San Sebastián pero hoy haremos un par de visitas a 2 pueblos cercanos de los más famosos que visitar en el norte de España: una primera parada en Hondarribia, con sus preciosas casitas de colores, y por último, Zugarramurdi.",
+            "day_description_2": "Desde San Sebastián a Hondarribia hay apenas 25 minutos en coche. El trayecto de Hondarribia a Zugarramurdi son otros 30 minutos. Recordad que las coordenadas de todos estos lugares las tenéis al final de este post en un mapa del norte de España que he confeccionado para que llevéis en el móvil 😉 Tras estas dos visitas, regresaremos a San Sebastian y haremos la maleta porque al día siguiente cambiamos de sitio ",
+            "hotel_id": "604e31a6add2f42b28ac603d"
+        },
+        {
+            "day_number": 3,
+            "day_title": "Visita a Santiago de Compostela",
+            "day_summary": "El camino más famoso de Europa te llevará a encontrarte con la ciudad de Santiago de Compostela. La capital de Galicia es una combinación perfecta de gastronomía, tradición, historia y cultura.",
+            "day_photo": "https://assets.buendiatours.com/s3fs-public/styles/highlight_large/public/2020-11/free-tour_santiago_compostela_buendiatours.jpg?hmrYITuS96fhEUg43TPdK2Im3fu62ezJ&itok=2bw9i6uy",
+            "day_description_1": "Tras un buen desayuno, pondremos rumbo al Flysch Zumaia (0h 32min), uno de los lugares naturales más alucinantes de toda este viaje por el norte de España. Y de allí seguiremos hasta Bilbao (1h) donde visitaremos el museo Guggenheim y nos pegaremos una buena sesión de pintxos en el bar Sorginzulo (Plaza Nueva, 12).",
+            "day_description_2": "Por la tarde un planazo sería que hicierais este tour por Bilbao + subida al funicular Artxanda desde donde tendréis una de las mejores vistas de la ciudad. Para dormir, he escogido para vosotros el hotel Casual Gorea, en pleno centro de la ciudad y más de 2700 reviews de sobresaliente ",
+            "hotel_id": "604e3348add2f42b28ac603f"
+        },
+        {
+            "day_number": 4,
+            "day_title": "Paseo en avioneta sobre las Islas Cíes",
+            "day_summary": "Con este paseo en avioneta contemplaremos el perfil de las islas de San Martiño, Faro y Monteaguado, las principales del archipiélago de las Cíes. Además, admiraremos a vista de pájaro los arenales más famosos de las islas. El más popular de todos es la playa de Rodas, catalogada en 2007 como “la mejor playa del mundo” según el diario británico The Guardian.",
+            "day_photo": "https://cdn2.civitatis.com/espana/vigo/galeria/islas-cies-desde-aire.jpg",
+            "day_description_1": "Por la mañana tempranio saldremos para Gaztelugatxe, que en los últimos años se ha hecho famoso por haber salido en un montón de escenas de Juego de Tronos. Hasta allí, desde Bilbao, hay unos 48 minutos. Para los muy, muy fans de Juego de Tronos aquí os dejo un pequeño fragmento que seguro os pone los vellos como escarpias ",
+            "day_description_2": "Desde Gazteligatxe seguiremos nuestro tour por el norte de España en dirección a Santander, donde haremos check-in en el hotel Chiqui y a ser posible pillad habitación vistas al mar. Es una pasada de lugar y aquí haremos la noche del día 4 y la del día 5.",
+            "hotel_id": "604e3348add2f42b28ac603f"
+        },
+        {
+            "day_number": 5,
+            "day_title": "Visita a pie por los secretos de Vigo",
+            "day_summary": "Escuche historias de guerreros celtas y colonos españoles mientras recorre las calles de la histórica Vigo en este tour privado de 5 horas a pie. Escape de la ruta turística mientras explora un fuerte del siglo XV; Empápate de la atmósfera en el mercado de pescado de O Berbés y saborea la vida local en el barrio judío.",
+            "day_photo": "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/95/ee/48.jpg",
+            "day_description_1": "Este 5º día de nuestro itinerario por el norte de España lo dedicaremos al completo a recorrer Santander como se merece. Por la mañana haremos una visita al Palacio de la Magdalena y dar un paseo en velero por su bahía y las playas de Langre y Antuerta. Os recomiendo la empresa Feeling Cantabria ",
+            "day_description_2": "Por la tarde ireos a la playa de Covachos y ya por último la playa de los Locos. Para terminar el día, regresaremos a Santander donde os recomiendo ir a cenar a La Bombi, ¡un diez!",
+            "hotel_id": "604e3348add2f42b28ac603f"
+        }
+    ],
+    "route_comments": [],
+    "route_map_URL": "https://www.google.com/maps/d/embed?mid=1wzRCfrI4rCg8Bo-sTVZpw6DD7dAXKh0J",
+    "adult": 2,
+    "rooms": 1
+}
 
 
 

@@ -1,36 +1,42 @@
 <template>
-<div class="wrapper">
-      <div class="card border-0">
-        <div class="text">{{titulo}}</div>
-        <div class="circle">
-          <div class="bar" :id="titulo"></div>
-          <div class="box"><span>{{value}}</span></div>
-        </div>
-       
+  <!-- Este componente representa el gráfico de puntuación de un aspecto de la ruta -->
+  <div class="wrapper">
+    <div class="card border-0">
+      
+      <div class="text">{{titulo}}</div>
+      
+      <div class="circle">
+        <div class="bar" :id="titulo"></div>
+        <div class="box"><span>{{value}}</span></div>
       </div>
+      
     </div>
+  </div>
 </template>
 
 <script>
-const $ = require('jquery')
-import 'jquery-circle-progress';
-window.$ = $
 
-export default {
-    name: 'CircleProgressBar',
-    props: {
-        value: Number,
-        titulo: String
-    },
-    mounted() {
-      $("#" + this.titulo).circleProgress({
-                startAngle: -1.55,
-                size: 150,
-                value: parseFloat(this.value.toString())/10,
-                fill: {gradient: ['#a445b2', '#fa4299']}
-            })
-    }
-}
+  // Utilizamos jquery para mostrar la barra de progreso
+  const $ = require('jquery')
+  import 'jquery-circle-progress';
+  window.$ = $
+
+  export default {
+      name: 'CircleProgressBar',
+      props: {
+          value: Number,
+          titulo: String
+      },
+      mounted() {
+        // Configuramos la barra de progreso
+        $("#" + this.titulo).circleProgress({
+            startAngle: -1.55,
+            size: 150,
+            value: parseFloat(this.value.toString())/10,
+            fill: {gradient: ['#a445b2', '#fa4299']}
+        })
+      }
+  }
 </script>
 
 <style scoped>

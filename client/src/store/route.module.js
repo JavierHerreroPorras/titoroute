@@ -8,14 +8,15 @@ import RouteService from '../services/route.service';
 const initialState = { 
     success: false,
     routes: null,
+    routesSearch: null,
     routeInfo: null,
     startDateRoute: new Date().toLocaleDateString(),
 }
 
 const actions = {
   // Obtenemos las rutas (página inicial (Routes.vue))
-  async getRoutes({ commit }) {
-    return RouteService.getAllRoutes().then(
+  async getRoutes({ commit }, country) {
+    return RouteService.getAllRoutes(country).then(
       Routes => {
         commit('getRoutesSuccess', Routes);
         // Devuelve una promesa con las rutas
@@ -77,6 +78,9 @@ const actions = {
 }
 
 const mutations = {
+  setRoutesSearch(state, routes){
+    state.routesSearch = routes;
+  },
   saveCommentSuccess(state, RouteInfo) {
     state.routeInfo.RouteDetails = RouteInfo.data;
   },
@@ -102,6 +106,7 @@ const mutations = {
   getRoutesSuccess(state, routes) {
     state.success = true;
     state.routes = routes;
+    state.routesSearch = routes;
   },
   getRoutesFailure(state) {
     state.sucess = false;

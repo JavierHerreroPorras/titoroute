@@ -1,74 +1,83 @@
 <template>
-<div>
-	<div v-if="number === 2" class=""></div>
-    <li :class = "(isEven)?'':'timeline-inverted'" v-if="number !== undefined">
-        <div class="timeline-badge primary"><font-awesome-icon icon="circle"/></div>
-        <div class="timeline-panel">
 
-            <div class="timeline-heading">  
-                <img :src=imageURL class="img-fluid w-100" alt="...">      
-				<button class="remove-day" @click="removeDayFromRoute()">Eliminar día de la ruta</button>              
-            </div>
-
-            <div class="mt-4 timeline-body text-justify-center">
-                <p class="h4">Día {{number}}: {{title}}</p>
-                <p class="mt-4">{{description}}</p>
-            </div>
-
-			<button class="btn btn-danger mb-1 mr-3 float-right" @click="redirectToDetails()">Leer más </button>
-            <!-- <div class="timeline-footer">
-                <p>footer</p>
-            </div> -->
-        </div>
-    </li> 
+	<!-- Este componente representa un día en la timeline de la pestaña de Planning -->
+	<div id="RoutePlanningDay">
+		<div v-if="number === 2" class=""></div>
 		
-</div>   
+		<li :class = "(isEven)?'':'timeline-inverted'" v-if="number !== undefined">
+			<div class="timeline-badge primary"><font-awesome-icon icon="circle"/></div>
+			
+			<div class="timeline-panel">
+
+				<div class="timeline-heading">  
+					<img :src=imageURL class="img-fluid w-100" alt="...">      
+					<button class="remove-day" @click="removeDayFromRoute()">Eliminar día de la ruta</button>              
+				</div>
+
+				<div class="mt-4 timeline-body text-justify-center">
+					<p class="h4">Día {{number}}: {{title}}</p>
+					<p class="mt-4">{{description}}</p>
+				</div>
+
+				<button class="btn btn-danger mb-1 mr-3 float-right" @click="redirectToDetails()">Leer más </button>
+			</div>
+		</li> 
+			
+	</div>   
+
 </template>
 
 <script>
-export default {
-  name: 'RouteDetailsVue',
-  props: {
-    number: Number,
-	info: String,
-    description: String,
-    imageURL: String,
-    title: String,
-  },
-  computed: {
-	  isEven(){
-		  return this.number%2;
-	  }
-  },
-  methods: {
 
-	  	//Este método se encarga de eliminar el día de la ruta que no queremos
-	  	reorderRoute(newTimeline){
-			
-			//En primer lugar eliminamos el día
-			if (this.number-1 > -1) {
-  				newTimeline.splice(this.number-1, 1);
+	import { mapState } from 'vuex';
+
+	export default {
+		name: 'RouteDetailsVue',
+		props: {
+			number: Number,
+			info: String,
+			description: String,
+			imageURL: String,
+			title: String,
+		},
+		computed: {
+
+			...mapState('route', ['routeInfo']),
+
+			// Este método nos ayuda a determinar el índice del día para la timeline
+			isEven(){
+				return this.number%2;
 			}
+		},
+		methods: {
 
-			//Reasignamos los índices de los días posteriores al que hemos eliminado
-			for (var element of newTimeline){
-				if(element.day_number > this.number){
-					element.day_number--;
+				//Este método se encarga de eliminar el día de la ruta que no queremos
+				reorderRoute(newTimeline){
+					
+					//En primer lugar eliminamos el día
+					if (this.number-1 > -1) {
+						newTimeline.splice(this.number-1, 1);
+					}
+
+					//Reasignamos los índices de los días posteriores al que hemos eliminado
+					for (var element of newTimeline){
+						if(element.day_number > this.number){
+							element.day_number--;
+						}
+					}
+				},
+
+				// Si pulsamos el botón del card del día, procedemos a borrarlo de la ruta
+				removeDayFromRoute(){
+						var newTimeline = this.routeInfo.RouteDetails.route_timeline;
+						this.reorderRoute(newTimeline);
+				},
+
+				redirectToDetails(){
+					this.$router.push({name: 'detalles'})
 				}
-			}
-		},
-
-		// Si pulsamos el botón del card del día, procedemos a borrarlo de la ruta
-		removeDayFromRoute(){
-				var newTimeline = this.$store.state.route.routeInfo.RouteDetails.route_timeline;
-				this.reorderRoute(newTimeline);
-		},
-
-		redirectToDetails(){
-			this.$router.push({name: 'detalles'})
-		}
-  }, 
-}
+		}, 
+	}
 </script>
 
 <style scoped>

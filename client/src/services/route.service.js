@@ -12,9 +12,9 @@ const API_URL_HOTELS = 'http://localhost:8080/api/hotels'
 
 class RouteService {
    // Realiza una llamada al servidor para obtener las rutas en la pantalla de inicio
-   async getAllRoutes(){
+   async getAllRoutes(country){
         return axios
-            .get(API_URL)
+            .get(API_URL, {params: {country: country}})
             .then(response => {
                return response.data.Routes;
              });

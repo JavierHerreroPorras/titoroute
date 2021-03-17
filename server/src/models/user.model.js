@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Roles from '../helpers/role.js';
 
 const userSchema = mongoose.Schema({
     name: {
@@ -45,10 +46,11 @@ const userSchema = mongoose.Schema({
 
     /* Esta parte del modelo de datos está referida a los routers, es decir, aquellos usuarios que 
     pueden subir sus rutas a la aplicación. Por ello tendrán una serie de permisos especiales.*/
-    roles: [{
+    role: {
         type: String,
-        required: true
-    }],
+        default: Roles.User,
+        enum: [Roles.User, Roles.Router]
+    },
     nif: {
         type: String,
     },

@@ -1,5 +1,7 @@
 <template>
-      <div class="card mt-3">
+      
+	<!-- Este componente representa a un hotel dentro de la pestaña de hoteles -->
+	<div class="card mt-3">
 
       <!-- Carousel de imagenes del hotel -->
        
@@ -40,26 +42,17 @@
 
 			<div class="row justify-content-end prices col">
 				<a class="card-price col-7 mb-0 ml-0 text-left ml-3" :href=hotel.booking_link target="_blank"><font-awesome-icon icon="external-link-alt" class="mr-1"/> Reserva del hotel</a>
-        		<!-- <span class="card-price col-8 mb-0 ml-0 text-left">Precio por día: {{calculateValueRoom()}} €</span> -->
 				<p class="badge badge-light col-4">Precio total: {{changeValueRoom()}} €</p>
 			</div>
         </div>
 	  </div>
-	  </div>
-	  
-	  
-
-      <!-- <div class="row card-footer">
-        <span class="card-price col-8 mb-0 ml-0 text-left">Precio / día ({{$store.state.route.rooms}} hab · {{$store.state.route.adult}} adultos · {{$store.state.route.children}} niños): {{calculateValueRoom()}} €</span>
-        <p class="badge badge-light col-4 mb-0 ml-0">Precio total: {{changeValueRoom()}} €</p>
-      </div>
-        </div> -->
+	</div>
 
 </template>
 
 <script>
 import Calendar from './RouteHotelsConfigure.vue'
-
+import { mapState } from 'vuex';
 import RatingComponent from '../components/RatingComponent.vue';
 
 export default {
@@ -70,6 +63,7 @@ export default {
 	data() {
 		return {
 			precio_total: null,
+			// Generar id para el carousel de imagenes del hotel
 			cadena_id: this.hotel.name.replace(/\s/g, ''),
 		}
 	},
@@ -77,44 +71,45 @@ export default {
 		index: Number,
 		hotel: Object
 	},
+	computed: {
+        // Mediante mapState y mapActions podemos acceder fácilmente a los datos y
+        // métodos declarados en el store de Vue
+        ...mapState('route', ['routeInfo'])
+            
+    },
 	methods: {
+
+		// Función para cambiar el valor total de hotel (dependiendo de las habitaciones, los adultos, etc)
 	 	changeValueRoom() {
 			         
 	 		var final_price = 0;
 
-			if(this.$store.state.route.routeInfo.RouteDetails.adult === 1){final_price = this.hotel.single_price}
-			if(this.$store.state.route.routeInfo.RouteDetails.adult === 2){final_price = this.hotel.double_price}
-			if(this.$store.state.route.routeInfo.RouteDetails.adult >= 3){final_price = this.hotel.triple_price}
+			// Determinamos el precio de la habitación dependiendo del número de adultos (simple, doble o familiar)
+			if(this.routeInfo.RouteDetails.adult === 1){final_price = this.hotel.single_price}
+			if(this.routeInfo.RouteDetails.adult === 2){final_price = this.hotel.double_price}
+			if(this.routeInfo.RouteDetails.adult >= 3){final_price = this.hotel.triple_price}
 
-			this.hotel.total_price = (final_price * this.$store.state.route.routeInfo.RouteDetails.rooms * this.hotel.nights).toFixed(2);
+			this.hotel.total_price = (final_price * this.routeInfo.RouteDetails.rooms * this.hotel.nights).toFixed(2);
 	 		
 			// Actualizo el vector de precios de los hoteles y actualizo su precio final
-			this.$store.state.route.routeInfo.Route.hotels_price[this.index] = this.hotel.total_price;
-			this.$store.state.route.routeInfo.Route.price = this.changeRoutePrice().toFixed(2);
+			this.routeInfo.Route.hotels_price[this.index] = this.hotel.total_price;
+			this.routeInfo.Route.price = this.changeRoutePrice().toFixed(2);
 
 			return this.hotel.total_price;
 		 },
 
+		// En esta función calculo el precio total de la ruta
 		changeRoutePrice(){
-			// let total_price = 0;
-			// this.$store.state.route.routeInfo.Route.hotels_price.forEach(element => {
-			// 	total_price = element
-			// });
-			return this.$store.state.route.routeInfo.Route.hotels_price.reduce((acc, element) => {
+			return this.routeInfo.Route.hotels_price.reduce((acc, element) => {
           		return parseInt(element) + acc;
         	}, 0);
-			// this.$store.state.route.routeInfo.Route.price = total_price.toFixed(2);
 		}
 	},
-	mounted() {
-		//console.log(this.hotel)
-		/*console.log(this.index)*/
-	},
 	watch: {
-		// Forma de llamar a un handler del método
+		// Llamar a un handler del método
 	 	'nights': 'changeValueRoom',
-		'$store.state.route.routeInfo.RouteDetails.adult': 'changeValueRoom',
-		'$store.state.route.routeInfo.RouteDetails.rooms': 'changeValueRoom',
+		'routeInfo.RouteDetails.adult': 'changeValueRoom',
+		'routeInfo.RouteDetails.rooms': 'changeValueRoom',
 	},
 }
 </script>

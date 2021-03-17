@@ -21,6 +21,8 @@
     <ul>
       <li v-for="(role,index) in currentUser.roles" :key="index">{{role}}</li>
     </ul>
+
+    <button @click="createNewRoute()">Crea una nueva ruta</button>
   </div>
 </template>
 
@@ -34,6 +36,12 @@ export default {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     }  
+  },
+  methods: {
+    createNewRoute(){
+      console.log("Hello")
+      this.$router.push({name: 'createRoute'});
+    }
   },
   mounted() {
     if (!this.loggedIn) {
