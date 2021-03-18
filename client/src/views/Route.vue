@@ -97,7 +97,8 @@
                 
                 this.title = this.routeInfo.Route.name;
                 this.description = this.routeInfo.Route.description;
-                this.loading = false;        
+                this.loading = false;    
+                console.log(this.routeInfo)    
             },
 
             // Cuando pulsamos el toast, nos redirige al componente del Router. 

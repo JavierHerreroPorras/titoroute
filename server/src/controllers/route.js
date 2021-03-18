@@ -90,39 +90,37 @@ const routeCtrl = {
     
     saveRoute(req, res){
     
-        /*console.log('POST /api/Route');
-        console.log(req.body);*/
+        /*console.log('POST /api/Route');*/
+        console.log(req.body);
     
         // Creamos una instancia del producto
         let routeId;
         let route = new Route();
-        route.name = req.body.name;
-        route.description = req.body.description;
-        route.imageURL = req.body.imageURL;
-        route.duration = req.body.duration;
-        route.people = req.body.people;
-        route.price = req.body.price;
-        route.country = req.body.country;
+        route.name = req.body.route.name;
+        route.description = req.body.route.description;
+        route.imageURL = req.body.route.imageURL;
+        route.duration = req.body.route.duration;
+        route.people = req.body.route.people;
+        route.price = req.body.route.price;
+        route.country = req.body.route.country;
+        route.router_id = req.body.route.router_id;
 
 
          route.save((err, RouteStored) => {
-             if (err) res.status(500).send({message: `Error al guardar en la base de datos: ${err} `});
+             if (err) return res.status(500).send({message: `Error al guardar en la base de datos: ${err} `});
              routeId = RouteStored._id;
 
              //Una vez se ha guardado la ruta, procedemos a crear y guardar sus detalles, con el id de la ruta ya guardada
              let route_details = new routeDetails();
-             route_details.route_timeline = req.body.route_timeline;
+             route_details.route_timeline = req.body.route.route_timeline;
              route_details.route_id = routeId;
-             route_details.route_map_URL = req.body.route_map_URL;
-             route_details.route_hotels = req.body.route_hotels;
-             route_details.adult = req.body.adult;
-             route_details.children = req.body.children;
-             route_details.rooms = req.body.rooms;
+             route_details.route_map_URL = req.body.route.route_map_URL;
+             route_details.rooms = req.body.route.rooms;
 
-             route_details.route_comments = req.body.route_comments;
+             route_details.route_comments = req.body.route.route_comments;
 
              route_details.save((err, RouteDetailsStored) => {
-                 if (err) res.status(500).send({message: `Error al guardar los detalles en la base de datos: ${err} `});
+                 if (err) return res.status(500).send({message: `Error al guardar los detalles en la base de datos: ${err} `});
                  res.status(200).send({ RouteStored, RouteDetailsStored});
              });
          });

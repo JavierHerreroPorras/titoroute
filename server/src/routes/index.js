@@ -41,9 +41,9 @@ api.post('/route', routeCtrl.saveRoute);
 
 
 // Rutas correspondientes a los hoteles
-api.get('/hotels', hotelCtrl.getRouteHotels);
+api.get('/hotel', hotelCtrl.getAllHotels);
 
-api.post('/hotel', hotelCtrl.saveHotel);
+api.post('/hotel', auth, roles(Roles.Router),hotelCtrl.saveHotel);
 
 
 export default api;

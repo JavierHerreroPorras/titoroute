@@ -7,10 +7,12 @@ La aplicación manejará:
 import { createStore } from 'vuex'
 import { auth } from './auth.module';
 import { route } from './route.module';
+import { router } from './router.module';
 
 export default createStore({
   modules: {
     auth,
     route,
+    router
   }
 })
