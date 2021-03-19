@@ -8,7 +8,8 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/route/';
-const API_URL_HOTELS = 'http://localhost:8080/api/hotels'
+const API_URL_HOTELS = 'http://localhost:8080/api/hotels/'
+const API_URL_USERS = 'http://localhost:8080/api/users/'
 
 class RouteService {
    // Realiza una llamada al servidor para obtener las rutas en la pantalla de inicio
@@ -46,6 +47,14 @@ class RouteService {
          .then(response => {
             return response.data
          })
+   }
+   
+   async getUserRoutes(id){
+      return axios
+         .get(API_URL_USERS + id + '/routes')
+         .then(response =>{
+            return response.data
+      })
    }
 }
 

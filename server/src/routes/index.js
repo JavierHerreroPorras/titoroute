@@ -25,7 +25,7 @@ api.post('/users/logIn', userCtrl.logIn);
 
 api.get('/users/me', auth, roles(), userCtrl.profile);
 
-api.get('/users', userCtrl.getUsers);
+api.get('/users/:id/routes', routeCtrl.getUserRoutes);
 
 api.post('/users/me/logout', auth, userCtrl.logout);
 

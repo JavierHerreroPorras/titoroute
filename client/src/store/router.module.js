@@ -31,7 +31,8 @@ const initialState = {
         "route_comments": [],
         "route_map_URL": "",
         "rooms": 1
-    }
+    },
+    hotels_search: null
 }
 
 const initialActions = {
@@ -58,9 +59,13 @@ const initialActions = {
     },
 
     async sendNewRoute({commit, state}){
-        return RouterService.saveNewRoute(state.newRoute).then(
+        return RouterService.saveNewRoute(state.newRoute)
+        .then(
             RouteInfo => {
-                console.log(RouteInfo)
+                return Promise.resolve(RouteInfo.RouteStored._id);
+            },
+            error => {
+                return Promise.reject(error);
             }
         )
     }
@@ -69,10 +74,14 @@ const initialActions = {
 const initialMutations = {
     getHotelsSuccess(state, hotels){
         state.hotels = hotels;
+        state.hotels_search = hotels;
     },
     getHotelsFailure(state){
         state.hotels = null;
-    }
+    },
+    setHotelsSearch(state, hotels){
+        state.hotels_search = hotels;
+      },
 }
 
 export const router = {

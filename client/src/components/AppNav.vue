@@ -40,7 +40,8 @@ export default {
     name: 'AppNav',
       computed: {
     currentUser() {
-      if(this.$store.state.auth.status.loggedIn){
+      if(this.$store.state.auth.user !== null){
+        this.$store.state.auth.status.loggedIn = true;
         return this.$store.state.auth.user.User;
       }
       else{

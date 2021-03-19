@@ -10,6 +10,7 @@ const initialState = {
     routes: null,
     routesSearch: null,
     routeInfo: null,
+    userRoutes: null,
     startDateRoute: new Date().toLocaleDateString(),
 }
 
@@ -74,10 +75,29 @@ const actions = {
         return Promise.reject(error);
       }
     )
+  },
+
+  async getUserRoutes({ commit}, id){
+    return RouteService.getUserRoutes(id).then(
+      UserRoutes => {
+        commit('getUserRoutesSuccess', UserRoutes);
+        return Promise.resolve();
+      },
+      error => {
+        commit('getUserRoutesFailure');
+        return Promise.reject(error);
+      }
+    )
   }
 }
 
 const mutations = {
+  getUserRoutesSuccess(state, routes){
+    state.userRoutes = routes.Routes;
+  },
+  getUserRoutesFailure(state){
+    state.userRoutes = null;
+  },
   setRoutesSearch(state, routes){
     state.routesSearch = routes;
   },

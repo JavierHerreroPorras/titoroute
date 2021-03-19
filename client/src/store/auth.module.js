@@ -7,10 +7,13 @@ import AuthService from '../services/auth.service';
 
 // Buscamos el usuario en el local storage. El valor de initial state dependerá de si 
 // se ha encontrado el usuario o no.
-const user = JSON.parse(localStorage.getItem('user'));
-const initialState = user
-  ? { status: { loggedIn: true }, user }
-  : { status: { loggedIn: false }, user: null };
+
+const initialState = {
+  user: JSON.parse(localStorage.getItem('user')),
+  status: {
+    loggedIn: false
+  },
+  userRoutes: null};
 
 const actions = {
   // Realizamos la acción de inicio de sesión, la cual puede ser exitosa

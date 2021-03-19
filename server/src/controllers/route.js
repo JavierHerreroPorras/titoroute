@@ -126,7 +126,17 @@ const routeCtrl = {
          });
 
          
-    }    
+    },
+    
+    getUserRoutes(req, res){
+        const router_id = req.params.id;
+        Route.find({ router_id: router_id}, (err, Routes) => {
+            if (err) return res.status(500).send({message: `Error al realizar la petición ${err}`});
+            if(!Routes) return res.status(404).send({message: `No existen rutas`});
+            //console.log(Routes)
+            res.status(200).send({Routes});
+        });
+    }
 }
 
 export default routeCtrl;
