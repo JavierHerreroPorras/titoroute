@@ -10,6 +10,7 @@ import authHeader from './auth-header';
 const API_URL = 'http://localhost:8080/api/route/';
 const API_URL_HOTELS = 'http://localhost:8080/api/hotels/'
 const API_URL_USERS = 'http://localhost:8080/api/users/'
+const API_URL_DONATIONS = 'http://localhost:8080/api/donation'
 
 class RouteService {
    // Realiza una llamada al servidor para obtener las rutas en la pantalla de inicio
@@ -31,9 +32,9 @@ class RouteService {
    }
 
    // Obtiene los hoteles asociados a una ruta (necesitamos el id que los identifica)
-   async getRouteHotels(hotelIds){
+   async getRouteHotels(hotelIds, routeId){
       return axios
-         .get(API_URL_HOTELS, {params: { array: hotelIds} })
+         .get(API_URL + routeId + '/hotels', {params: { array: hotelIds} })
          .then(response =>{
             return response.data
          })
@@ -42,17 +43,37 @@ class RouteService {
    // Se encarga de actualizar los comentarios de la ruta cuando un usuario introduce
    // un nuevo comentario sobre la misma.
    async sendUserComment(user_comment, id){
-       return axios
-         .post(API_URL + id + '/comment', user_comment)
-         .then(response => {
-            return response.data
-         })
+      const config = {
+         headers: authHeader()
+      }
+      
+      return axios
+      .post(API_URL + id + '/comment', user_comment, config)
+      .then(response => {
+         return response.data
+      })
    }
    
    async getUserRoutes(id){
       return axios
          .get(API_URL_USERS + id + '/routes')
          .then(response =>{
+            return response.data
+      })
+   }
+
+   async sendDonation(donation){
+      const config = {
+         headers: authHeader()
+      }
+
+      const data = {
+         donation: donation
+      }
+
+      return axios
+         .post(API_URL_DONATIONS, data, config)
+         .then(response => {
             return response.data
       })
    }

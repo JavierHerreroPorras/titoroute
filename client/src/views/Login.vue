@@ -8,22 +8,20 @@
       />
 
       <!-- En este formulario pedimos el usuario y la contraseña para hacer el inicio de sesión -->
-      <form name="form" @submit.prevent="handleLogin">
-        <div class="form-group">
-            <label for="name">Email</label>
-            <input type="text" v-model="user.email" id="email" name="email" class="form-control"
-                :class="{ 'is-invalid': isSubmitted && v$.user.email.$error }" />
-            <div v-if="isSubmitted && !v$.user.email.$required" class="invalid-feedback">Email field is required</div>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" v-model="user.password" id="password" name="password" class="form-control"
-                :class="{ 'is-invalid': isSubmitted && v$.user.password.$error }" />
-            <div v-if="isSubmitted && v$.user.password.$error" class="invalid-feedback">
-                <span v-if="!v$.user.password.$required">Password field is required</span>
+      <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }">
+         <div class="form-row">
+            <div class="form-group col-12">
+                <label>Email</label>
+                <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" v-model="user.email"/>
+                <div class="invalid-feedback">{{errors.email}}</div>
             </div>
-        </div>
+
+            <div class="form-group col-12">
+                <label>Password</label>
+                <Field name="password" type="password" class="form-control" :class="{ 'is-invalid': errors.password }" v-model="user.password"/>
+                <div class="invalid-feedback">{{errors.password}}</div>
+            </div>
+         </div>
         <div class="form-group">
           <button class="btn btn-primary btn-block" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
@@ -36,20 +34,36 @@
             <p>{{errorMsg}}</p>
         </div>
 
-      </form>
+      </Form>
     </div>
   </div>
 </template>
 
 <script>
 import User from '../models/user';
-import useVuelidate from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+
+import { Form, Field } from 'vee-validate';
+import * as Yup from 'yup';
 
 export default {
   name: 'Login',
-  setup () {
-    return { v$: useVuelidate() }
+  setup() {
+    const schema = Yup.object().shape({
+        email: Yup.string()
+            .required('Email is required')
+            .email('Email is invalid'),
+        password: Yup.string()
+            .min(6, 'Password must be at least 6 characters')
+            .required('Password is required'),
+    });
+
+    return {
+        schema,
+    };
+  },
+  components: {
+    Form,
+    Field,
   },
   data() {
     return {
@@ -58,12 +72,6 @@ export default {
       isSubmitted: false,
       errorMsg: ''
     };
-  },
-  validations: {
-      user: {
-        password: { required },
-        email: { required, email }
-      }
   },
   computed: {
     loggedIn() {
@@ -77,13 +85,13 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.loading = true;
+      /*this.loading = true;
       this.v$.$touch();
       if (this.v$.$invalid) {
         this.isSubmitted = true;
         this.loading = false;
         return;
-      }
+      }*/
 
       if (this.user.email && this.user.password) {
         this.$store.dispatch('auth/login', this.user).then(

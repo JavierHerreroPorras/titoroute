@@ -1,6 +1,9 @@
 <template>
+
   <div id="RouterInfo">
-    
+    <!-- Flexbox container for aligning the toasts -->
+    <div id="snackbar">¡Gracias! Tu aportación se ha realizado correctamente.</div>
+
     <!-- Apoyar económicamente a un router -->
     <div class="container theme-background-white main-body">
       <div class="col-md-12">
@@ -11,32 +14,32 @@
           <div class="col-md-8">
             <ul class="nav donate-buttons" id="donate-buttons">
               <li><a>
-                <button class="btn-blue active" data-dollars='5'>
+                <button class="btn-blue active" @click="donationValue(5)">
                   5 €
                 </button>
               </a></li>
               <li><a>
-                <button class="btn-blue" data-dollars='10'>
+                <button class="btn-blue" @click="donationValue(10)">
                   10 € 
                 </button>
               </a></li>
               <li><a>
-                <button class="btn-blue" data-dollars='20'>
+                <button class="btn-blue" @click="donationValue(20)">
                   20 € 
                 </button>
               </a></li>
               <li><a>
-                <button class="btn-blue" data-dollars='50'>
+                <button class="btn-blue" @click="donationValue(50)">
                   50 € 
                 </button>
               </a></li>
               <li id="other"><a>
-                <button class="btn-blue-other" data-dollars='other'>
+                <button class="btn-blue-other" @click="donationValue()">
                   Otro
                 </button>
               </a></li>
               <li id="other-input">
-               <input>
+               <input v-model="donation">
                <span>€</span>
               </li>
               <li><a>
@@ -51,11 +54,12 @@
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
-                  <div class="modal-header well text-center theme-background-blue">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h2>Estás aportando:</h2>
-                    <h1 style="font-size: 5.5em; margin-top: 0;"><span id="price"></span>€</h1>
-                    <em>¡Muchas gracias!</em>
+                  <div class="modal-header well text-center theme-background-blue row mx-0">
+                    <button type="button" class="close col-1" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <div class="col-11 row align-items-center">
+                      <h2 class="col-8 pl-0 pr-0">Vas a ayudar al router con:</h2>
+                      <h1 class="col-4">{{donation}} €</h1>                 
+                    </div>
                   </div>
                   <div class="modal-body">
                     <div class="row">  
@@ -93,7 +97,7 @@
                   </div>
                   <div class="modal-footer align-items-baseline">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Volver</button>
-                    <button type="button" class="btn-green">Continuar</button>
+                    <button type="button" class="btn-green" @click="sendDonation()">Continuar</button>
                   </div>
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
@@ -109,8 +113,48 @@
         <div class="col-12 mt-3">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">El router también ofrece:</h5>
-              <p class="card-text">Aquí se mostrará un scroll con otras rutas de este router</p>
+              <h4 class="card-title">Consulta otras rutas realizadas por el router:</h4>
+              <div class="user-routes">
+                <div v-for="(r,index) of getRoutes" :key="index">
+                  <div class="card bg-light border-secondary">
+                    <div class="row no-glutters p-3"> 
+                      <img :src=r.imageURL class="col-4 route-img" alt="Imagen de la ruta"> 
+                      <div class="col-8">
+                        <div class="row align-items-start">
+                          <router-link 
+                            :to="{ name: 'Ruta', params: { id: r._id }}" 
+                            class="card-title h4 stretched-link col-10"
+                          >
+                            {{r.name}}
+                          </router-link>
+
+                          <span class="badge badge-pill badge-primary">{{r.score}}</span>
+
+                        </div>
+                        
+                        <p class="card-text small mt-2 crop-text">{{r.description}}</p>
+                      
+                        <div class="row align-items-center">
+                          <div class="col-12 row">
+                            <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Personas: {{r.people}}</span></h5>
+                            <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Duración: {{r.duration}} días</span></h5>
+                          </div>
+                          
+                          <div class="col-12">
+                            <h5>
+                              <span class="badge bg-info text-white ml-n3">
+                                Precio: {{r.price}} €
+                              </span>
+                            </h5>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -126,8 +170,57 @@
   const $ = require('jquery');
   window.$ = $;
 
+  import { mapActions, mapState } from 'vuex';
 
   export default {
+    data() {
+      return {
+        donation: 5,
+      }
+    },
+    async created() {
+      await this.getUserRoutes(this.routeInfo.Route.router_id);
+    },
+    computed: {
+      ...mapState('route', ['userRoutes', 'routeInfo']),
+
+      ...mapState('auth', ['user']),
+
+      getRoutes() {
+        if( this.userRoutes !== null){
+          return this.userRoutes.filter(route => route._id !== this.routeInfo.Route._id);
+        }
+      },
+    },
+    methods: {
+      ...mapActions({
+        getUserRoutes: 'route/getUserRoutes',
+        sendUserDonation: 'route/sendUserDonation'
+      }),
+
+      donationValue(value){
+        this.donation = value;
+      },
+
+      async sendDonation(){
+        const donation = {
+          date: new Date(),
+          quantity: this.donation,
+          donor_name: this.user.User.name + ' ' + this.user.User.surname,
+          donor_id: this.user.User._id,
+          route_name: this.routeInfo.Route.name,
+          router_id: this.routeInfo.Route.router_id
+        }
+
+        await this.sendUserDonation(donation);
+
+        $('#myModal').modal('toggle');
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+      }
+    },
       mounted() {
         $(document).ready(function(){
 
@@ -138,43 +231,16 @@
             $('.active').removeClass('active');
             $('#other-input').hide().siblings('#other').show();
             $(this).filter('.btn-blue').addClass("active");
-            var value = $(this).data('impact');
-            $(this).closest('div').find('p').text("" + value);
-            $('#other-input').find('input').val('');  
-          });
-            
-          $('.btn-green').on('click', function() {
-            var dollar;
-            var input = $('#other-input').find('input').val();
-            if ( !input ) {
-              dollar = $('.active').data('dollars');
-            } else if ( $.trim(input) === '' || isNaN(input)) {
-              console.log('Yes');
-              dollar = "Please enter a number."; 
-            } else {
-              dollar = input;
-            }
-            $('#price').text(""+dollar);
           });
 
-          $('#other').on('click', function(e) {
-            e.preventDefault(); 
-            var buttons = $(this).parent('#donate-buttons');
-            buttons.find('.active').removeClass('active');
-            var other = $(this).hide().siblings('#other-input');
-            other.show();
-            other.find('input').focus();
-            var pText = buttons.siblings('p');
-            pText.text("Thank you!");
-            var oValue = other.find('input');
-            oValue.keyup(function() {
-              if ( oValue.val() > 50 ) {
-                pText.text("Thank you!" + " You\'re donation covers housing and counseling services for " + oValue.val()/25 + " people.");
-              } else {
-                pText.text("Thank you!");
-              }
-            });
-          }); 
+           $('#other').on('click', function(e) {
+             e.preventDefault(); 
+             var buttons = $(this).parent('#donate-buttons');
+             buttons.find('.active').removeClass('active');
+             var other = $(this).hide().siblings('#other-input');
+             other.show();
+             other.find('input').focus();
+           }); 
 
         });
       },
@@ -183,6 +249,61 @@
 
 <style scoped>
 
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 10px;
+  position: fixed;
+  z-index: 1;
+  /*left: 50%;*/
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  left: 50%;
+  -webkit-transform: translate(-15%, -50%);
+  transform: translate(-15%, -50%);
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+  animation: fadein 0.5s, fadeout 0.5s 4.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+
+  .route-img{
+    max-width: 250px;
+    max-height: 250px;
+  }
+
+  .user-routes{
+    overflow: auto; 
+    height: 500px
+  }
 .router {
      border-left: 1px solid rgb(158, 165, 164);
      font-family: 'Roboto';

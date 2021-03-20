@@ -65,7 +65,7 @@ const actions = {
     //realizar la consulta de los mismos
     const hotelsId = [...new Set(state.routeInfo.RouteDetails.route_timeline.map(a=> a.hotel_id))]
 
-    return RouteService.getRouteHotels(hotelsId).then (
+    return RouteService.getRouteHotels(hotelsId, state.routeInfo.Route._id).then (
       RouteHotels => {
         commit('getRouteHotelsSuccess',RouteHotels);
         return Promise.resolve(RouteHotels);
@@ -86,6 +86,17 @@ const actions = {
       error => {
         commit('getUserRoutesFailure');
         return Promise.reject(error);
+      }
+    )
+  },
+
+  async sendUserDonation({ commit }, donation){
+    return RouteService.sendDonation(donation).then(
+      Donation => {
+        return Promise.resolve()
+      },
+      error => {
+        return Promise.reject(error)
       }
     )
   }
