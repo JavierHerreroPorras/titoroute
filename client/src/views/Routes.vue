@@ -1,6 +1,5 @@
 <template>
-  <div class="mx-4 mt-5" id="containerRoutes">
-
+  <div class="mx-4 mt-5" id="containerRoutes"> 
     <!-- Barra buscadora -->
     <div class="container">
       <div class=" justify-content-center w-100 align-items-center row">
@@ -10,11 +9,13 @@
             <option>República Checa</option> -->
           </select>
           <div class="searchbar col-8 ml-5">
-            <input class="search_input pl-3" type="text" v-on:keyup.enter="searchRoute()" v-model="searchValue" placeholder="Search...">
+            <input class="search_input pl-3" type="text" v-on:keyup.enter="searchRoute()" v-model="searchValue" placeholder="Search route...">
             <a class="search_icon" @click="searchRoute()"><font-awesome-icon icon="search"/></a>
           </div>
       </div>
     </div>
+
+    
 
     <!-- Aquí se mostrarán las tarjetas de cada ruta -->
     <div v-if="loading">
@@ -143,7 +144,6 @@
     created(){
       this.getRoutes();
     },
-
     watch: {
       'countrySelected': 'getRoutes'
     },
@@ -180,7 +180,7 @@
     background: none;
     font-size: 22px;
     font-family: Assistant;
-    width: 350px;
+    width: calc(100% - 50px);
     caret-color:black;
     line-height: 40px;
     transition: width 0.4s linear;

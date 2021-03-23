@@ -54,6 +54,19 @@ class AuthService {
       phone: user.phone
     });
   }
+
+  async changePassword(password){
+    
+    const config = {
+      headers: authHeader()
+    }
+
+    const data = {
+      password: password
+    }
+    const response = await axios.put(API_URL + 'me/updatePassword', data, config);
+    return response.data;
+  }
 }
 
 export default new AuthService();

@@ -12,6 +12,7 @@ const api = express.Router();
 import userCtrl from '../controllers/user.js';
 import routeCtrl from '../controllers/route.js';
 import hotelCtrl from '../controllers/hotel.js';
+import donationCtrl from '../controllers/donation.js';
 
 import auth from '../middleware/auth.js';
 import roles from '../middleware/roles.js';
@@ -25,15 +26,19 @@ api.post('/users/logIn', userCtrl.logIn);
 
 api.get('/users/me', auth, roles(), userCtrl.profile);
 
-api.get('/users/:id/routes', routeCtrl.getUserRoutes);
+api.get('/users/:id/routes', auth, routeCtrl.getUserRoutes);
 
 api.post('/users/me/logout', auth, userCtrl.logout);
+
+api.put('/users/me/updatePassword', auth, roles(), userCtrl.updatePassword)
 
 
 // Rutas correspondientes a las rutas turísticas
 api.get('/route', routeCtrl.getRoutes);
 
 api.get('/route/:routeId', routeCtrl.getRouteDetails);
+
+api.get('/route/:routeId/hotels', hotelCtrl.getRouteHotels);
 
 api.post('/route/:routeId/comment', routeCtrl.saveUserComment);
 
@@ -46,4 +51,8 @@ api.get('/hotel', hotelCtrl.getAllHotels);
 api.post('/hotel', auth, roles(Roles.Router),hotelCtrl.saveHotel);
 
 
+// Rutas correspondientes a las donaciones
+api.post('/donation', auth, roles(), donationCtrl.saveUserDonation);
+
+api.get('/donation', auth, roles(Roles.Router), donationCtrl.getDonations);
 export default api;

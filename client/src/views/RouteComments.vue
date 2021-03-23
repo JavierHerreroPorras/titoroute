@@ -232,8 +232,8 @@
 </template>
 
 <script>
-  const $ = require('jquery')
-  window.$ = $
+  /*const $ = require('jquery')
+  window.$ = $*/
 
   import RatingComponent from '../components/RatingComponent';
   import RouteCommentsGraphic from '../components/RouteCommentsGraphic';
@@ -286,7 +286,7 @@
         this.getRouteComments()
       
         //Cerramos el modal 
-        $('#exampleModal').modal('toggle')
+        window.$('#exampleModal').modal('toggle')
       },
     },
     created() {

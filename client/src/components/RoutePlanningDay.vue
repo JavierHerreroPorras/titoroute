@@ -11,15 +11,16 @@
 
 				<div class="timeline-heading">  
 					<img :src=imageURL class="img-fluid w-100" alt="...">      
-					<button class="remove-day" @click="removeDayFromRoute()">Eliminar día de la ruta</button>              
+					              
 				</div>
 
-				<div class="mt-4 timeline-body text-justify-center">
-					<p class="h4">Día {{number}}: {{title}}</p>
-					<p class="mt-4">{{description}}</p>
+				<div class="mt-1 timeline-body text-justify-center">
+					<p class="day-title h4">Día {{number}}: {{title}}</p>
+					<p class="day-description mt-4 crop-text mb-0">{{description}}</p>
 				</div>
-
-				<button class="btn btn-danger mb-1 mr-3 float-right" @click="redirectToDetails()">Leer más </button>
+				
+				<button class="remove-day my-2 ml-3 px-3 py-1 float-left" @click="removeDayFromRoute()">Eliminar día de la ruta</button>
+				<button class="read-more my-2 mr-3 px-3 py-1 float-right" @click="redirectToDetails()">Leer más </button>
 			</div>
 		</li> 
 			
@@ -81,19 +82,65 @@
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300&display=swap');
+
+.img-fluid{
+	max-height: 320px;
+}
+
+.day-title{
+	font-family: "Roboto", sans-serif;
+	font-weight: 800;
+	font-size: 23px;
+}
+
+.day-description{
+	font-family: "Roboto", sans-serif;
+	font-weight: 500;
+	font-size: 15px;
+}
+
+.crop-text {
+  /*Se han utilizado las siguientes propiedades: 
+    - -webkit-line-clamp: permite limitar el contenido a un número de líneas (en nuestro caso 7)
+    - overflow: Permite especificar que el contenido se recorta y no se muestran barras de posición
+    - text-overflow: ellipsis: recorta el contenido. Además, muestra que hay contenido desborado (overflowed)
+      mediante la propiedad ellipsis (...)
+    - display nos permite establecer el comportamiento del elemento cuando se renderiza. Con la propiedad
+      -webkit-box  --> Investigar más
+  */
+  -webkit-line-clamp: 6;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+
+.timeline-panel{
+	background-color: white;
+}
 
 .timeline-heading{
 	position: relative;
 }
 
 .remove-day{
-	font-size: 13px;
-	background-color: #b8b8b8;
-	color: rgb(5, 5, 5);
+	font-size: 17px;
+	font-weight: bold;
+	border-radius: 13px;
+	background-color: #528a63;
+	color: rgb(255, 255, 255);
+	font-family: "Roboto", sans-serif
+}
 
-	position: absolute; 
-	right: 5px; 
-	bottom: -19px;
+.read-more{
+	font-size: 17px;
+	font-weight: bold;
+	border-radius: 13px;
+	background-color: #9b1919;
+	color: rgb(255, 255, 255);
+	font-family: "Roboto", sans-serif;
 }
 
 li {
@@ -203,7 +250,7 @@ li > .timeline-panel .timeline-heading {
 }
 
 .timeline-v1 .timeline-body {
-    padding: 12px;
+	padding: 12px 12px 12px 12px;
     /*margin-bottom: 20px;*/
 }
 
@@ -280,34 +327,31 @@ li.timeline-inverted > .timeline-badge{
 }
 
 @media (max-width: 767px) {
-    ul.timeline-v1:before {
-        left: 40px;
-    }
 
-    ulli {
+    ul.timeline-v1 li {
       margin-bottom: 20px;
       position: relative;
       width:100%;
       float: left;
       clear: left;
     }
-    ulli > .timeline-panel {
+    ul.timeline-v1 li .timeline-panel {
         width: calc(100% - 70px);
         width: -moz-calc(100% - 70px);
         width: -webkit-calc(100% - 70px);
     }
 
-    ulli > .timeline-badge {
+    ul.timeline-v1 li .timeline-badge {
         left: 28px;
         margin-left: 0;
         top: 16px;
     }
 
-    ulli > .timeline-panel {
+    ul.timeline-v1 li .timeline-panel {
         float: right;
     }
 
-    ulli > .timeline-panel:before {
+    ul.timeline-v1 li .timeline-panel:before {
     	top: 27px;
 		right: -12px;
 		border-top: 12px solid transparent;
@@ -315,7 +359,7 @@ li.timeline-inverted > .timeline-badge{
 		border-bottom: 12px solid transparent;
 	}
 
-	ulli > .timeline-panel:after {
+	ul.timeline-v1 li .timeline-panel:after {
 		top: 28px;
 		right: -11px;
 		border-top: 11px solid transparent;
@@ -323,28 +367,28 @@ li.timeline-inverted > .timeline-badge{
 		border-bottom: 11px solid transparent;
 	}
 
-    ulli > .timeline-panel:before {
+    ul.timeline-v1 li .timeline-panel:before {
         border-left-width: 0;
         border-right-width: 12px;
         left: -12px;
         right: auto;
     }
 
-    ulli > .timeline-panel:after {
+    ul.timeline-v1 li .timeline-panel:after {
         border-left-width: 0;
         border-right-width: 11px;
         left: -11px;
         right: auto;
     }
     
-	li.timeline-inverted{
+	.timeline-v1 li.timeline-inverted{
 		float: left; 
 		clear: left;
 		margin-top: 30px;
 		margin-bottom: 30px;
 	}
 
-	li.timeline-inverted > .timeline-badge{
+	.timeline-v1 li.timeline-inverted .timeline-badge{
 		left: 28px;
 	}
 }

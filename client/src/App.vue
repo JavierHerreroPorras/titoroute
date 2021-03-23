@@ -9,6 +9,11 @@
 </template>
 
 <script>
+
+global.jQuery = require('jquery');
+var $ = global.jQuery;
+window.$ = $;
+
 import AppNav from './components/AppNav.vue';
 export default {
   components: {

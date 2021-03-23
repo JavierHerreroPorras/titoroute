@@ -8,10 +8,12 @@
             <h6 id="RouteDescription" class="text-center p-3 m-4">{{description}}</h6>
 
             <!-- Toast o aviso para que los usuarios puedan apoyar económicamente a los routers. Cuando pulsamos en ella,
-            nos redirige automaticamente al componente donde se encuentra el proceso de donación -->
-            <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
-                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-                    <div class="toast-header">
+            nos redirige automaticamente al componente donde se encuentra el proceso de donación 
+            bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;-->
+             <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+                <div class="toast show" id="toast" aria-live="assertive" aria-atomic="true"
+                    :class="[toastDisable ? 'hide' : '']">
+                     <div class="toast-header">
                         <font-awesome-icon icon="donate" class="mr-2"/>
                         <strong class="mr-auto">¡Apoya a nuestros routers!</strong>
                         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -23,14 +25,14 @@
                     </div>
                 </div>
             </div>
-            
+  
             <!-- Menú que contiene el planning, hoteles, comentarios y página del router -->
             <div class="content mx-auto mt-5">
                 <div class="">
                     <!-- Tabs nav -->
                     <div class="nav nav-pills nav-pills-custom nav-fill" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             
-                            <router-link :to="{name: 'planning'}" class="nav-link  nav-link-sup" active-class="active" aria-selected="true">
+                             <router-link :to="{name: 'planning'}" class="nav-link  nav-link-sup" active-class="active" aria-selected="true">
                                 <font-awesome-icon icon="route" class="mr-2"/>
                                 Planning
                             </router-link>
@@ -66,8 +68,6 @@
 
     import { mapActions, mapState } from 'vuex';
 
-    const $ = require('jquery')
-    window.$ = $
 
     export default {
         name: 'Route',
@@ -76,6 +76,7 @@
                 loading: true,
                 title: '',
                 description: '',
+                toastDisable: false,
             }
         },
         computed: {
@@ -104,17 +105,17 @@
             // Cuando pulsamos el toast, nos redirige al componente del Router. 
             redirectToDonation() {
                 this.$router.push({name: 'router'});
+            },
+
+            loadToast(){
+                    setTimeout(() => this.toastDisable = true, 8000);
             }
         },
         created() {
             this.getRouteDetails();
         },
         mounted() {
-
-            // Utilizamos jQuery para mostrar el toast.
-            $(document).ready(function() {
-                $(".toast").toast('show');
-            });
+            this.loadToast();
         },
     }
 </script>

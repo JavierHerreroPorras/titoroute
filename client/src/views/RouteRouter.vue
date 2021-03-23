@@ -167,8 +167,6 @@
 <script>
 
   // Utilizamos jQuery para gestionar la función de donación
-  const $ = require('jquery');
-  window.$ = $;
 
   import { mapActions, mapState } from 'vuex';
 
@@ -204,7 +202,7 @@
 
       async sendDonation(){
         const donation = {
-          date: new Date(),
+          date: new Date().toLocaleDateString(),
           quantity: this.donation,
           donor_name: this.user.User.name + ' ' + this.user.User.surname,
           donor_id: this.user.User._id,
@@ -214,7 +212,7 @@
 
         await this.sendUserDonation(donation);
 
-        $('#myModal').modal('toggle');
+        window.$('#myModal').modal('toggle');
 
         var x = document.getElementById("snackbar");
         x.className = "show";
@@ -222,25 +220,25 @@
       }
     },
       mounted() {
-        $(document).ready(function(){
+        window.$(document).ready(function(){
 
-          $('#searchbar').focus();
+          window.$('#searchbar').focus();
 
-          $('#donate-buttons').on('click', '.btn-blue', function(e) {
+          window.$('#donate-buttons').on('click', '.btn-blue', function(e) {
             e.preventDefault();
-            $('.active').removeClass('active');
-            $('#other-input').hide().siblings('#other').show();
-            $(this).filter('.btn-blue').addClass("active");
+            window.$('.active').removeClass('active');
+            window.$('#other-input').hide().siblings('#other').show();
+            window.$(this).filter('.btn-blue').addClass("active");
           });
 
-           $('#other').on('click', function(e) {
+           window.$('#other').on('click', function(e) {
              e.preventDefault(); 
-             var buttons = $(this).parent('#donate-buttons');
+             var buttons = window.$(this).parent('#donate-buttons');
              buttons.find('.active').removeClass('active');
-             var other = $(this).hide().siblings('#other-input');
+             var other = window.$(this).hide().siblings('#other-input');
              other.show();
              other.find('input').focus();
-           }); 
+           });
 
         });
       },

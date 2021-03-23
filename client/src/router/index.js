@@ -75,6 +75,11 @@ const routes = [
     path: '/createRoute',
     name: 'createRoute',
     component: () => import('../views/RouterCreateRoute.vue')
+  },
+  {
+    path: '/frequentQuestions',
+    name: 'frequentQuestions',
+    component: () => import('../views/FrequentQuestions.vue')
   }
 ]
 
@@ -86,7 +91,7 @@ const router = createRouter({
 
 // En este apartado establecemos las rutas que son públicas (y por tanto un usuario no logueado puede acceder)
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register', '/',];
+  const publicPages = ['/login', '/register', '/', '/frequentQuestions'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 

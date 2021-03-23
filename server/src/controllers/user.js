@@ -1,5 +1,6 @@
 // Importamos el modelo de datos del hotel creado con mongoose
 import userModel from '../models/user.model.js';
+import bcrypt from 'bcryptjs';
 
 const userCtrl = {
     async signIn (req, res) {
@@ -60,6 +61,22 @@ const userCtrl = {
     
             res.status(200).send({Users});
         });
+    },
+
+    async updatePassword(req, res){
+        
+        if( await bcrypt.compare(req.body.password.oldPassword,req.user.password) === true){
+            try {
+                const newPassword = await bcrypt.hash(req.body.password.newPassword, 8)
+                await userModel.findOneAndUpdate({_id: req.user._id},{password: newPassword});
+                return res.status(201).send({message: `La contraseña se ha actualizado correctamente`})
+            } catch (error) {
+                return res.status(404).send({error: `Error al actualizar la contraseña: ${error}`})
+            }
+        }
+        else{
+            return res.status(404).send({ error: `La contraseña antigua no es correcta`});
+        }
     }
 }
 

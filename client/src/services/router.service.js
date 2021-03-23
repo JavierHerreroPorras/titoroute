@@ -7,6 +7,7 @@ import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/hotel/';
 const API_URL_ROUTE = 'http://localhost:8080/api/route/';
+const API_URL_DONATIONS = 'http://localhost:8080/api/donation'
 
 class RouterService {
 
@@ -56,6 +57,21 @@ class RouterService {
             .then (response => {
                 return response.data
             });    
+    }
+
+    async getDonations(id){
+        const config = {
+            headers: authHeader(),
+            params: {
+                router_id: id
+            }
+        }
+
+        return axios
+            .get(API_URL_DONATIONS, config, {params: { router_id: id}})
+            .then(response => {
+                return response.data
+            }) 
     }
 }
 

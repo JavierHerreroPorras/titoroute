@@ -1,36 +1,38 @@
 <template>
   
   <!-- Tarjeta con la información esencial de la card (imagen, titulo, descripción, nota media...) -->
-  <div class="card bg-light border-secondary h-100">
-    <img :src=imageURL class="card-img-top rounded img-thumbnail" alt="Imagen de la ruta"> 
+  <div class="card border-secondary h-100">
+    <img :src=imageURL class="card-img-top rounded p-1" alt="Imagen de la ruta"> 
     <div class="card-body px-1 py-2">
       <div class="row align-items-start">
         <router-link 
           :to="{ name: 'Ruta', params: { id: id }}" 
-          class="card-title h4 stretched-link col-10"
+          class="card-title h4 stretched-link col-11"
+          style="color: #483232;"
         >
           {{name}}
         </router-link>
 
-        <span class="badge badge-pill badge-primary">{{score}}</span>
+        <span class="badge badge-pill badge-primary" style="position: absolute; right: 5px; font-size: 13px;">{{score}}</span>
 
       </div>
       
-      <p class="card-text small mt-2 crop-text">{{description}}</p>
+      <p class="card-text small mt-1 crop-text px-1">{{description}}</p>
     
       <div class="row align-items-center">
-        <div class="col-12 row">
-          <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Personas: {{people}}</span></h5>
-          <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Duración: {{duration}} días</span></h5>
-        </div>
-        
-        <div class="col-12">
-          <h5>
-            <span class="badge bg-info text-white ml-n3">
-              Precio: {{price}} €
-            </span>
-          </h5>
-        </div>
+        <span class="col-7 pl-2 pr-0 text-left" style="font-size: 15px; font-weight: bold; color: #3e0771;">{{duration}} dias ({{people}} personas)</span>
+        <span class="col-5 pl-0 pr-0" style="font-size: 15px; font-weight: bold; color: #3e0771;">Precio: {{price}} €</span>
+      </div>
+
+      <div class="align-items-center">
+        <button type="button" class="btn btn-outline-secondary float-right py-0 mt-3" style="border-radius: 15px;">
+          <router-link 
+          :to="{ name: 'Ruta', params: { id: id }}"
+          id="detalles" 
+          >
+            Ver detalles
+          </router-link>
+        </button>
       </div>
 
     </div>
@@ -55,6 +57,19 @@
 </script>
 
 <style scoped>
+
+.card-title:hover{
+  text-decoration: none;
+}
+
+#detalles{
+  color: rgb(143, 143, 66);
+}
+
+#detalles:hover{
+  text-decoration: none;
+  color: white;
+}
 
 .row{
   margin-left: 0px;

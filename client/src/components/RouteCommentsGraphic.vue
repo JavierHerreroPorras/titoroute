@@ -17,9 +17,7 @@
 <script>
 
   // Utilizamos jquery para mostrar la barra de progreso
-  const $ = require('jquery')
   import 'jquery-circle-progress';
-  window.$ = $
 
   export default {
       name: 'CircleProgressBar',
@@ -29,7 +27,7 @@
       },
       mounted() {
         // Configuramos la barra de progreso
-        $("#" + this.titulo).circleProgress({
+        window.$("#" + this.titulo).circleProgress({
             startAngle: -1.55,
             size: 150,
             value: parseFloat(this.value.toString())/10,

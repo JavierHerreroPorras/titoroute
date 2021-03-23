@@ -52,6 +52,19 @@ const actions = {
         return Promise.reject(error);
       }
     );
+  },
+
+  async changePassword({ }, passwordInfo){
+    
+    return await AuthService.changePassword(passwordInfo)
+      .then(
+        response => {
+          return Promise.resolve(response);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      )
   }
 }
 

@@ -194,8 +194,8 @@
 </template>
 
 <script>
-const $ = require('jquery')
-window.$ = $
+// const $ = require('jquery')
+// window.$ = $
 
 import { mapActions, mapMutations, mapState } from 'vuex';
 import RatingComponent from '../components/RatingComponent.vue';
@@ -258,12 +258,12 @@ export default {
             //console.log(this.newHotel);
             await this.saveNewHotel();
             this.getHotels();
-            $('#exampleModal1').modal('toggle');
-            $('#exampleModal').modal('show');
+            window.$('#exampleModal1').modal('toggle');
+            window.$('#exampleModal').modal('show');
         },
 
         discardHotel(){
-            $('#exampleModal1').modal('toggle');
+            window.$('#exampleModal1').modal('toggle');
         },
 
         addElementToArray(){
@@ -278,11 +278,11 @@ export default {
         },
 
         async routePreview(){
-            // Asignamos la timeline a la ruta que queremos guardar
+            //Asignamos la timeline a la ruta que queremos guardar
             this.newRoute.route_timeline = this.timeline;
 
             //Asignamos el id del router
-            console.log(this.user)
+            //console.log(this.user)
             this.newRoute.router_id = this.user.User._id;
 
             //Convertimos el número de personas y duración de la ruta a enteros
@@ -306,7 +306,7 @@ export default {
             //El siguiente paso es mandar nuestra ruta al servidor. 
             const new_route_id = await this.saveNewRoute();
 
-            // Por último redirigimos al router a la ruta que ha creado
+            //Por último redirigimos al router a la ruta que ha creado
             this.$router.push({ name: 'Ruta', params: { id: new_route_id }});
             
         },
@@ -317,7 +317,7 @@ export default {
             this.timeline[this.day_id].hotel_single = h.single_price
             this.timeline[this.day_id].hotel_double = h.double_price
             this.timeline[this.day_id].hotel_triple = h.triple_price
-            $('#exampleModal').modal('toggle');
+            window.$('#exampleModal').modal('toggle');
         },
 
         searchHotel(){

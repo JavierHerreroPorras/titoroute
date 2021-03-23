@@ -28,12 +28,16 @@ import {
   faExternalLinkAlt,
   faRoute,
   faHotel,
-  faComments
+  faComments,
+  faQuestionCircle,
+  faIdBadge
 } from '@fortawesome/free-solid-svg-icons';
 
 import {faStar as faRegularStar} from '@fortawesome/free-regular-svg-icons'
 
-library.add(faHome, faSearch, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faCircle,faDotCircle, faStar,faStarHalfAlt, faRegularStar, faThumbsUp, faThumbsDown, faExclamationTriangle, faShoppingCart, faDonate, faExternalLinkAlt, faRoute, faHotel, faComments,faUser);
+library.add(faHome, faSearch, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faCircle,faDotCircle, faStar,faStarHalfAlt, faRegularStar, faThumbsUp, faThumbsDown, faExclamationTriangle, faShoppingCart, faDonate, faExternalLinkAlt, faRoute, faHotel, faComments,faUser, faQuestionCircle, faIdBadge);
+
+window.$ = window.jQuery = require('jquery');
 
 const app = createApp(App)
 app.use(store).use(router).use(VueAxios, axios);

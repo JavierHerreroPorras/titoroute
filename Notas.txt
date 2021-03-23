@@ -5,24 +5,13 @@ Planificación 20-21 marzo:
 
     - Sábado por la mañana:
 
-        - Trabajar en la pestaña del router de cada ruta:
-            - Mostrar las rutas que ha creado un router (FACIL): Reutilizar el código
-            del profile.
-            - Implementar el sistema de donaciones:
-                - Hacer un modelo para las donaciones:
-                    - fecha, cantidad, autor (id y nombre), destinatario (id), ruta.
-                    - Cambiar lo necesario para la donación. 
+        
     
     - Sábado por la tarde:
 
-        - Trabajar en la creación de la cuenta (Confirmar contraseña, dar un poco de estilo, etc)
-        - Dar un poco de estilo al perfil de usuario.
 
     - Domingo: 
 
-        - Estilo a la página de inicio, sesión, crear cuenta.
-        - Modificar barra (menú desplegable)
-        - Crear vista de preguntas frecuentes (¿estática?)
 
     Quedaría:
 
@@ -153,6 +142,23 @@ HECHO:
             6.- Guardar dicha ruta en el servidor. --> HECHO
     
     7.- Establecer el rol de usuario (permisos en el cliente/servidor) --> HECHO
+
+    8.- Trabajar en la pestaña del router de cada ruta:
+            - Mostrar las rutas que ha creado un router (FACIL): Reutilizar el código
+            del profile. --> HECHO
+            - Implementar el sistema de donaciones:
+                - Hacer un modelo para las donaciones:
+                    - fecha, cantidad, autor (id y nombre), destinatario (id), ruta. --> HECHO
+                    - Cambiar lo necesario para la donación. --> HECHO
+    9.- - Trabajar en la creación de la cuenta:
+            - Confirmar contraseña --> HECHO
+            - Dar un poco de estilo --> HECHO
+            
+        - Dar un poco de estilo al perfil de usuario.
+    
+    10.- - Estilo a la página de inicio, sesión, crear cuenta.
+        - Modificar barra (menú desplegable) --> HECHA
+        - Crear vista de preguntas frecuentes (¿estática?) --> HECHA
 
 
 

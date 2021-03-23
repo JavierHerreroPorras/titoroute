@@ -55,8 +55,15 @@ class RouteService {
    }
    
    async getUserRoutes(id){
+      const config = {
+         headers: authHeader()
+      }
+
+      const data = {
+      }
+
       return axios
-         .get(API_URL_USERS + id + '/routes')
+         .get(API_URL_USERS + id + '/routes', config, data)
          .then(response =>{
             return response.data
       })

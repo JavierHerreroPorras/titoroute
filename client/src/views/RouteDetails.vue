@@ -20,6 +20,8 @@
             <p>Advertisement</p>
         </div>
     </div>
+
+
 </template>
 
 <script>
@@ -54,6 +56,9 @@
                 }
                 return this.routeInfo.RouteDetails.route_timeline;
             }
-        }
+        },
+        mounted() {
+            
+        },
     }
 </script>

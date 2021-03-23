@@ -59,10 +59,8 @@
 <script>
 
 	// Necesitamos jQuery para el datepicker de la fecha
-	const $ = require('jquery')
-	window.$ = $
 	import datepickerFactory from 'jquery-datepicker';
-	datepickerFactory($);
+	datepickerFactory(window.$);
 
 	import { mapMutations, mapState } from 'vuex'
 
@@ -111,7 +109,7 @@
 			initDatepicker () {
 				var vm = this;
 				// Inline date range
-				$('#inline-start').datepicker({
+				window.$('#inline-start').datepicker({
 					dateFormat: 'dd/mm/yy',
 					minDate: new Date(),
 					firstDay: 1,
@@ -120,8 +118,8 @@
 					onSelect: function( selectedDate )
 					{
 						vm.changeInitialDate(selectedDate);
-						$('#inline-start').hide();
-						$('#aux').trigger("click");
+						window.$('#inline-start').hide();
+						window.$('#aux').trigger("click");
 						
 					}
 				})
@@ -129,8 +127,8 @@
 						e.stopPropagation();
 					});
 				
-				$('#configurationRoute').on('shown.bs.dropdown', function () {
-					$('#inline-start').show()
+				window.$('#configurationRoute').on('shown.bs.dropdown', function () {
+					window.$('#inline-start').show()
 				})
 			},
 

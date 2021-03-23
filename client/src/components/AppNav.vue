@@ -1,7 +1,7 @@
 <template>
     <div id="menu" class="row align-items-center">
       <div class="col-5 d-flex">
-        <router-link to="/rutas"><img src="../assets/logo4.png" alt="" class="ml-5"></router-link>
+        <router-link to="/rutas"><img src="../assets/logo6.png" alt="" class="ml-5"></router-link>
       </div>
       
       <div class="col-7 my-4 align-items-center">
@@ -15,18 +15,37 @@
               <font-awesome-icon icon="user-plus" class="userActive mr-1"/> Crear cuenta
             </router-link>
 
+            <router-link to="/frequentQuestions" class="mr-5 userActive">
+              <font-awesome-icon icon="question-circle" class="userActive mr-1"/> Ayuda
+            </router-link>
+
         </div>
 
-        <div v-if="currentUser" class="d-flex flex-row-reverse">
+        <div v-if="currentUser" class="d-flex float-right mr-5 pr-5 align-items-baseline">
 
-            <a class="mr-5 userActive" href @click.prevent="logOut">
-              <font-awesome-icon icon="sign-out-alt" class="userActive mr-1"/> Cerrar sesión
-            </a>
-
-            <router-link to="/profile" class="mr-5 userActive">
-              <font-awesome-icon icon="user" class="userActive mr-1" />
-               {{ currentUser.name}} {{ currentUser.surname }}
+            <router-link to="/frequentQuestions" class="mr-5 userActive">
+              <font-awesome-icon icon="question-circle" class="userActive mr-1"/> Ayuda
             </router-link>
+            <div class="btn-group float-right">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <font-awesome-icon icon="user" class="userActive mr-1" />
+                    {{ currentUser.name}} {{ currentUser.surname }}
+              </button>
+              <div class="dropdown-menu dropdown-menu-right mt-2">
+                <button class="dropdown-item" type="button">
+                  <router-link to="/profile" class="userActive">
+                    <font-awesome-icon icon="id-badge" class="userActive mr-2"/>
+                    <span style="font-size:20px">Mi perfil</span>
+                  </router-link>
+                </button>
+                <button class="dropdown-item" type="button">
+                  <a class="userActive" href @click.prevent="logOut">
+                    <font-awesome-icon icon="sign-out-alt" class="userActive mr-1"/> 
+                    <span style="font-size:20px">Cerrar sesión</span>
+                  </a>
+                </button>
+              </div>
+            </div>
 
         </div>
 
@@ -63,7 +82,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@500&display=swap');
 
 #menu{
-  background-color: #409292;
+  background-color: #b43737;
    /* background-color: #c41919;*/
 }
 
@@ -89,7 +108,7 @@ export default {
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #b3bec9;
 }
 
 #nav a.router-link-exact-active {

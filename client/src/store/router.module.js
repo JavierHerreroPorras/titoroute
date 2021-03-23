@@ -32,7 +32,8 @@ const initialState = {
         "route_map_URL": "",
         "rooms": 1
     },
-    hotels_search: null
+    hotels_search: null,
+    donations: null
 }
 
 const initialActions = {
@@ -68,10 +69,30 @@ const initialActions = {
                 return Promise.reject(error);
             }
         )
+    },
+
+    async getDonations({commit}, id){
+        return RouterService.getDonations(id)
+            .then(
+                Donations => {
+                    commit('getDonationsSuccess',Donations);
+                    return Promise.resolve()
+                },
+                error => {
+                    commit('getDonationsFailure')
+                    return Promise.reject(error);
+                }
+            )
     }
 }
 
 const initialMutations = {
+    getDonationsSuccess(state,DonationsInfo){
+        state.donations = DonationsInfo.donations;
+    },
+    getDonationsFailure(state){
+        state.donations = null;
+    },
     getHotelsSuccess(state, hotels){
         state.hotels = hotels;
         state.hotels_search = hotels;
