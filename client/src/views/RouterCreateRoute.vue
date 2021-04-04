@@ -1,39 +1,56 @@
 <template>
+    
     <div>
-        <h3>
-            ¡Bienvenido! En esta ventana puede crear su propia ruta. Para ello siga
-            las instrucciones para crearla.
+        <h3 class="page-title p-3">
+            ¡Bienvenido! En esta ventana puede crear su propia ruta.
         </h3>
 
-        <!-- Introducir información general sobre la ruta -->
-        <h4 class="mt-5">Información general de la ruta</h4>
-        <div class="row">
-            <label class="col-3">Nombre de la ruta: </label>
-            <input type="text" class="col-3" v-model="newRoute.name"/>
+        <div class="general-info px-5 pt-3">
+            <!-- Introducir información general sobre la ruta -->
+            <h4 class="general-info-title">Información general de la ruta</h4>
+            <p class="p-3">
+                En este apartado definiremos los aspectos más importantes de la ruta. 
+                Por ello, el título y resumen de la ruta deben llamar la atención de los usuarios.
+                Además, la imagen debe recoger la esencia de la ruta (se puede elegir un collage de 
+                fotos por ejemplo). Por último se debe incluir un mapa de la ruta, para que el usuario 
+                pueda tener una visión general de los sitios que se recorren durante la ruta.
+            </p>
+            <div class="mt-5 row align-items-center">
+                <label class="col-md-3 col-4 mb-0 text-right pr-5">Nombre de la ruta: </label>
+                <input type="text" class="col-md-3 col-8" v-model="newRoute.name"/>
 
-            <label class="col-3">Descripción breve de la ruta: </label>
-            <textarea class="col-3" v-model="newRoute.description"/>
+                <label class="routePhoto col-md-3 col-4 mb-0 text-right pr-5">Foto general (URL): </label>
+                <input type="text" class="routePhoto col-md-3 col-8" v-model="newRoute.imageURL"/>
+            </div>
 
-            <label class="col-3">Foto general (URL): </label>
-            <input type="text" class="col-3" v-model="newRoute.imageURL"/>
+            <div class="row mt-3 align-items-baseline">
+                <label class="col-md-3 col-4 text-right pr-5">Descripción breve de la ruta: </label>
+                <textarea class="col-md-9 col-8" v-model="newRoute.description" style="resize: none; height: 100px"/>
+            </div>
+            
+            <div class="row mt-3 align-items-baseline">
+                <label class="col-md-3 col-4 text-right pr-5">Mapa (URL): </label>
+                <input type="text" class="col-md-9 col-8" v-model="newRoute.route_map_URL"/>
+            </div>
 
-            <label class="col-3">Duración (en días): </label>
-            <input type="number" class="col-3" v-model="newRoute.duration"/>
+            <div class="row align-items-center mt-3">
+                <label class="col-lg-3 col-3 text-right pr-5 mb-0">Duración (días): </label>
+                <input type="number" class="col-lg-1 col-2" v-model="newRoute.duration"/>
 
-            <label class="col-3">Número de personas: </label>
-            <input type="number" class="col-3" v-model="newRoute.people"/>
+                <label class="col-lg-2 col-3 text-right pr-5 mb-0">Personas: </label>
+                <input type="number" class="col-lg-1 col-2" v-model="newRoute.people"/>
 
-            <label class="col-3">Mapa (URL): </label>
-            <input type="text" class="col-3" v-model="newRoute.route_map_URL"/>
-
-            <label class="col-3">País: </label>
-            <input type="text" class="col-3" v-model="newRoute.country"/>
+                <label class="routeCountry col-lg-2 col-3 text-right pr-5 mb-0">País: </label>
+                <input type="text" class="routeCountry col-lg-3 col-9" v-model="newRoute.country"/>
+            </div>
+            
         </div>
             
-        <!-- Introducir el planning para la ruta -->
-        <h4 class="mt-5 ml-3 row">Planning de la ruta</h4>
+        <div class="planning-info p-5">
+            <!-- Introducir el planning para la ruta -->
+            <h4 class="planning-info-title">Planning de la ruta</h4>
 
-            <p class="col-12">
+            <p class="p-3">
                 A continuación tienes que rellenar el planning de la ruta. Cada día 
                 tendrá un título o nombre, un breve resumen de las actividades que 
                 se desarrollarán, una descripción de las actividades que se realizan
@@ -43,43 +60,63 @@
 
             <!-- Dependiendo de la duración de la ruta, se muestran un conjunto de días
             para que el router pueda introducir la información necesaria -->
-            <div v-for="(t,index_t) in timeline" :key="index_t" class="mt-5">
-                <h4 class="col-12">Día {{t.day_number}}: </h4>
+            <div v-for="(t,index_t) in timeline" :key="index_t" class="mt-4 p-3">
+                <h4 class="text-left pl-5">Día {{t.day_number}} </h4>
 
-                <label class="col-3">Título: </label>
-                <input type="text" class="col-3" v-model="t.day_title"/>
+                <div class="mt-5 row align-items-baseline">
+                    <label class="col-md-3 col-3 text-right pr-5">Título: </label>
+                    <input type="text" class="col-md-3 col-9" v-model="t.day_title"/>
 
-                <label class="col-3">Resumen: </label>
-                <textarea class="col-3" v-model="t.day_summary"/>
+                    <label class="dayImage col-md-3 col-3 text-right pr-5">Imagen (URL): </label>
+                    <input type="text" class="dayImage col-md-3 col-9" v-model="t.day_photo"/>
+                </div>
 
-                <label class="col-3">Actividades por la mañana: </label>
-                <textarea class="col-3" v-model="t.day_description_1"/>
+                <div class="row mt-3 align-items-baseline">
+                    <label class="col-3 text-right pr-5">Resumen: </label>
+                    <textarea class="col-9" v-model="t.day_summary" style="resize: none; height: 100px"/>
+                </div>
 
-                <label class="col-3">Actividades por la tarde: </label>
-                <textarea class="col-3" v-model="t.day_description_2"/>
+                <div class="row mt-3 align-items-baseline">
+                    <label class="col-3 text-right pr-5">Actividades por la mañana: </label>
+                    <textarea class="col-9" v-model="t.day_description_1" style="resize: none; height: 100px"/>
+                </div>
 
-                <label class="col-3">Imagen (URL): </label>
-                <input type="text" class="col-3" v-model="t.day_photo"/>
-
-                <label class="col-2">Hotel: </label>
-                <span class="col-3">{{t.hotel_name}}</span>
-
-                <button type="button" class="btn btn-primary col-2" data-toggle="modal" data-target="#exampleModal" @click="day_id = index_t">
-                Buscar hotel
-                </button>
+                <div class="row mt-3 align-items-baseline">
+                    <label class="col-3 text-right pr-5">Actividades por la tarde: </label>
+                    <textarea class="col-9" v-model="t.day_description_2" style="resize: none; height: 100px"/>
+                </div>
+                
+                <div class="mt-3 row align-items-baseline">
+                    <label class="col-3 text-right pr-5">Hotel: </label>
+                    <input class="col-6 mr-5" readonly v-model="t.hotel_name">
+                    <button type="button" class="btn btn-primary col-md-2 col-4" data-toggle="modal" data-target="#exampleModal" @click="day_id = index_t">
+                    Buscar hotel
+                    </button>
+                </div>
                 
                 <!-- Modal de búsqueda de hoteles -->
                 <div class="modal fade bs-example-modal-lg" role="dialog" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             
-                            <!-- Barra de búsqueda de hoteles -->
-                            <input placeholder="Introduce el nombre del hotel" v-model="hotel_search" @keyup.enter="searchHotel()"/>
-                            <a class="search_icon" @click="searchHotel()"><font-awesome-icon icon="search"/></a>
+                            <div class="modal-header">
+                                <h5 class="modal-title">Selecciona el hotel</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
 
+                            <!-- Barra de búsqueda de hoteles -->
+                            <div id="hotelSearch">
+                                <input id="search" placeholder="Introduce el nombre del hotel" v-model="hotel_search" @keyup.enter="searchHotel()"/>
+                                <a id="searchIcon" class="search_icon" @click="searchHotel()"><font-awesome-icon icon="search"/></a>
+                            </div>
+
+                            <p>¿No encuentras lo que buscas? <a data-toggle="modal" data-target="#exampleModal1" style="color: blue; text-decoration: underline">Registra el hotel</a></p> 
+                            
                             <div style="overflow: auto; height: 500px">
                             
-                            <div v-for="(hotel,index) of hotels_search" :key="index" class="hotels-list py-2 px-4">
+                            <div v-for="(hotel,index) of hotels_search" :key="index" class="hotels-list py-2 px-4 mb-2">
                                 
                                 <!-- Cada hotel de la búsqueda -->
                                 <div class="card">
@@ -106,19 +143,16 @@
                                         </div>
 
                                         <!-- Descripción del hotel -->
-                                        <div class="timeline-carousel__item-inner col-7 row card-body" @click="selectHotel(hotel)">
-                                            <div class="align-baseline col-12 row mb-3 mt-2">
-                                                <span class="year col-12 text-left" >{{hotel.name}}</span>
+                                        <div class="timeline-carousel__item-inner col-7 row card-body" style="align-items: first baseline;" @click="selectHotel(hotel)">
+                                            <span class="year col-12 text-left" >{{hotel.name}}</span>
+                                            
+                                            <span class="month col-lg-8 order-lg-1 order-2 col-12">{{hotel.address}}</span>
+                                            <span class="valoration col-lg-4 order-lg-2 order-1 col-12"><rating-component :value=hotel.stars /></span>
+
+                                            <div class="col-12 order-3 mt-2 float-right">
+                                                <a class="mb-0 ml-0 float-right ml-3" :href=hotel.booking_link target="_blank"><font-awesome-icon icon="external-link-alt" class="mr-1"/> Enlace al hotel</a>      
                                             </div>
                                             
-                                            <div class="align-baseline col-12 row mb-3">
-                                                <span class="month col-8">{{hotel.address}}</span>
-                                                <span class="valoration col-4"><rating-component :value=hotel.stars /></span>
-                                            </div>
-
-                                            <div class="row justify-content-end prices col">
-                                                <a class="card-price col-7 mb-0 ml-0 text-left ml-3" :href=hotel.booking_link target="_blank"><font-awesome-icon icon="external-link-alt" class="mr-1"/> Enlace al hotel</a>      
-                                            </div>
                                         </div>
                                         <!-- Fin de descripción del hotel -->
                                     </div>
@@ -127,70 +161,88 @@
 
                             </div>
                             </div>
+                            <div><p></p></div>
 
                             <div>
-                                <p>¿No encuentras lo que buscas? <a data-toggle="modal" data-target="#exampleModal1">Registra el hotel</a></p> 
-                            
                                 <!-- Modal para introducir los datos del nuevo hotel -->
                                 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
-                                            <div class="modal-body row">
-                                                <label class="col-4">Nombre: </label>
-                                                <input type="text" class="col-8" v-model="newHotel.name"/>
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Nuevo hotel</h5>
+                                            </div>
+                                            <div class="modal-body px-5">
+                                                <div class="row mt-3 align-items-baseline">
+                                                    <label class="col-lg-2 col-4 text-right pr-5">Nombre: </label>
+                                                    <input type="text" class="col-lg-6 col-8" v-model="newHotel.name"/>
 
-                                                <label class="col-4">Descripción: </label>
-                                                <textarea class="col-8" v-model="newHotel.description"/>
+                                                    <label id="hotelStarsLabel" class="hotelStars col-lg-2 col-4 text-right pr-3">Estrellas: </label>
+                                                    <input type="number" class="hotelStars col-lg-2 col-8" v-model="newHotel.stars"/>
+                                                </div>
 
-                                                <label class="col-4">Dirección: </label>
-                                                <input type="text" class="col-8" v-model="newHotel.address"/>
+                                                <div class="row mt-3 align-items-baseline">
+                                                    <label class="col-lg-2 col-4 text-right pr-5">Descripción: </label>
+                                                    <textarea class="col-lg-10 col-8" style="height: 80px; resize: none" v-model="newHotel.description"/>
+                                                </div>
 
-                                                <label class="col-4">Estrellas: </label>
-                                                <input type="number" class="col-8" v-model="newHotel.stars"/>
+                                                <div class="row mt-3 align-items-baseline">
+                                                    <label class="col-lg-2 col-4 text-right pr-5">Dirección: </label>
+                                                    <input type="text" class="col-lg-10 col-8" v-model="newHotel.address"/>
+                                                </div>
+                                                
+                                                <div class="row mt-3 align-items-center">
+                                                    <label class="col-lg-3 col-5 pr-3 mb-0">Precio 1 persona: </label>
+                                                    <input type="number" class="col-lg-3 col-7" v-model="newHotel.single_price"/>
 
-                                                <label class="col-4">Precio de habitación (1 persona): </label>
-                                                <input type="number" class="col-8" v-model="newHotel.single_price"/>
+                                                    <label class="doublePrice col-lg-3 col-5 pr-3 mb-0">Precio 2 personas: </label>
+                                                    <input type="number" class="doublePrice col-lg-3 col-7" v-model="newHotel.double_price"/>
 
-                                                <label class="col-4">Precio de habitación (2 personas): </label>
-                                                <input type="number" class="col-8" v-model="newHotel.double_price"/>
+                                                    <label class="col-lg-3 col-5 pr-3 mb-0 mt-3">Precio Familiar: </label>
+                                                    <input type="number" class="col-lg-3 col-7 mt-3" v-model="newHotel.triple_price"/>
 
-                                                <label class="col-4">Precio de habitación (Familiar): </label>
-                                                <input type="number" class="col-8" v-model="newHotel.triple_price"/>
+                                                </div>
+                                                
+                                                <div class="row mt-3 align-items-center">
+                                                    <label class="col-lg-2 col-4 text-center mb-0">Link (Reserva): </label>
+                                                    <input type="text" class="col-lg-10 col-8" v-model="newHotel.booking_link"/>
+                                                </div>
 
-                                                <label class="col-4">Link (Booking): </label>
-                                                <input type="text" class="col-8" v-model="newHotel.booking_link"/>
-
-                                                <label class="col-3">Imágenes (URL): </label>
-                                                <input type="text" class="col-7" v-model="newImage"/>
-                                                <button @click="addElementToArray()" class="col-2">Añadir</button>
-                                                <div class="col-12" v-for="(p,index) of newHotel.imageURL" :key="index">
-                                                    <p>{{p}}</p>
+                                                <div class="row mt-3 align-items-center">
+                                                    <label class="col-lg-2 col-3">Imágenes (URL): </label>
+                                                    <input type="text" class="col-lg-6 col-6" v-model="newImage"/>
+                                                    <button @click="addElementToArray()" class="btn btn-dark col-lg-2 col-2 ml-4">Añadir</button>
+                                                    <div class="col-12 mt-3">
+                                                        <div v-for="(p,index) of newHotel.imageURL" :key="index" class="d-flex align-items-baseline">
+                                                            <p class="text-left ml-5">Imagen {{index}}: <a :href=p target="blank">{{p}}</a></p>
+                                                            <button class="btn btn-danger ml-3 py-0" @click="removeImage(index)">Eliminar</button>
+                                                        </div>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
 
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" @click="discardHotel()">Close</button>
-                                                <button type="button" class="btn btn-primary" @click="saveHotel()">Save changes</button>
+                                                <button type="button" class="btn btn-secondary" @click="discardHotel()">Cerrar</button>
+                                                <button type="button" class="btn btn-primary" @click="saveHotel()">Guardar hotel</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Fin de modal para introducir los datos del nuevo hotel -->
                             </div>
-                        
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- Fin modal de búsqueda de hoteles -->
             </div>
-            <button type="button" class="mt-5 btn btn-danger" @click="routeDiscard()">Cancelar</button>
-            <button type="button" class="mt-5 btn btn-success" @click="routePreview()">Guardar Ruta</button>
+        </div>
+        
+        <div class="text-right">
+            <button type="button" class="my-5 btn btn-danger mr-3" @click="routeDiscard()">Cancelar</button>
+            <button type="button" class="my-5 btn btn-success mr-3" @click="routePreview()">Guardar Ruta</button>
 
-</div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -264,6 +316,7 @@ export default {
 
         discardHotel(){
             window.$('#exampleModal1').modal('toggle');
+            this.newHotel.imageURL = [];
         },
 
         addElementToArray(){
@@ -271,6 +324,10 @@ export default {
                 this.newHotel.imageURL.push(this.newImage);
             }  
             this.newImage="";
+        },
+
+        removeImage(index){
+            this.newHotel.imageURL.splice(index,1);
         },
 
         routeDiscard(){
@@ -282,8 +339,8 @@ export default {
             this.newRoute.route_timeline = this.timeline;
 
             //Asignamos el id del router
-            //console.log(this.user)
             this.newRoute.router_id = this.user.User._id;
+            this.newRoute.router_name = this.user.User.name + ' ' + this.user.User.surname;
 
             //Convertimos el número de personas y duración de la ruta a enteros
             this.newRoute.people = parseInt(this.newRoute.people)
@@ -312,8 +369,9 @@ export default {
         },
 
         selectHotel(h){
+            console.log(h)
             this.timeline[this.day_id].hotel_id = h._id;
-            this.timeline[this.day_id].hotel_name = h.name,
+            this.timeline[this.day_id].hotel_name = h.name + ', ' + h.address,
             this.timeline[this.day_id].hotel_single = h.single_price
             this.timeline[this.day_id].hotel_double = h.double_price
             this.timeline[this.day_id].hotel_triple = h.triple_price
@@ -343,31 +401,37 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,600,700,800,900&display=swap');
- @import url('https://fonts.googleapis.com/css?family=Roboto:300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
  * {
 	 outline: none;
 }
 
- /* unvisited link */
-a:link {
-  color: rgb(255, 255, 255);
+.page-title, .general-info-title, .planning-info-title{
+    font-family: "Libre Franklin", sans-serif;
+    margin-top: 1rem;
 }
 
-/* visited link */
-a:visited {
-  color: rgb(255, 255, 255);
+.general-info, .planning-info{
+    font-family: "Roboto", sans-serif;
 }
 
+
+#hotelSearch{
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+#search{
+    width: 400px;
+}
+
+#searchIcon{
+    margin-left: 7px;
+}
 /* mouse over link */
 a:hover {
-  color: rgb(92, 178, 212);
   text-decoration: none;
 }
-
-/* selected link */
-a:active {
-  color: rgb(139, 139, 139);
-} 
 
 
 option {
@@ -375,7 +439,7 @@ option {
 }
 
 .card {
-	background-color: #323232;
+	background-color: #dfdbd7;
 	max-width: 100% !important;
 }
 
@@ -427,7 +491,7 @@ option {
 	 display: block;
 	 top: 0;
 	 height: 100%;
-	 background-color: #323232;
+
 }
  .timeline-carousel:after {
 	 left: 0;
@@ -470,17 +534,16 @@ option {
 	 padding-top: 2rem;
 	 align-items: baseline;
 	 padding: 0rem;
-	 padding-top: 1rem;
+	 padding-top: 10px;
 }
 
  .timeline-carousel__item-inner .year {
 	 font-family: 'Libre Franklin', sans-serif;
-	 font-size: 36px;
+	 font-size: 2rem;
 	 line-height: 36px;
-	 color: rgba(255, 255, 255, 1);
+	 color: rgb(38, 49, 43);
 	 display: table;
 	 padding-right: 10px;
-	 background-color: #323232;
 	 z-index: 1;
 	 position: relative;
 	 font-weight: 700;
@@ -491,14 +554,13 @@ option {
 	 top: 0;
 	 height: 100%;
 	 width: 0px;
-	 background-color: #323232;
 	 z-index: 3;
 }
  .timeline-carousel__item-inner .month {
 	 font-family: 'Libre Franklin', sans-serif;
-	 font-size: 17px;
+	 font-size: 1rem;
 	 text-transform: uppercase;
-	 color: #ffc107;
+	 color: #645118;
 	 font-weight: 600;
 	 text-align: left;
 }
@@ -508,7 +570,7 @@ option {
 	font-size: 24px;
 	font-family: 'Libre Franklin', sans-serif;
 	text-transform: uppercase;
-	color: #ffc107;
+	color: #707982;
 }
  .timeline-carousel__item-inner p {
 	 font-size: 15px;
@@ -624,4 +686,46 @@ option {
 	 margin-right: 8px;
 	 color: #fff;
 }
+
+
+
+
+@media (min-width: 576px) {
+    .routePhoto, .routeCountry, 
+    .dayImage, .hotelStars, .doublePrice{
+        margin-top: 1rem;
+    }
+
+    #hotelStarsLabel{
+        padding-right: 3rem !important;
+    }
+
+}
+
+@media (min-width: 768px) {
+
+	.routePhoto, .dayImage{
+        margin-top: 0;
+    }
+
+	
+}
+
+@media (min-width: 992px) {
+
+    .routeCountry, .hotelStars, .doublePrice{
+        margin-top: 0;
+    }
+
+    #hotelStarsLabel{
+        padding-right: 1rem !important;
+    }
+}
+
+@media (min-width: 1200px) {
+
+}
+
+
+
 </style>

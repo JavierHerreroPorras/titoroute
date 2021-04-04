@@ -51,7 +51,7 @@ class AuthService {
       password: user.password,
       role: user.role,
       nif: user.nif,
-      phone: user.phone
+      phone_number: user.phone_number
     });
   }
 

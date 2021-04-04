@@ -104,6 +104,7 @@ const routeCtrl = {
         route.price = req.body.route.price;
         route.country = req.body.route.country;
         route.router_id = req.body.route.router_id;
+        route.router_name = req.body.route.router_name;
 
 
          route.save((err, RouteStored) => {

@@ -26,7 +26,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@500&display=swap');
 
 #page{
-  background-color: #e3f0e3
+  background-color: #eee
 ;
 }
 

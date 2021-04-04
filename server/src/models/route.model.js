@@ -15,7 +15,11 @@ const routeSchema = new mongoose.Schema({
     },
     router_id: {
         type: String,
-        requred: true
+        required: true
+    },
+    router_name: {
+        type: String,
+        required: true
     },
     //Easy way to save images by their URL
     imageURL: {

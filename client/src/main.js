@@ -30,12 +30,16 @@ import {
   faHotel,
   faComments,
   faQuestionCircle,
-  faIdBadge
+  faIdBadge,
+  faChevronCircleLeft,
+  faChevronCircleRight,
+  faCalendarAlt,
+  faPlusSquare
 } from '@fortawesome/free-solid-svg-icons';
 
 import {faStar as faRegularStar} from '@fortawesome/free-regular-svg-icons'
 
-library.add(faHome, faSearch, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faCircle,faDotCircle, faStar,faStarHalfAlt, faRegularStar, faThumbsUp, faThumbsDown, faExclamationTriangle, faShoppingCart, faDonate, faExternalLinkAlt, faRoute, faHotel, faComments,faUser, faQuestionCircle, faIdBadge);
+library.add(faHome, faSearch, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faCircle,faDotCircle, faStar,faStarHalfAlt, faRegularStar, faThumbsUp, faThumbsDown, faExclamationTriangle, faShoppingCart, faDonate, faExternalLinkAlt, faRoute, faHotel, faComments,faUser, faQuestionCircle, faIdBadge, faChevronCircleLeft, faChevronCircleRight, faCalendarAlt, faPlusSquare);
 
 window.$ = window.jQuery = require('jquery');
 

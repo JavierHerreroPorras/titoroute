@@ -1,5 +1,14 @@
 <template>
  	<div id="RoutePlanning">
+
+		<div class="alert alert-light alert-dismissible fade show mx-auto mt-4 mb-3" role="alert">
+			<span class="mb-0" style="color: #131328;">¡Bienvenido! En esta pantalla puedes visualizar un pequeño resumen sobre las actividades
+			que ha propuesto el router para cada día. Puedes eliminar cualquier día de la ruta o ver más 
+			detalles sobre los mismos en los correspondientes botones.</span>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
 		
 		<!-- Timeline de la ruta, donde mostraremos todos los días de la misma -->
 		<ul class="timeline-v1 mx-5 mb-3">
@@ -70,6 +79,11 @@
 </script>
 
 <style scoped>
+
+.alert{
+	width: 90%;
+}
+
 .carousel-control-prev,
 .carousel-control-next {
   opacity: 1;

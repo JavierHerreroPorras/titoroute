@@ -174,7 +174,7 @@ li:after {
 li > .timeline-panel {
 	width: 94%;
 	float: left;
-	border: 1px solid #d4d4d4;
+	border: 1px solid #8a8787;
 	/*border-radius: 2px;*/
 	/*padding: 20px;*/
 	position: relative;
@@ -186,8 +186,8 @@ li > .timeline-panel:before {
 	right: -15px;
 	display: inline-block;
 	border-top: 15px solid transparent;
-	border-left: 15px solid #ccc;
-	border-right: 0 solid #ccc;
+	border-left: 15px solid #525050;
+	border-right: 0 solid #525050;
 	border-bottom: 15px solid transparent;
 	content: " ";
 }

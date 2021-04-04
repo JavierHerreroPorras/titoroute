@@ -39,6 +39,12 @@
                   </router-link>
                 </button>
                 <button class="dropdown-item" type="button">
+                  <router-link :to="{name: 'createRoute'}" class="userActive">
+                    <font-awesome-icon icon="plus-square" class="userActive mr-2"/>
+                    <span style="font-size:20px">Crear ruta</span>
+                  </router-link>
+                </button>
+                <button class="dropdown-item" type="button">
                   <a class="userActive" href @click.prevent="logOut">
                     <font-awesome-icon icon="sign-out-alt" class="userActive mr-1"/> 
                     <span style="font-size:20px">Cerrar sesión</span>

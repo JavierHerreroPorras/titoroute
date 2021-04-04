@@ -125,6 +125,8 @@ const mutations = {
     const nightsCalculate = state.routeInfo.RouteDetails.route_timeline.map(a => a.hotel_id).reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
     const nightsArray = new Map([...nightsCalculate.entries()]);
 
+    state.routeInfo.nights = nightsArray;
+    
     // Guardamos el valor de cada noche en el hotel correspondiente
     state.routeInfo.hotels.forEach(element => {
       const nights = nightsArray.get(element._id);

@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minLength: 7
+        minLength: 6
     },
     // Contaremos con una lista de tokens, que nos permite que un usuario inicie sesión en varios dispositivos,
     // pero si cierra sesión en alguno de ellos, queremos que la sesión siga abierta en otros dispositivos.

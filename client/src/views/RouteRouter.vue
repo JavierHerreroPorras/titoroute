@@ -5,13 +5,13 @@
     <div id="snackbar">¡Gracias! Tu aportación se ha realizado correctamente.</div>
 
     <!-- Apoyar económicamente a un router -->
-    <div class="container theme-background-white main-body">
-      <div class="col-md-12">
+    <div class="mt-3 container">
+      <div class="col-md-12 theme-background-white">
         <div class="row donate-bar">  
-          <div class="col-md-4 theme-blue">
-            Apoya al router Francisco Javier Pérez Pérez
+          <div class="col-12 theme-blue">
+            ¿Te ha gustado la ruta? Considera apoyar económicamente al router {{routeInfo.Route.router_name}}
           </div>
-          <div class="col-md-8">
+          <div class="col-12 align-items-center mt-4">
             <ul class="nav donate-buttons" id="donate-buttons">
               <li><a>
                 <button class="btn-blue active" @click="donationValue(5)">
@@ -55,13 +55,13 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header well text-center theme-background-blue row mx-0">
-                    <button type="button" class="close col-1" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <div class="col-11 row align-items-center">
-                      <h2 class="col-8 pl-0 pr-0">Vas a ayudar al router con:</h2>
-                      <h1 class="col-4">{{donation}} €</h1>                 
+                      <h2 class="col-9 pl-2 pr-0">Vas a apoyar al router con:</h2>
+                      <h1 class="col-3">{{donation}} €</h1>                 
                     </div>
+                    <button type="button" class="close col-1" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body" id="donation-modal">
                     <div class="row">  
                       <section class="col-md-12">
                         <form class="d-flex">
@@ -69,24 +69,24 @@
                             <legend>
                               Información personal
                             </legend>
-                            <label>Nombre completo</label>
+                            <label class="mt-2">Nombre completo</label>
                             <input type="string" class="form-control">
-                            <label>Email</label>
+                            <label class="mt-2">Email</label>
                             <input type="email" class="form-control">
-                            <label>Domicilio</label>
-                            <input type="email" class="form-control">
-                            <label>Localidad, Código Postal</label>
-                            <input type="email" class="form-control">
+                            <label class="mt-2">Domicilio</label>
+                            <input type="string" class="form-control">
+                            <label class="mt-2">Localidad, Código Postal</label>
+                            <input type="string" class="form-control">
                           </fieldset>
                           <fieldset class="col-md-6">
                             <legend>
                               Información bancaria
                             </legend>
-                            <label for="card-number">Número de la tarjeta de crédito</label>
+                            <label class="mt-2" for="card-number">Número de la tarjeta de crédito</label>
                             <input placeholder="1234 5678 9012 3456" pattern="[0-9]*" type="text" class="form-control card-number" id="card-number">
-                            <label for="card-number">Fecha de vencimiento</label>
-                            <input placeholder="MM/YY" pattern="[0-9]*" type="text" class="form-control card-expiration" id="card-expiration">
-                            <label for="card-number">Número CVV</label>
+                            <label class="mt-2" for="card-number">Fecha de vencimiento</label>
+                            <input placeholder="MM/YY" pattern="[0-1][0-9]/[0-9][0-9]" type="text" class="form-control card-expiration" id="card-expiration">
+                            <label class="mt-2" for="card-number">Número CVV</label>
                             <input placeholder="CVV" pattern="[0-9]*" type="text" class="form-control card-cvv" id="card-cvv">
                             <!-- <label for="card-number">Billing Zip Code</label>
                             <input placeholder="ZIP" pattern="[0-9]*" type="text" class="form-control card-zip" id="card-zip"> -->
@@ -108,45 +108,32 @@
     </div>
 
     <!-- Otras rutas creadas por este router -->
-    <div id="RouterRoutes">
-      <div class="row">
-        <div class="col-12 mt-3">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Consulta otras rutas realizadas por el router:</h4>
+    <div id="RouterRoutes" class="container mt-5">
+      <div class="theme-background-white">
+         <h4 class="theme-blue routes-title pt-4 mb-4">Consulta otras rutas realizadas por el router:</h4>
               <div class="user-routes">
-                <div v-for="(r,index) of getRoutes" :key="index">
-                  <div class="card bg-light border-secondary">
+                <div v-for="(r,index) of getRoutes" :key="index" class="mt-2">
+                  <div class="card bg-light border-secondary route-card">
                     <div class="row no-glutters p-3"> 
                       <img :src=r.imageURL class="col-4 route-img" alt="Imagen de la ruta"> 
                       <div class="col-8">
-                        <div class="row align-items-start">
+                        <div class="align-items-start">
                           <router-link 
                             :to="{ name: 'Ruta', params: { id: r._id }}" 
-                            class="card-title h4 stretched-link col-10"
+                            class="card-title h4 stretched-link"
+                            style="color: #3a1cca;"
                           >
                             {{r.name}}
                           </router-link>
-
-                          <span class="badge badge-pill badge-primary">{{r.score}}</span>
-
                         </div>
                         
-                        <p class="card-text small mt-2 crop-text">{{r.description}}</p>
+                        <p class="card-text small mt-2 p-2 d-none d-lg-block">{{r.description}}</p>
                       
-                        <div class="row align-items-center">
-                          <div class="col-12 row">
-                            <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Personas: {{r.people}}</span></h5>
-                            <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Duración: {{r.duration}} días</span></h5>
-                          </div>
+                        <div class="card-details row align-items-center">
+                            <span class="col-lg-5 pl-2 pr-0 order-2" style="font-size: 16px; font-weight: bold; color: #3e0771;">Duración: {{r.duration}} dias ({{r.people}} personas)</span>
+                            <span class="col-lg-3 pl-0 pr-0 order-3" style="font-size: 16px; font-weight: bold; color: #3e0771;">Precio: {{r.price}} €</span>
+                            <span class="col-lg-4 badge order-1" style="font-size: 16px; font-weight: bold; color: rgb(53, 89, 60);">Valoración media: {{r.averageScore}}</span>
                           
-                          <div class="col-12">
-                            <h5>
-                              <span class="badge bg-info text-white ml-n3">
-                                Precio: {{r.price}} €
-                              </span>
-                            </h5>
-                          </div>
                         </div>
 
                       </div>
@@ -156,9 +143,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -247,6 +231,21 @@
 
 <style scoped>
 
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.routes-title{
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: bold;
+  margin-top: 19px;
+  font-size: 25px;
+  padding: 0;
+}
+
+#donation-modal{
+  font-family: "Roboto", sans-serif;
+}
+
 #snackbar {
   visibility: hidden;
   min-width: 250px;
@@ -292,11 +291,14 @@
   to {bottom: 0; opacity: 0;}
 }
 
+.card-title{
+  font-family: "Libre Franklin", sans-serif;
+}
 
-  .route-img{
-    max-width: 250px;
-    max-height: 250px;
-  }
+.card-text{
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}
 
   .user-routes{
     overflow: auto; 
@@ -390,10 +392,10 @@
       }
 
       .donate-buttons{
-          align-items: baseline;
+        align-items: baseline;
+        width: 550px;
+        margin: auto;
       }
-
-
 
       .donate-bar {
         padding: 32px 23px 28px;
@@ -402,7 +404,6 @@
       .donate-bar > div:first-child {
         font-family: 'Roboto Condensed', sans-serif;
         font-weight: bold;
-        border-right: 1px dotted #2a4f76;
         margin-top: 19px;
         font-size: 25px;
         padding: 0;
@@ -498,7 +499,33 @@
         padding-left: 15px;
       }
 
+@media (min-width: 576px) {
 
+  .card-details{
+    margin-top: 1rem;
+  }
+  .donate-buttons{
+    max-width: 420px;
+  }
+  .donate-buttons li:last-child{
+    padding-left: 0px;
+  }
+}
+
+@media (min-width: 768px) {
+  .donate-buttons{
+    max-width: 550px;
+  }
+  .donate-buttons li:last-child{
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
+}
 
 
 

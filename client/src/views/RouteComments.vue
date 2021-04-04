@@ -1,9 +1,8 @@
 <template>
 
   <div id="RouteComments" class="row">
-    <div class="col-12 row">
-      <div class="col-md-5 ">
-          <div class="row row-cols-2">
+      <div class="col-md-12 col-lg-5">
+          <div class="row row-cols-sm-2 row-cols-md-4 row-cols-lg-2 px-2">
               <div class="col">
                 <route-comments-graphic 
                   :value=$store.state.route.routeInfo.Route.averageAspect1 
@@ -34,7 +33,187 @@
           </div> 
       </div>
       
-      <div id="testimonials-1" class="mt-4 col-md-7 testimonials testimonials-v1 scrollDiv border-left border-info border-5">
+      <div id="testimonials-1" class="mt-4 col-12 col-lg-7 testimonials testimonials-v1 scrollDiv">
+
+      <!-- Para registrar los comentarios de los usuarios, utilizaré
+      un "Modal", en el cual pediremos a los usuarios las impresiones sobre la ruta -->
+
+      <div class="col">
+        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">
+          Escribe aquí tu opinión sobre la ruta
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Opinión sobre la ruta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              
+              <div class="modal-body">
+                <form @submit.prevent="handleComment">
+                  <!-- Aspecto 1 a evaluar en el formulario -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">Aspecto 1</label>
+                      <div class="rating col-6">
+                        <input id="star10" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star10" >◌</label>
+                        <input id="star9" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star9" >◌</label>
+                        <input id="star8" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star8" >◌</label>
+                        <input id="star7" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star7" >◌</label>
+                        <input id="star6" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star6" >◌</label>
+                        <input id="star5" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star5" >◌</label>
+                        <input id="star4" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star4" >◌</label>
+                        <input id="star3" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star3" >◌</label>
+                        <input id="star2" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star2" >◌</label>
+                        <input id="star1" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Aspecto 2 a evaluar en el formulario -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">Aspecto 2</label>
+                      <div class="rating col-6">
+                        <input id="star_1_10" name="stars_price" v-model="user_comment.a2_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star_1_10" >◌</label>
+                        <input id="star_1_9" name="stars_price" v-model="user_comment.a2_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star_1_9" >◌</label>
+                        <input id="star_1_8" name="stars_price" v-model="user_comment.a2_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star_1_8" >◌</label>
+                        <input id="star_1_7" name="stars_price" v-model="user_comment.a2_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star_1_7" >◌</label>
+                        <input id="star_1_6" name="stars_price" v-model="user_comment.a2_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star_1_6" >◌</label>
+                        <input id="star_1_5" name="stars_price" v-model="user_comment.a2_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star_1_5" >◌</label>
+                        <input id="star_1_4" name="stars_price" v-model="user_comment.a2_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star_1_4" >◌</label>
+                        <input id="star_1_3" name="stars_price" v-model="user_comment.a2_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star_1_3" >◌</label>
+                        <input id="star_1_2" name="stars_price" v-model="user_comment.a2_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star_1_2" >◌</label>
+                        <input id="star_1_1" name="stars_price" v-model="user_comment.a2_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star_1_1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Aspecto 3 a evaluar en el formulario -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">Aspecto 3</label>
+                      <div class="rating col-6">
+                        <input id="star_3_10" name="stars_3" v-model="user_comment.a3_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star_3_10" >◌</label>
+                        <input id="star_3_9" name="stars_3" v-model="user_comment.a3_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star_3_9" >◌</label>
+                        <input id="star_3_8" name="stars_3" v-model="user_comment.a3_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star_3_8" >◌</label>
+                        <input id="star_3_7" name="stars_3" v-model="user_comment.a3_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star_3_7" >◌</label>
+                        <input id="star_3_6" name="stars_3" v-model="user_comment.a3_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star_3_6" >◌</label>
+                        <input id="star_3_5" name="stars_3" v-model="user_comment.a3_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star_3_5" >◌</label>
+                        <input id="star_3_4" name="stars_3" v-model="user_comment.a3_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star_3_4" >◌</label>
+                        <input id="star_3_3" name="stars_3" v-model="user_comment.a3_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star_3_3" >◌</label>
+                        <input id="star_3_2" name="stars_3" v-model="user_comment.a3_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star_3_2" >◌</label>
+                        <input id="star_3_1" name="stars_3" v-model="user_comment.a3_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star_3_1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Aspecto 4 a evaluar en el formulario -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">Aspecto 4</label>
+                      <div class="rating col-6">
+                        <input id="star_4_10" name="stars_4" v-model="user_comment.a4_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star_4_10" >◌</label>
+                        <input id="star_4_9" name="stars_4" v-model="user_comment.a4_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star_4_9" >◌</label>
+                        <input id="star_4_8" name="stars_4" v-model="user_comment.a4_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star_4_8" >◌</label>
+                        <input id="star_4_7" name="stars_4" v-model="user_comment.a4_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star_4_7" >◌</label>
+                        <input id="star_4_6" name="stars_4" v-model="user_comment.a4_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star_4_6" >◌</label>
+                        <input id="star_4_5" name="stars_4" v-model="user_comment.a4_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star_4_5" >◌</label>
+                        <input id="star_4_4" name="stars_4" v-model="user_comment.a4_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star_4_4" >◌</label>
+                        <input id="star_4_3" name="stars_4" v-model="user_comment.a4_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star_4_3" >◌</label>
+                        <input id="star_4_2" name="stars_4" v-model="user_comment.a4_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star_4_2" >◌</label>
+                        <input id="star_4_1" name="stars_4" v-model="user_comment.a4_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star_4_1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Nota de la ruta (que aparecerá en la página principal) -->
+                  <div class="form-group row">
+                    <label for="inputRouteMark" class="col-6">¿Qué nota pondría a esta ruta?</label>
+                      <div class="rating col-6">
+                        <input id="star_route_10" name="stars_route" v-model="user_comment.route_score" type="radio" value="10" class="radio-btn hide" />
+                        <label for="star_route_10" >◌</label>
+                        <input id="star_route_9" name="stars_route" v-model="user_comment.route_score" type="radio" value="9" class="radio-btn hide" />
+                        <label for="star_route_9" >◌</label>
+                        <input id="star_route_8" name="stars_route" v-model="user_comment.route_score" type="radio" value="8" class="radio-btn hide" />
+                        <label for="star_route_8" >◌</label>
+                        <input id="star_route_7" name="stars_route" v-model="user_comment.route_score" type="radio" value="7" class="radio-btn hide" />
+                        <label for="star_route_7" >◌</label>
+                        <input id="star_route_6" name="stars_route" v-model="user_comment.route_score" type="radio" value="6" class="radio-btn hide" />
+                        <label for="star_route_6" >◌</label>
+                        <input id="star_route_5" name="stars_route" v-model="user_comment.route_score" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star_route_5" >◌</label>
+                        <input id="star_route_4" name="stars_route" v-model="user_comment.route_score" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star_route_4" >◌</label>
+                        <input id="star_route_3" name="stars_route" v-model="user_comment.route_score" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star_route_3" >◌</label>
+                        <input id="star_route_2" name="stars_route" v-model="user_comment.route_score" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star_route_2" >◌</label>
+                        <input id="star_route_1" name="stars_route" v-model="user_comment.route_score" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star_route_1" >◌</label>
+                        <div class="clear"></div>
+                    </div>
+                  </div>
+
+                  <!-- Opinión del usuario sobre la ruta (se mostrará en la vista de comentarios) -->
+                  <div id="RouteUserComment">
+                    <p>Escriba aquí sus comentarios, impresiones u opiniones sobre la ruta, para compartirlos con otros usuarios: </p>
+                    <textarea class="mr-3 w-100 h-30" v-model="user_comment.comment"></textarea>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div v-for="(comment,index) in comments" :key="index">
           <route-comment 
@@ -47,187 +226,6 @@
         </div>
         
       </div>
-    </div>
-
-        <!-- Para registrar los comentarios de los usuarios, utilizaré
-        un "Modal", en el cual pediremos a los usuarios las impresiones sobre la ruta -->
-
-    <div class="col">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Deja tu opinión sobre la ruta
-      </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Opinión sobre la ruta</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          
-          <div class="modal-body">
-            <form @submit.prevent="handleComment">
-              <!-- Aspecto 1 a evaluar en el formulario -->
-              <div class="form-group row">
-                <label for="inputRouteMark" class="col-6">Aspecto 1</label>
-                  <div class="rating col-6">
-                    <input id="star10" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="10" class="radio-btn hide" />
-                    <label for="star10" >◌</label>
-                    <input id="star9" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="9" class="radio-btn hide" />
-                    <label for="star9" >◌</label>
-                    <input id="star8" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="8" class="radio-btn hide" />
-                    <label for="star8" >◌</label>
-                    <input id="star7" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="7" class="radio-btn hide" />
-                    <label for="star7" >◌</label>
-                    <input id="star6" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="6" class="radio-btn hide" />
-                    <label for="star6" >◌</label>
-                    <input id="star5" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="5" class="radio-btn hide" />
-                    <label for="star5" >◌</label>
-                    <input id="star4" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="4" class="radio-btn hide" />
-                    <label for="star4" >◌</label>
-                    <input id="star3" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="3" class="radio-btn hide" />
-                    <label for="star3" >◌</label>
-                    <input id="star2" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="2" class="radio-btn hide" />
-                    <label for="star2" >◌</label>
-                    <input id="star1" name="stars_hotels" v-model="user_comment.a1_score" type="radio" value="1" class="radio-btn hide" />
-                    <label for="star1" >◌</label>
-                    <div class="clear"></div>
-                </div>
-              </div>
-
-              <!-- Aspecto 2 a evaluar en el formulario -->
-              <div class="form-group row">
-                <label for="inputRouteMark" class="col-6">Aspecto 2</label>
-                  <div class="rating col-6">
-                    <input id="star_1_10" name="stars_price" v-model="user_comment.a2_score" type="radio" value="10" class="radio-btn hide" />
-                    <label for="star_1_10" >◌</label>
-                    <input id="star_1_9" name="stars_price" v-model="user_comment.a2_score" type="radio" value="9" class="radio-btn hide" />
-                    <label for="star_1_9" >◌</label>
-                    <input id="star_1_8" name="stars_price" v-model="user_comment.a2_score" type="radio" value="8" class="radio-btn hide" />
-                    <label for="star_1_8" >◌</label>
-                    <input id="star_1_7" name="stars_price" v-model="user_comment.a2_score" type="radio" value="7" class="radio-btn hide" />
-                    <label for="star_1_7" >◌</label>
-                    <input id="star_1_6" name="stars_price" v-model="user_comment.a2_score" type="radio" value="6" class="radio-btn hide" />
-                    <label for="star_1_6" >◌</label>
-                    <input id="star_1_5" name="stars_price" v-model="user_comment.a2_score" type="radio" value="5" class="radio-btn hide" />
-                    <label for="star_1_5" >◌</label>
-                    <input id="star_1_4" name="stars_price" v-model="user_comment.a2_score" type="radio" value="4" class="radio-btn hide" />
-                    <label for="star_1_4" >◌</label>
-                    <input id="star_1_3" name="stars_price" v-model="user_comment.a2_score" type="radio" value="3" class="radio-btn hide" />
-                    <label for="star_1_3" >◌</label>
-                    <input id="star_1_2" name="stars_price" v-model="user_comment.a2_score" type="radio" value="2" class="radio-btn hide" />
-                    <label for="star_1_2" >◌</label>
-                    <input id="star_1_1" name="stars_price" v-model="user_comment.a2_score" type="radio" value="1" class="radio-btn hide" />
-                    <label for="star_1_1" >◌</label>
-                    <div class="clear"></div>
-                </div>
-              </div>
-
-              <!-- Aspecto 3 a evaluar en el formulario -->
-              <div class="form-group row">
-                <label for="inputRouteMark" class="col-6">Aspecto 3</label>
-                  <div class="rating col-6">
-                    <input id="star_3_10" name="stars_3" v-model="user_comment.a3_score" type="radio" value="10" class="radio-btn hide" />
-                    <label for="star_3_10" >◌</label>
-                    <input id="star_3_9" name="stars_3" v-model="user_comment.a3_score" type="radio" value="9" class="radio-btn hide" />
-                    <label for="star_3_9" >◌</label>
-                    <input id="star_3_8" name="stars_3" v-model="user_comment.a3_score" type="radio" value="8" class="radio-btn hide" />
-                    <label for="star_3_8" >◌</label>
-                    <input id="star_3_7" name="stars_3" v-model="user_comment.a3_score" type="radio" value="7" class="radio-btn hide" />
-                    <label for="star_3_7" >◌</label>
-                    <input id="star_3_6" name="stars_3" v-model="user_comment.a3_score" type="radio" value="6" class="radio-btn hide" />
-                    <label for="star_3_6" >◌</label>
-                    <input id="star_3_5" name="stars_3" v-model="user_comment.a3_score" type="radio" value="5" class="radio-btn hide" />
-                    <label for="star_3_5" >◌</label>
-                    <input id="star_3_4" name="stars_3" v-model="user_comment.a3_score" type="radio" value="4" class="radio-btn hide" />
-                    <label for="star_3_4" >◌</label>
-                    <input id="star_3_3" name="stars_3" v-model="user_comment.a3_score" type="radio" value="3" class="radio-btn hide" />
-                    <label for="star_3_3" >◌</label>
-                    <input id="star_3_2" name="stars_3" v-model="user_comment.a3_score" type="radio" value="2" class="radio-btn hide" />
-                    <label for="star_3_2" >◌</label>
-                    <input id="star_3_1" name="stars_3" v-model="user_comment.a3_score" type="radio" value="1" class="radio-btn hide" />
-                    <label for="star_3_1" >◌</label>
-                    <div class="clear"></div>
-                </div>
-              </div>
-
-              <!-- Aspecto 4 a evaluar en el formulario -->
-              <div class="form-group row">
-                <label for="inputRouteMark" class="col-6">Aspecto 4</label>
-                  <div class="rating col-6">
-                    <input id="star_4_10" name="stars_4" v-model="user_comment.a4_score" type="radio" value="10" class="radio-btn hide" />
-                    <label for="star_4_10" >◌</label>
-                    <input id="star_4_9" name="stars_4" v-model="user_comment.a4_score" type="radio" value="9" class="radio-btn hide" />
-                    <label for="star_4_9" >◌</label>
-                    <input id="star_4_8" name="stars_4" v-model="user_comment.a4_score" type="radio" value="8" class="radio-btn hide" />
-                    <label for="star_4_8" >◌</label>
-                    <input id="star_4_7" name="stars_4" v-model="user_comment.a4_score" type="radio" value="7" class="radio-btn hide" />
-                    <label for="star_4_7" >◌</label>
-                    <input id="star_4_6" name="stars_4" v-model="user_comment.a4_score" type="radio" value="6" class="radio-btn hide" />
-                    <label for="star_4_6" >◌</label>
-                    <input id="star_4_5" name="stars_4" v-model="user_comment.a4_score" type="radio" value="5" class="radio-btn hide" />
-                    <label for="star_4_5" >◌</label>
-                    <input id="star_4_4" name="stars_4" v-model="user_comment.a4_score" type="radio" value="4" class="radio-btn hide" />
-                    <label for="star_4_4" >◌</label>
-                    <input id="star_4_3" name="stars_4" v-model="user_comment.a4_score" type="radio" value="3" class="radio-btn hide" />
-                    <label for="star_4_3" >◌</label>
-                    <input id="star_4_2" name="stars_4" v-model="user_comment.a4_score" type="radio" value="2" class="radio-btn hide" />
-                    <label for="star_4_2" >◌</label>
-                    <input id="star_4_1" name="stars_4" v-model="user_comment.a4_score" type="radio" value="1" class="radio-btn hide" />
-                    <label for="star_4_1" >◌</label>
-                    <div class="clear"></div>
-                </div>
-              </div>
-
-              <!-- Nota de la ruta (que aparecerá en la página principal) -->
-              <div class="form-group row">
-                <label for="inputRouteMark" class="col-6">¿Qué nota pondría a esta ruta?</label>
-                  <div class="rating col-6">
-                    <input id="star_route_10" name="stars_route" v-model="user_comment.route_score" type="radio" value="10" class="radio-btn hide" />
-                    <label for="star_route_10" >◌</label>
-                    <input id="star_route_9" name="stars_route" v-model="user_comment.route_score" type="radio" value="9" class="radio-btn hide" />
-                    <label for="star_route_9" >◌</label>
-                    <input id="star_route_8" name="stars_route" v-model="user_comment.route_score" type="radio" value="8" class="radio-btn hide" />
-                    <label for="star_route_8" >◌</label>
-                    <input id="star_route_7" name="stars_route" v-model="user_comment.route_score" type="radio" value="7" class="radio-btn hide" />
-                    <label for="star_route_7" >◌</label>
-                    <input id="star_route_6" name="stars_route" v-model="user_comment.route_score" type="radio" value="6" class="radio-btn hide" />
-                    <label for="star_route_6" >◌</label>
-                    <input id="star_route_5" name="stars_route" v-model="user_comment.route_score" type="radio" value="5" class="radio-btn hide" />
-                    <label for="star_route_5" >◌</label>
-                    <input id="star_route_4" name="stars_route" v-model="user_comment.route_score" type="radio" value="4" class="radio-btn hide" />
-                    <label for="star_route_4" >◌</label>
-                    <input id="star_route_3" name="stars_route" v-model="user_comment.route_score" type="radio" value="3" class="radio-btn hide" />
-                    <label for="star_route_3" >◌</label>
-                    <input id="star_route_2" name="stars_route" v-model="user_comment.route_score" type="radio" value="2" class="radio-btn hide" />
-                    <label for="star_route_2" >◌</label>
-                    <input id="star_route_1" name="stars_route" v-model="user_comment.route_score" type="radio" value="1" class="radio-btn hide" />
-                    <label for="star_route_1" >◌</label>
-                    <div class="clear"></div>
-                </div>
-              </div>
-
-              <!-- Opinión del usuario sobre la ruta (se mostrará en la vista de comentarios) -->
-              <div id="RouteUserComment">
-                <p>Escriba aquí sus comentarios, impresiones u opiniones sobre la ruta, para compartirlos con otros usuarios: </p>
-                <textarea class="mr-3 w-100 h-30" v-model="user_comment.comment"></textarea>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-              </div>
-
-            </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -492,6 +490,11 @@ textarea {
   border-top-color: #f5f5f5;
   border-left-style: inset; /*FF fixes*/
   border-right-style: inset; /*FF fixes*/ 
+}
+
+#testimonials-1{
+  /*border-left: 1px solid grey;*/
+  margin-left: 0px
 }
 
 

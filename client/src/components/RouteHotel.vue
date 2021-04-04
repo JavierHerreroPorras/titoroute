@@ -1,7 +1,7 @@
 <template>
       
 	<!-- Este componente representa a un hotel dentro de la pestaña de hoteles -->
-	<div class="card mt-3">
+	<div class="card mt-3 mx-3">
 
       <!-- Carousel de imagenes del hotel -->
        
@@ -26,23 +26,30 @@
 
       <!-- Descripción del hotel -->
         <div class="timeline-carousel__item-inner col-7 row card-body">
-			<div class="align-baseline col-12 row mb-3 mt-2">
-				<span class="year col-9 text-left" >{{hotel.name}}</span>
-				<div class="col-3 month">
-					<span class="badge badge-light noches-hotel float-right">{{hotel.nights}} noches</span>
-				</div>
+			<div class="align-baseline col-12 row">
+				<span class="year col-lg-8 col-md-12 text-left" >{{hotel.name}}</span>
+				<div class="valoration col-lg-4 d-none d-lg-block">
+					<rating-component :value=hotel.stars />
+				</div>	
 			</div>
             
 			<div class="align-baseline col-12 row mb-3">
-				<span class="month col-8">{{hotel.address}}</span>
-				<span class="valoration col-4"><rating-component :value=hotel.stars /></span>
+				<span class="month col-xl-7 col-sm-12">{{hotel.address}}</span>>
+				<div class="row nights col-xl-5 pl-0 pr-0">
+					<span class="col-xl-12 col-5 hotel-check-in px-0">
+						Entrada: {{checkInFormatted}}
+					</span>
+					<span class="col-xl-12 col-5 hotel-check-out px-0">
+						Salida: {{checkOutFormatted}}
+					</span>
+				</div>
 			</div>
 
-            <p class="ml-3 mt-0">{{hotel.description}}</p>
+             <p class="description">{{hotel.description}}</p>
 
-			<div class="row justify-content-end prices col">
-				<a class="card-price col-7 mb-0 ml-0 text-left ml-3" :href=hotel.booking_link target="_blank"><font-awesome-icon icon="external-link-alt" class="mr-1"/> Reserva del hotel</a>
-				<p class="badge badge-light col-4">Precio total: {{changeValueRoom()}} €</p>
+			<div class="row justify-content-end prices col mb-2">
+				<a class="card-price col-7 mb-0 ml-0 text-left ml-3" :href=hotel.booking_link target="_blank"><font-awesome-icon icon="external-link-alt" class="mr-1"/> Reserva del hotel</a> 
+				<span class="hotel-price col-4 badge">Precio total: {{changeValueRoom()}} €</span>
 			</div>
         </div>
 	  </div>
@@ -65,6 +72,8 @@ export default {
 			precio_total: null,
 			// Generar id para el carousel de imagenes del hotel
 			cadena_id: this.hotel.name.replace(/\s/g, ''),
+			checkInFormatted: null,
+			checkOutFormatted: null
 		}
 	},
 	props: {
@@ -103,37 +112,77 @@ export default {
 			return this.routeInfo.Route.hotels_price.reduce((acc, element) => {
           		return parseInt(element) + acc;
         	}, 0);
+		},
+
+		// Esta función se encarga de determinar las fechas de entrada y salida para cada hotel.
+		calculateNights(){
+			const hotelNights = this.routeInfo.nights.get(this.hotel._id)
+			
+			var checkIn = null;
+
+			if(this.index === 0){
+				checkIn = new Date(this.routeInfo.RouteDetails.startDateRoute);
+			}
+			else{
+				checkIn = new Date(this.routeInfo.hotels[this.index -1].checkOut);
+			}
+				this.hotel.checkInFormatted = checkIn;
+				this.checkInFormatted = this.formatDate(checkIn);
+				var checkOut = new Date();
+				checkOut.setDate(checkIn.getDate() + hotelNights);
+				this.hotel.checkOut = checkOut;
+				this.checkOutFormatted = this.formatDate(checkOut);
+		},
+		formatDate(date) {
+			var month = '' + (date.getMonth() + 1);
+			var day = '' + date.getDate();
+			var year = date.getFullYear();
+
+			if (month.length < 2) 
+				month = '0' + month;
+			if (day.length < 2) 
+				day = '0' + day;
+
+			var dateFormatted = day + '/' + month + '/' + year;   
+
+			return dateFormatted;
 		}
+	},
+	mounted() {
+		this.calculateNights();
 	},
 	watch: {
 		// Llamar a un handler del método
 	 	'nights': 'changeValueRoom',
 		'routeInfo.RouteDetails.adult': 'changeValueRoom',
 		'routeInfo.RouteDetails.rooms': 'changeValueRoom',
+		'routeInfo.RouteDetails.startDateRoute': 'calculateNights',
 	},
 }
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,600,700,800,900&display=swap');
- @import url('https://fonts.googleapis.com/css?family=Roboto:300&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300&display=swap');
  * {
 	 outline: none;
 }
 
+
+
  /* unvisited link */
 a:link {
-  color: rgb(255, 255, 255);
+  color: rgb(92, 178, 212);
 }
 
 /* visited link */
 a:visited {
-  color: rgb(255, 255, 255);
+  color: rgb(92, 178, 212);
 }
 
 /* mouse over link */
 a:hover {
-  color: rgb(92, 178, 212);
+  color: rgb(255, 255, 255);
   text-decoration: none;
 }
 
@@ -148,7 +197,7 @@ option {
 }
 
 .card {
-	background-color: #323232;
+	background-color:  #312727e8;
 	max-width: 100% !important;
 }
 
@@ -158,16 +207,6 @@ option {
 	font-size: 16px;
 	margin-right: 0rem;
 }
-
-.card .prices span{
-	color: white;
-	font-weight: 900;
-	font-size: 15px;
-	margin-right: 0rem;
-	padding-left: 0px;
-	padding-right: 0px;
-}
-
 .carousel-control-next-icon, .carousel-control-prev-icon{
 	background-color: black;
 	opacity: 0.75;
@@ -179,65 +218,26 @@ option {
 	height: 320px !important;
   padding: 0.5rem;
 }
-.noches-hotel{
+.noches-hotel, .hotel-check-in, .hotel-check-out{
 	font-family: 'Libre Franklin', sans-serif;
-	font-size: 14px;
+	font-size: 17px;
+	color: white;
 	font-weight: 600;
 	text-align: left;
 }
- .timeline-carousel {
-	 margin: 0;
-	 /*background-color: #323232;*/
-	 font-family: "Roboto", sans-serif;
-	 font-weight: 400;
-	 padding: 86px 2% 90px 2%;
-	 position: relative;
-	 overflow: hidden;
-}
- .timeline-carousel:after, .timeline-carousel:before {
-	 content: "";
-	 position: absolute;
-	 display: block;
-	 top: 0;
-	 height: 100%;
-	 background-color: #323232;
-}
- .timeline-carousel:after {
-	 left: 0;
-}
- .timeline-carousel:before {
-	 right: 0;
-	 opacity: 0;
-}
- .timeline-carousel .slick-list {
-	 overflow: visible;
-}
- .timeline-carousel .slick-dots {
-	 bottom: -73px;
-}
- .timeline-carousel h1 {
-	 color: black;
-	 font-family: 'Libre Franklin', sans-serif;
-	 font-weight: 700;
-}
- .timeline-carousel p {
-	 color: black;
-	 font-weight: 300;
-	 font-size: 15px;
-	 margin-right: 2rem;
-}
- .timeline-carousel__image {
-	 padding-right: 0px;
+
+.description{
+	font-family: "Roboto", sans-serif;
+	-webkit-line-clamp: 3;
+	overflow : hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
 }
 
- .timeline-carousel__item .media-wrapper {
-	 opacity: 0.4;
-	 padding-bottom: 81.4%;
-	 -webkit-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-	 -o-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-	 transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+.hotel-price{
+	color: bisque;
 }
-
  .timeline-carousel__item-inner {
 	 position: relative;
 	 padding-top: 2rem;
@@ -248,12 +248,10 @@ option {
 
  .timeline-carousel__item-inner .year {
 	 font-family: 'Libre Franklin', sans-serif;
-	 font-size: 36px;
 	 line-height: 36px;
 	 color: rgba(255, 255, 255, 1);
 	 display: table;
 	 padding-right: 10px;
-	 background-color: #323232;
 	 z-index: 1;
 	 position: relative;
 	 font-weight: 700;
@@ -269,8 +267,6 @@ option {
 }
  .timeline-carousel__item-inner .month {
 	 font-family: 'Libre Franklin', sans-serif;
-	 font-size: 17px;
-	 text-transform: uppercase;
 	 color: #ffc107;
 	 font-weight: 600;
 	 text-align: left;
@@ -298,103 +294,74 @@ option {
 	 text-decoration: none;
 	 position: relative;
 }
- .timeline-carousel__item-inner .read-more:after {
-	 content: "";
-	 position: absolute;
-	 left: 0;
-	 bottom: -1px;
-	 width: 0;
-	 border-bottom: 2px solid #ffc107;
-	 -webkit-transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-	 -o-transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-	 transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+
+@media (min-width: 576px) {
+	.year{
+		font-size: 2rem;
+	}
+
+	.month{
+		font-size: 1rem;
+	}
+
+	.hotel-check-in, .hotel-check-out{
+		font-size: 0.9rem;
+		margin-left: 1.5rem;
+		margin-top: 0.5rem;
+	}
+
+	.description{
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	.hotel-price, .card-price{
+		font-size: 0.8rem;
+	}
+
 }
- .timeline-carousel__item-inner .read-more:hover:after {
-	 width: 100%;
+
+@media (min-width: 768px) {
+	.hotel-check-in, .hotel-check-out{
+		margin-left: 0;
+		margin-top: 0.5rem;
+		
+	}
+
+	.hotel-check-out{
+		margin-left: 1rem;
+	}
+
+	.nights{
+		padding-left: 1.5rem !important;
+	}
+
+	.valoration{
+		margin-left: auto; 
+		margin-right: 0;
+	}
+
+	.hotel-price, .card-price{
+		font-size: 0.9rem;
+	}
+	
+	
 }
- .timeline-carousel__item-inner .pointer {
-	 height: 29px;
-	 position: relative;
-	 z-index: 1;
-	 margin: -4px 0 16px;
+
+@media (min-width: 992px) {
+	.month{
+	}
+	.hotel-price, .card-price{
+		font-size: 1.1rem;
+	}
 }
- .timeline-carousel__item-inner .pointer:after, .timeline-carousel__item-inner .pointer:before {
-	 position: absolute;
-	 content: "";
-}
- .timeline-carousel__item-inner .pointer:after {
-	 width: 5px;
-	 height: 9px;
-	 border-radius: 100%;
-	 top: 0;
-	 left: 0;
-	 background-color: #ffc107;
-}
- .timeline-carousel__item-inner .pointer:before {
-	 width: 1px;
-	 height: 100%;
-	 top: 0;
-	 left: 4px;
-	 background-color: #ffc107;
-}
- .timeline-carousel .slick-active .media-wrapper {
-	 opacity: 1 !important;
-}
- .slick-dots {
-	 bottom: 160px;
-	 list-style: none;
-	 position: absolute;
-	 width: 100%;
-	 left: 0;
-	 text-align: center;
-	 z-index: 2;
-}
- .slick-dots li {
-	 display: inline-block;
-	 margin: 0 6px;
-	 position: relative;
-	 width: 5px;
-	 height: 10px;
-}
- .slick-dots li:last-child {
-	 margin-right: 0;
-}
- .slick-dots li.slick-active button {
-	 background: #ffc107;
-	 border-color: #ffc107;
-}
- .slick-dots li button {
-	 display: block;
-	 font-size: 0;
-	 width: 10px;
-	 height: 10px;
-	 padding: 0;
-	 background-color: rgba(255, 255, 255, 0.6);
-	 border-color: rgba(255, 255, 255, 0.6);
-	 -webkit-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-	 -o-transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-	 transition: all 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-}
- .slick-dots li button:hover {
-	 background: #ffc107;
-	 border-color: #ffc107;
-}
- .link {
-	 position: absolute;
-	 left: 0;
-	 bottom: 0;
-	 padding: 20px;
-	 z-index: 9999;
-}
- .link a {
-	 display: flex;
-	 align-items: center;
-	 text-decoration: none;
-	 color: #fff;
-}
- .link .fa {
-	 font-size: 28px;
-	 margin-right: 8px;
-	 color: #fff;
+
+@media (min-width: 1200px) {
+	.hotel-check-in, .hotel-check-out{
+		text-align: right;
+		margin-left: 0;
+		margin-top: 0;
+	}
+
 }
 </style>

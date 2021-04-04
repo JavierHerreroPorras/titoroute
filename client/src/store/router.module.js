@@ -21,6 +21,7 @@ const initialState = {
         "averageScore": 0,
         "name": "",
         "router_id": "",
+        "router_name": "",
         "country": "España",
         "description": "",
         "imageURL": "",

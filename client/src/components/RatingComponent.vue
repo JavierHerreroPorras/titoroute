@@ -40,8 +40,28 @@
 </script>
 
 <style scoped>
-.rating-container {
-  display:flex;
-  justify-content: center;
+  .rating-container {
+    display:flex;
+    justify-content: right;
+  }
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+  .rating-container{
+    font-size: 0.875em;
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
+  .rating-container{
+    font-size: 1em;
+  }
 }
 </style>

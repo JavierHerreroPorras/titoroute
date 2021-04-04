@@ -60,7 +60,7 @@
 
           <div id="router" class="form-group col">
             <label for="phone" class="float-left">Número de teléfono</label>
-            <Field name="phone" type="text" class="form-control" :class="{ 'is-invalid': errors.phone }" v-model="user.phone"/>
+            <Field name="phone" type="text" class="form-control" :class="{ 'is-invalid': errors.phone }" v-model="user.phone_number"/>
             <div class="invalid-feedback">{{errors.phone}}</div>
             <!-- <input type="text" class="form-control" v-model="user.phone"/> -->
           </div>
@@ -159,10 +159,8 @@ export default {
         else{
           this.user.role = 'User';
         }
-
-        console.log(this.user)
         
-        /*this.$store.dispatch('auth/register', this.user).then(
+        this.$store.dispatch('auth/register', this.user).then(
           data => {
             this.message = 'User succesfully created';
             this.successful = true;
@@ -171,7 +169,7 @@ export default {
             this.message = 'Error creating user';
             this.successful = false;
           }
-        );*/
+        );
         //}
           
       //};

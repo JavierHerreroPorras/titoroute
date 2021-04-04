@@ -7,6 +7,8 @@ const userCtrl = {
         // Create a new user
         try {
             const User = new userModel(req.body)
+            console.log(User)
+            console.log(req.body)
             await User.save()
             const token = await User.generateAuthToken()
             res.status(201).send({ User, token })

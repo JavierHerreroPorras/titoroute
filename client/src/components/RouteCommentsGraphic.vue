@@ -1,6 +1,6 @@
 <template>
   <!-- Este componente representa el gráfico de puntuación de un aspecto de la ruta -->
-  <div class="wrapper">
+  <div class="wrapper mt-3">
     <div class="card border-0">
       
       <div class="text">{{titulo}}</div>
@@ -31,7 +31,8 @@
             startAngle: -1.55,
             size: 150,
             value: parseFloat(this.value.toString())/10,
-            fill: {gradient: ['#a445b2', '#fa4299']}
+            //fill: {gradient: ['#a1a2a3', '#b3f4f1']}
+            fill: 'rgb(55, 151, 151)'
         })
       }
   }
@@ -39,6 +40,7 @@
 
 <style scoped>
 *{
+  color: rgb(55, 151, 151);
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
@@ -52,7 +54,6 @@ body{
   background: -webkit-linear-gradient(left, #a445b2, #fa4299);
 }
 .wrapper{
-  width: 650px;
   display: flex;
   border: none;
   flex-wrap: wrap;
@@ -61,7 +62,7 @@ body{
 }
 .wrapper .card{
   background: #fff;
-  width: calc(33% - 20px);
+  width: calc(100%);
   height: 250px;
   display: flex;
   align-items: center;
@@ -112,7 +113,6 @@ body{
     max-width: 700px;
   }
   .wrapper .card{
-    width: calc(50% - 20px);
     margin-bottom: 20px;
   }
 }

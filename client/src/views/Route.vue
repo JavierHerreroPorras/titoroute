@@ -4,7 +4,7 @@
             Loading...
         </div>
         <div id="RouteInfo" v-else>
-            <h2 id="RouteTitle" class="text-center">{{title}}</h2>
+            <h2 id="RouteTitle" class="text-center mt-3">{{title}}</h2>
             <h6 id="RouteDescription" class="text-center p-3 m-4">{{description}}</h6>
 
             <!-- Toast o aviso para que los usuarios puedan apoyar económicamente a los routers. Cuando pulsamos en ella,
@@ -16,7 +16,7 @@
                      <div class="toast-header">
                         <font-awesome-icon icon="donate" class="mr-2"/>
                         <strong class="mr-auto">¡Apoya a nuestros routers!</strong>
-                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <button type="button" class="ml-2 mb-1 close" aria-label="Close" @click="toastDisable = true">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -123,9 +123,15 @@
 <style scoped>
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
 
-#RouterTitle, #RouteDescription{
-    font-family: 'Roboto';
+#RouteTitle{
+    font-family: Lato;
+}
+
+#RouteDescription {
+    font-family: Roboto;
+    font-weight: 500;
 }
 
 .content {
@@ -137,7 +143,7 @@
 }
 
 .toast-header {
-    background-color: rgb(244, 218, 218);
+    background-color: rgb(194, 229, 238);
 }
 
 /*

@@ -196,6 +196,8 @@
   font-size: 14px;
   font-style: italic; 
   background: #f5f5f5;
+  margin-left: 10px;
+  margin-right: 20px;
 }
 
 .testimonials.testimonials-v1 .item p:after,
@@ -208,6 +210,18 @@
   border-top-color: #f5f5f5;
   border-left-style: inset; /*FF fixes*/
   border-right-style: inset; /*FF fixes*/ 
+}
+
+@media (min-width: 576px) {
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
 }
 
 </style>

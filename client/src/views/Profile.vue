@@ -1,21 +1,46 @@
 <template>
 
-  <div class="col-md-9 mx-auto">
+  <div class="profile col-md-9 mx-auto">
       <!--Profile Body-->
       <div class="row">
-        <div class="col-6">
-          <h2 class="heading-md">Consulta tus datos</h2>
-            <p>Aquí puedes consultar los datos relacionados con tu cuenta</p>
+        <div class="col-md-6">
+          <h2 class="routes-title mt-4">Consulta tus datos</h2>
 
-            <p>Nombre: {{user.User.name}}</p>
-            <p>Apellidos: {{user.User.surname}}</p>
-            <p>Email: {{user.User.email}}</p>
+            <table class="mt-5 table table-striped">
+              <!-- <thead>
+                <tr>
+                  <th colspan="4">Aquí puedes consultar los datos de tu cuenta</th>
+                </tr>
+              </thead> -->
+              <tbody>
+                <tr>
+                  <th scope="row">Nombre</th>
+                  <td>{{user.User.name}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Apellidos</th>
+                  <td>{{user.User.surname}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Email</th>
+                  <td>{{user.User.email}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">NIF</th>
+                  <td>{{user.User.nif}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Número de teléfono</th>
+                  <td>{{user.User.phone_number}}</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
 
-        <div class="col-6">
-          <h2 class="heading-md">Cambia tu contraseña</h2>
+        <div class="col-md-6">
+          <h2 class="routes-title mt-4">Cambia tu contraseña</h2>
             <Form @submit="handlePasswordChange" :validation-schema="schema" v-slot="{ errors }">   
-              <div class="">
+              <div class="mt-5 px-3 col-6 col-md-12 mx-auto">
                   <div class="form-group col">
                       <label class="float-left">Contraseña antigua</label>
                       <Field name="oldPassword" type="password" class="form-control" :class="{ 'is-invalid': errors.oldPassword }" v-model="oldPassword"/>
@@ -52,6 +77,9 @@
 
       <div v-if="user.User.role === 'Router'" class="mt-4">
         
+        <hr>
+        <h2 class="routes-title mb-4">Consulta tus rutas y donaciones que has recibido</h2>
+
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#rutas" role="tab" aria-controls="home" aria-selected="true">Rutas</a>
@@ -62,58 +90,49 @@
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="rutas" role="tabpanel" aria-labelledby="home-tab">
-            <h2>Consulta las rutas que has creado</h2>
-            <div class="user-routes">
-              <div v-for="(r,index) of getRoutes" :key="index">
-                <div class="card bg-light border-secondary">
-                  <div class="row no-glutters p-3"> 
-                    <img :src=r.imageURL class="col-4 route-img" alt="Imagen de la ruta"> 
-                    <div class="col-8">
-                      <div class="row align-items-start">
-                        <router-link 
-                          :to="{ name: 'Ruta', params: { id: r._id }}" 
-                          class="card-title h4 stretched-link col-10"
-                        >
-                          {{r.name}}
-                        </router-link>
-
-                        <span class="badge badge-pill badge-primary">{{r.score}}</span>
-
-                      </div>
-                      
-                      <p class="card-text small mt-2 crop-text">{{r.description}}</p>
-                    
-                      <div class="row align-items-center">
-                        <div class="col-12 row">
-                          <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Personas: {{r.people}}</span></h5>
-                          <h5 class="mx-auto"><span class="d-block badge bg-info text-white my-2">Duración: {{r.duration}} días</span></h5>
+            
+            <div class="user-routes mt-3">
+                <div v-for="(r,index) of getRoutes" :key="index" class="px-3 py-2">
+                  <div class="card bg-light border-secondary route-card">
+                    <div class="row no-glutters p-3"> 
+                      <img :src=r.imageURL class="col-4 route-img" alt="Imagen de la ruta"> 
+                      <div class="col-8">
+                        <div class="align-items-start">
+                          <router-link 
+                            :to="{ name: 'Ruta', params: { id: r._id }}" 
+                            class="card-title h4 stretched-link"
+                            style="color: #3a1cca;"
+                          >
+                            {{r.name}}
+                          </router-link>
                         </div>
                         
-                        <div class="col-12">
-                          <h5>
-                            <span class="badge bg-info text-white ml-n3">
-                              Precio: {{r.price}} €
-                            </span>
-                          </h5>
+                        <p class="card-text small mt-2 p-2 d-none d-lg-block">{{r.description}}</p>
+                      
+                        <div class="card-details row align-items-center">
+                            <span class="col-lg-5 pl-2 pr-0 order-2" style="font-size: 16px; font-weight: bold; color: #3e0771;">Duración: {{r.duration}} dias ({{r.people}} personas)</span>
+                            <span class="col-lg-3 pl-0 pr-0 order-3" style="font-size: 16px; font-weight: bold; color: #3e0771;">Precio: {{r.price}} €</span>
+                            <span class="col-lg-4 badge order-1" style="font-size: 16px; font-weight: bold; color: rgb(53, 89, 60);">Valoración media: {{r.averageScore}}</span>
+                          
                         </div>
-                      </div>
 
+                      </div>
                     </div>
                   </div>
+                  
                 </div>
-                
-              </div>
             </div>
+
           </div>
           <div class="tab-pane fade row" id="donaciones" role="tabpanel" aria-labelledby="profile-tab">
-            <h2>Consulta las donaciones que has recibido</h2>
             <div class="user-donations">
-              <div v-for="(d,index) in getUserDonations" :key="index" class="mx-auto col-9">
+              <div v-for="(d,index) in getUserDonations" :key="index" class="mx-auto col-9 px-3 py-2">
               <div class="card">
                 <div class="row no-glutters p-3 align-items-center"> 
                   <img class="img-thumbnail col-3 ml-3" src="../assets/user.png" alt="" style="max-width: 85px; max-height: 85px;">
                   <span class="col-9">{{d.donor_name}} te envió <span style="color: chocolate">{{d.quantity}} euros</span> en 
                   <strong>{{d.route_name}}</strong>
+                  el {{d.date}}. 
                   </span>
                 </div>
               </div>
@@ -215,6 +234,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.user)
     if (!this.loggedIn) {
       this.$router.push('/login');
     }
@@ -227,6 +247,32 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.profile{
+  font-family: "Roboto", sans-serif;
+}
+
+.route-card{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+  .route-img{
+    max-width: 270px;
+    max-height: 200px;
+  }
+
+
+.routes-title{
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: bold;
+  margin-top: 19px;
+  font-size: 25px;
+  padding: 0;
+}
+
 
   .alert{
     padding-right: 15px;

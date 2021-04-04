@@ -2,34 +2,39 @@
 	<div id="RouteHotels">
 		<section class="timeline-carousel row">
 
-			<!-- Aquí se configura la ruta (el día de inicio y los adultos/habitacioones) -->
-			<div class="container row">
-				<div class="text-center mb-5 w-100">
-					<route-hotels-configure class="float-right"/>
-				</div>
-			</div>
-
 			<!-- Aviso para los usuarios (los precios son orientativos) -->
-			<div class="alert alert-danger alert-dismissible fade show mx-auto" role="alert">
-				<strong>IMPORTANTE: </strong> Los precios que ofrecemos son orientativos. Para conocer los precios reales, debe consultar la página de reserva para cada hotel
-				
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+			<div class="alert alert-light alert-dismissible fade show mx-auto mt-4" role="alert">
+				<span class="mb-0" style="color: #131328;">
+					<strong style="color: #fffffff; font-size:17px">¡IMPORTANTE!</strong> El precio de los hoteles es orientativo. Para conocer
+					el precio real, visite el enlace de reserva del hotel.
+				</span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
 			</div>
 
-			<!-- Listado de hoteles -->
-			<div v-for="(p,index) of hotels" :key="index">				
-				<route-hotel 
-					:hotel = p
-					:index = index
-				/>
-			</div>
+			<div class="row justify-content-end">
+				<!-- Aquí se configura la ruta (el día de inicio y los adultos/habitacioones) -->
+				<div class="col-lg-3 pl-4 mt-1">
+					<div class="text-center mx-auto">
+						<route-hotels-configure class="float-right"/>
+					</div>
+				</div>
 
-			<!-- Precio total de la ruta -->
-			<div class="mt-4 w-100 mr-4">
-				<button type="button" class="btn btn-info disabled float-right">Precio total: {{$store.state.route.routeInfo.Route.price}} €</button>
+				<!-- Listado de hoteles -->
+				<div class="col-lg-9" v-for="(p,index) of hotels" :key="index">				
+					<route-hotel 
+						:hotel = p
+						:index = index
+					/>
+				</div>
+
+				<!-- Precio total de la ruta
+				<div class="mt-4 w-100 mr-4">
+					<span class="total_price float-right">El precio total de los hoteles es: {{$store.state.route.routeInfo.Route.price}} €</span>
+				</div> -->
 			</div>
+			
 			
 		</section> 
 	</div>
@@ -85,13 +90,19 @@
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,600,700,800,900&display=swap');
  @import url('https://fonts.googleapis.com/css?family=Roboto:300&display=swap');
- * {
-	 outline: none;
+
+.total_price{
+	font-size: 22px;
+	font-weight: 700;
+	margin-bottom: 4rem;
+	margin-top: 1rem;
+	background-color: aliceblue;
+	padding: 10px;
+	border-radius: 15px;
 }
 
-.card {
-	background-color: #323232;
-	max-width: 48%;
+.alert{
+	width: 90%;
 }
 
 .card .card-footer p{
